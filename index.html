@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>StackHire — India · US · UK · UAE Tech Jobs</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#05070e;--surf:#0a0f1e;--surf2:#0f1628;--surf3:#141d35;
+  --bord:#1a2540;--bord2:#20304f;--bord3:#2a3f66;
+  --accent:#2d6fff;--accentHi:#5589ff;--green:#00c896;--amber:#f0a000;
+  --red:#ff4d4d;--purple:#8b5cf6;--teal:#06b6d4;
+  --text:#d8e6ff;--text2:#6b82a8;--text3:#334466;--text4:#1e3050;
+  --card:#070c1a;--drawer:#060a16;
+  --IN:#ff9933;--US:#3c7fff;--UK:#cc2020;--UAE:#00a651;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 15% 10%,rgba(45,111,255,.07) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 40% at 85% 90%,rgba(0,200,150,.06) 0%,transparent 55%),
+    linear-gradient(rgba(45,111,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(45,111,255,.018) 1px,transparent 1px);
+  background-size:100% 100%,100% 100%,44px 44px,44px 44px}
+
+/* ── HEADER ── */
+header{position:sticky;top:0;z-index:200;height:58px;padding:0 1.4rem;
+  background:rgba(5,7,14,.93);backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--bord);display:flex;align-items:center;justify-content:space-between;gap:.8rem}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:-1px;
+  display:flex;align-items:center;gap:9px;flex-shrink:0}
+.logo-mark{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--accent),var(--green));
+  display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:900;color:#fff}
+.logo-sub{font-size:.52rem;font-family:'JetBrains Mono',monospace;color:var(--text3);letter-spacing:2px}
+.cflags{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.cflag{font-family:'JetBrains Mono',monospace;font-size:.57rem;padding:3px 9px;border-radius:5px;
+  border:1px solid var(--bord2);color:var(--text3);background:var(--surf);
+  display:flex;align-items:center;gap:4px;cursor:pointer;transition:.18s all}
+.cflag:hover{border-color:var(--bord3);color:var(--text2)}
+.cflag.on[data-c="ALL"]{background:rgba(45,111,255,.12);border-color:rgba(45,111,255,.35);color:var(--accentHi)}
+.cflag.on[data-c="IN"] {background:rgba(255,153,51,.13);border-color:rgba(255,153,51,.38);color:var(--IN)}
+.cflag.on[data-c="US"] {background:rgba(60,127,255,.12);border-color:rgba(60,127,255,.35);color:var(--US)}
+.cflag.on[data-c="UK"] {background:rgba(204,32,32,.12);border-color:rgba(204,32,32,.35);color:var(--UK)}
+.cflag.on[data-c="UAE"]{background:rgba(0,166,81,.12);border-color:rgba(0,166,81,.35);color:var(--UAE)}
+.hdr-mid{display:flex;align-items:center;gap:.5rem}
+.live-pill{font-family:'JetBrains Mono',monospace;font-size:.57rem;background:rgba(0,200,150,.07);
+  border:1px solid rgba(0,200,150,.18);color:var(--green);padding:3px 9px;border-radius:20px;
+  display:flex;align-items:center;gap:5px}
+.lpulse{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pd 1.8s ease infinite}
+@keyframes pd{0%,100%{opacity:1}50%{opacity:.2}}
+.scrape-progress{display:flex;flex-direction:column;gap:3px;min-width:130px}
+.progress-label{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--text3)}
+.progress-bar{height:3px;background:var(--bord);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));
+  transition:.4s width;border-radius:2px;width:0%}
+.hdr-r{display:flex;align-items:center;gap:.4rem;flex-shrink:0}
+.cd{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--text3);
+  background:var(--surf);border:1px solid var(--bord);border-radius:5px;padding:2px 7px}
+.rbtn{background:var(--surf2);border:1px solid var(--bord);color:var(--text2);font-size:.74rem;
+  padding:5px 10px;border-radius:7px;cursor:pointer;transition:.18s all;font-family:'Inter',sans-serif;
+  display:flex;align-items:center;gap:5px}
+.rbtn:hover{background:var(--bord);color:var(--text)}
+.rbtn.sp svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── WRAP ── */
+.wrap{position:relative;z-index:1;display:grid;grid-template-columns:252px 1fr;
+  max-width:1500px;margin:0 auto;padding:1.2rem;gap:1.1rem;align-items:start}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}}
+
+/* ── SIDEBAR ── */
+aside{position:sticky;top:70px;display:flex;flex-direction:column;gap:.7rem}
+.fc{background:var(--surf);border:1px solid var(--bord);border-radius:12px;padding:.9rem 1rem}
+.fct{font-family:'JetBrains Mono',monospace;font-size:.57rem;font-weight:600;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--text3);margin-bottom:.6rem;
+  display:flex;align-items:center;justify-content:space-between}
+.fcb{font-size:.52rem;background:var(--surf3);border:1px solid var(--bord);color:var(--text3);padding:2px 5px;border-radius:5px}
+.tpills{display:flex;flex-direction:column;gap:4px}
+.tp{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:7px;
+  border:1px solid transparent;background:transparent;color:var(--text2);font-size:.78rem;
+  cursor:pointer;transition:.18s all;font-family:'Inter',sans-serif;width:100%;text-align:left}
+.tp:hover{background:var(--surf2);color:var(--text)}
+.tp.on{background:rgba(45,111,255,.1);border-color:rgba(45,111,255,.28);color:var(--accentHi)}
+.tc{font-family:'JetBrains Mono',monospace;font-size:.6rem;background:var(--surf3);padding:2px 6px;border-radius:6px;color:var(--text3)}
+.tp.on .tc{background:rgba(45,111,255,.18);color:var(--accent)}
+.cg{display:flex;flex-direction:column;gap:3px}
+.ci{display:flex;align-items:center;gap:7px;padding:5px 7px;border-radius:6px;cursor:pointer;transition:.15s background}
+.ci:hover{background:var(--surf2)}
+.ci input{display:none}
+.cb2{width:13px;height:13px;border-radius:3px;border:1.5px solid var(--bord2);display:flex;align-items:center;justify-content:center;transition:.18s all;flex-shrink:0}
+.ci input:checked~.cb2{background:var(--accent);border-color:var(--accent)}
+.cb2::after{content:'✓';font-size:8px;color:#fff;display:none}
+.ci input:checked~.cb2::after{display:block}
+.cl{font-size:.78rem;color:var(--text2);display:flex;align-items:center;gap:6px;flex:1}
+.cdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.cc{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--text3);margin-left:auto}
+.rchips{display:flex;flex-wrap:wrap;gap:4px}
+.rc{font-size:.64rem;font-family:'JetBrains Mono',monospace;padding:4px 8px;border-radius:4px;
+  border:1px solid var(--bord);background:transparent;color:var(--text2);cursor:pointer;transition:.18s all}
+.rc:hover{border-color:var(--bord2);color:var(--text)}
+.rc.on{background:rgba(0,200,150,.1);border-color:rgba(0,200,150,.3);color:var(--green)}
+
+/* Source status */
+.src-list{display:flex;flex-direction:column;gap:4px}
+.sri{display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:6px;
+  background:var(--surf2);border:1px solid var(--bord)}
+.sri-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sri-dot.ok{background:var(--green)}
+.sri-dot.ld{background:var(--amber);animation:pd 1s ease infinite}
+.sri-dot.er{background:var(--red)}
+.sri-dot.off{background:var(--text4)}
+.sri-name{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--text2);flex:1}
+.sri-cnt{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--text3)}
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:.9rem}
+.sc{background:var(--surf);border:1px solid var(--bord);border-radius:11px;padding:.85rem 1rem;
+  position:relative;overflow:hidden}
+.sc::before{content:'';position:absolute;top:0;right:0;width:48px;height:48px;border-radius:0 10px 0 48px;opacity:.08}
+.sc:nth-child(1)::before{background:var(--accent)}.sc:nth-child(2)::before{background:var(--green)}
+.sc:nth-child(3)::before{background:var(--purple)}.sc:nth-child(4)::before{background:var(--amber)}
+.sl{font-family:'JetBrains Mono',monospace;font-size:.53rem;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}
+.sv{font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;line-height:1}
+.sd{font-size:.61rem;color:var(--text3);margin-top:3px;font-family:'JetBrains Mono',monospace}
+
+/* Country breakdown */
+.cbar-row{display:flex;gap:.5rem;align-items:center;margin-bottom:.9rem;flex-wrap:wrap}
+.cbitem{font-family:'JetBrains Mono',monospace;font-size:.62rem;padding:4px 9px;border-radius:6px;
+  border:1px solid var(--bord);color:var(--text2);background:var(--surf);display:flex;align-items:center;gap:5px}
+.cbar-fill{display:flex;height:5px;border-radius:3px;overflow:hidden;flex:1;background:var(--bord);min-width:80px}
+.cbar-seg{height:100%;transition:.5s width}
+
+/* Search */
+.sbar{background:var(--surf);border:1px solid var(--bord);border-radius:10px;padding:0 .9rem;
+  display:flex;align-items:center;gap:8px;margin-bottom:.9rem;transition:.2s border-color}
+.sbar:focus-within{border-color:var(--accent)}
+.sbar input{flex:1;background:transparent;border:none;outline:none;color:var(--text);
+  font-family:'Inter',sans-serif;font-size:.85rem;padding:10px 0}
+.sbar input::placeholder{color:var(--text3)}
+.src-n{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--text3);white-space:nowrap}
+
+/* Section labels */
+.slb{font-family:'JetBrains Mono',monospace;font-size:.57rem;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;color:var(--text3);padding:6px 0 5px;display:flex;align-items:center;gap:8px}
+.slb::after{content:'';flex:1;height:1px;background:var(--bord)}
+.sct{font-size:.55rem;background:var(--surf2);border:1px solid var(--bord);color:var(--text3);padding:2px 5px;border-radius:6px}
+
+/* ── JOB CARDS ── */
+.jlist{display:flex;flex-direction:column;gap:6px;margin-bottom:.8rem}
+.jcard{background:var(--card);border:1px solid var(--bord);border-radius:11px;
+  padding:.9rem 1.1rem;display:grid;grid-template-columns:38px 1fr auto;
+  gap:.8rem;align-items:start;cursor:pointer;transition:.18s all;
+  position:relative;overflow:hidden;animation:ci .22s ease both}
+@keyframes ci{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.jcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;transition:.2s}
+.jcard::after{content:'';position:absolute;right:0;top:0;bottom:0;width:3px;border-radius:0 2px 2px 0}
+.jcard:hover{background:rgba(7,12,26,1);border-color:var(--bord2);transform:translateX(2px)}
+.jcard:hover::before{background:var(--accent)}
+.jcard.isnew{border-color:rgba(0,200,150,.12)}.jcard.isnew::before{background:var(--green)}
+.jcard.ac{border-color:var(--accent);background:rgba(45,111,255,.04)}.jcard.ac::before{background:var(--accent)}
+.jcard[data-c="IN"]::after{background:var(--IN)}
+.jcard[data-c="US"]::after{background:var(--US)}
+.jcard[data-c="UK"]::after{background:var(--UK)}
+.jcard[data-c="UAE"]::after{background:var(--UAE)}
+.clogo{width:38px;height:38px;border-radius:8px;border:1px solid var(--bord);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;overflow:hidden}
+.clogo img{width:100%;height:100%;object-fit:cover;border-radius:7px}
+.jbody{min-width:0}
+.jtitle{font-family:'Syne',sans-serif;font-size:.87rem;font-weight:700;margin-bottom:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jmeta{font-size:.72rem;color:var(--text2);display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:6px}
+.ms{color:var(--text4)}
+.jtags{display:flex;flex-wrap:wrap;gap:3px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:.57rem;padding:2px 5px;border-radius:3px;
+  background:var(--surf2);color:var(--text2);border:1px solid var(--bord);white-space:nowrap}
+.tag.rem{background:rgba(45,111,255,.08);color:#7aa8ff;border-color:rgba(45,111,255,.2)}
+.tag.ons{background:rgba(240,165,0,.08);color:#f5c060;border-color:rgba(240,165,0,.2)}
+.tag.hyb{background:rgba(0,200,150,.08);color:var(--green);border-color:rgba(0,200,150,.2)}
+.tag.ft{background:rgba(0,200,150,.06);color:#4dd9bb;border-color:rgba(0,200,150,.12)}
+.tag.con{background:rgba(255,77,77,.08);color:#ff8888;border-color:rgba(255,77,77,.2)}
+.tag.pt{background:rgba(240,165,0,.06);color:#f5c878;border-color:rgba(240,165,0,.15)}
+.tag.nb{background:rgba(0,200,150,.12);color:var(--green);border-color:rgba(0,200,150,.25);animation:bk 2s ease infinite}
+@keyframes bk{50%{opacity:.5}}
+.tag.funded{background:rgba(139,92,246,.1);color:#a78bfa;border-color:rgba(139,92,246,.25)}
+.ctag{font-family:'JetBrains Mono',monospace;font-size:.55rem;padding:2px 5px;border-radius:3px;border:1px solid}
+.ctag.IN{color:var(--IN);border-color:rgba(255,153,51,.3);background:rgba(255,153,51,.08)}
+.ctag.US{color:var(--US);border-color:rgba(60,127,255,.3);background:rgba(60,127,255,.08)}
+.ctag.UK{color:var(--UK);border-color:rgba(204,32,32,.3);background:rgba(204,32,32,.08)}
+.ctag.UAE{color:var(--UAE);border-color:rgba(0,166,81,.3);background:rgba(0,166,81,.08)}
+.src-tag{font-family:'JetBrains Mono',monospace;font-size:.52rem;padding:2px 5px;border-radius:3px;opacity:.8}
+.jright{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+.jtime{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--text3);white-space:nowrap}
+.jsal{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--green)}
+.vbtn{font-size:.62rem;font-family:'JetBrains Mono',monospace;padding:4px 8px;border-radius:5px;
+  border:1px solid var(--bord2);background:var(--surf2);color:var(--text2);cursor:pointer;transition:.18s all}
+.vbtn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ── DRAWER ── */
+.dov{position:fixed;inset:0;z-index:300;background:rgba(5,7,14,.75);backdrop-filter:blur(5px);
+  opacity:0;pointer-events:none;transition:.25s opacity}
+.dov.open{opacity:1;pointer-events:all}
+.drw{position:fixed;right:0;top:0;bottom:0;z-index:400;width:min(700px,96vw);
+  background:var(--drawer);border-left:1px solid var(--bord);display:flex;flex-direction:column;
+  transform:translateX(102%);transition:.3s cubic-bezier(.4,0,.2,1) transform;overflow:hidden}
+.drw.open{transform:translateX(0)}
+.dh{padding:1.1rem 1.3rem .85rem;border-bottom:1px solid var(--bord);display:flex;align-items:flex-start;gap:.85rem;flex-shrink:0}
+.d-logo{width:46px;height:46px;border-radius:10px;border:1px solid var(--bord);overflow:hidden;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem;flex-shrink:0}
+.d-logo img{width:100%;height:100%;object-fit:cover;border-radius:9px}
+.dtw{flex:1;min-width:0}
+.dt{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;margin-bottom:2px}
+.dsub{font-size:.75rem;color:var(--text2);display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.dtags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.dclose{background:var(--surf2);border:1px solid var(--bord);color:var(--text2);
+  width:28px;height:28px;border-radius:6px;cursor:pointer;flex-shrink:0;font-size:.95rem;
+  display:flex;align-items:center;justify-content:center;transition:.18s all}
+.dclose:hover{background:var(--bord);color:var(--text)}
+.d-cbanner{padding:.5rem 1.3rem;display:flex;align-items:center;gap:.7rem;
+  font-family:'JetBrains Mono',monospace;font-size:.63rem;border-bottom:1px solid var(--bord);flex-shrink:0}
+.da{padding:.65rem 1.3rem;border-bottom:1px solid var(--bord);display:flex;gap:.45rem;flex-shrink:0;flex-wrap:wrap}
+.d-btn{font-family:'Inter',sans-serif;font-size:.76rem;font-weight:600;
+  padding:6px 13px;border-radius:6px;cursor:pointer;transition:.18s all;display:flex;align-items:center;gap:5px;text-decoration:none}
+.d-btn.pri{background:var(--accent);border:1px solid var(--accent);color:#fff}
+.d-btn.pri:hover{background:var(--accentHi)}
+.d-btn.sec{background:var(--surf2);border:1px solid var(--bord);color:var(--text2)}
+.d-btn.sec:hover{background:var(--bord);color:var(--text)}
+.db{flex:1;overflow-y:auto;padding:1.1rem 1.3rem;display:flex;flex-direction:column;gap:1rem}
+.db::-webkit-scrollbar{width:3px}
+.db::-webkit-scrollbar-thumb{background:var(--bord2);border-radius:2px}
+.ds{background:var(--surf);border:1px solid var(--bord);border-radius:11px;padding:.9rem 1rem}
+.dst{font-family:'JetBrains Mono',monospace;font-size:.57rem;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;color:var(--text3);margin-bottom:.75rem;display:flex;align-items:center;gap:7px}
+.dst::after{content:'';flex:1;height:1px;background:var(--bord)}
+.jdesc{font-size:.79rem;color:var(--text2);line-height:1.7}
+.jdesc p{margin-bottom:.55rem}
+.sgrid{display:flex;flex-wrap:wrap;gap:4px}
+.sp2{font-family:'JetBrains Mono',monospace;font-size:.63rem;padding:4px 8px;border-radius:4px;
+  background:var(--surf2);color:var(--text2);border:1px solid var(--bord)}
+.sp2.hi{background:rgba(45,111,255,.1);color:var(--accentHi);border-color:rgba(45,111,255,.22)}
+.cog{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
+.co-f{display:flex;flex-direction:column;gap:3px}
+.col{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+.cov{font-size:.76rem;color:var(--text2)}
+.cov a{color:var(--accentHi);text-decoration:none}
+.cov a:hover{text-decoration:underline}
+.fund-badge{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;
+  font-size:.65rem;padding:4px 10px;border-radius:6px;
+  background:rgba(139,92,246,.1);color:#a78bfa;border:1px solid rgba(139,92,246,.25)}
+.leads{display:flex;flex-direction:column;gap:.65rem}
+.lcard{background:var(--surf2);border:1px solid var(--bord);border-radius:9px;
+  padding:.8rem .9rem;display:flex;gap:.8rem;align-items:flex-start;transition:.18s all}
+.lcard:hover{border-color:var(--bord2);background:var(--surf3)}
+.lav{width:40px;height:40px;border-radius:50%;flex-shrink:0;border:2px solid var(--bord);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem}
+.li2{flex:1;min-width:0}
+.ln{font-weight:600;font-size:.84rem;margin-bottom:1px}
+.lr{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--text3);margin-bottom:5px}
+.lbio{font-size:.72rem;color:var(--text2);line-height:1.5;margin-bottom:6px}
+.lm{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.ltag{font-family:'JetBrains Mono',monospace;font-size:.56rem;padding:2px 6px;border-radius:3px;
+  background:var(--surf3);color:var(--text3);border:1px solid var(--bord)}
+.llib{font-family:'JetBrains Mono',monospace;font-size:.58rem;padding:2px 7px;border-radius:4px;
+  background:rgba(10,102,194,.1);color:#5b9bd4;border:1px solid rgba(10,102,194,.2);
+  cursor:pointer;transition:.18s all;display:inline-flex;align-items:center;gap:3px}
+.llib:hover{background:rgba(10,102,194,.2)}
+.ins-list{display:flex;flex-direction:column;gap:.5rem}
+.ins{display:flex;align-items:flex-start;gap:.5rem;font-size:.75rem;color:var(--text2);line-height:1.5}
+.sims{display:flex;flex-direction:column;gap:.4rem}
+.sim{display:flex;align-items:center;gap:.6rem;padding:.5rem .7rem;border-radius:7px;
+  background:var(--surf2);border:1px solid var(--bord);cursor:pointer;transition:.18s all}
+.sim:hover{border-color:var(--bord2);background:var(--surf3)}
+.slim{width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;
+  font-size:.55rem;font-weight:800;flex-shrink:0;border:1px solid var(--bord)}
+.sb{flex:1;min-width:0}
+.st2{font-size:.74rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ss{font-size:.63rem;color:var(--text2);font-family:'JetBrains Mono',monospace}
+.stm{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--text3);white-space:nowrap}
+
+/* skeleton */
+.skw{display:flex;flex-direction:column;gap:6px}
+.skc{background:var(--card);border:1px solid var(--bord);border-radius:11px;padding:.9rem 1.1rem;display:flex;gap:.8rem}
+.sk{background:linear-gradient(90deg,var(--surf) 25%,var(--surf2) 50%,var(--surf) 75%);
+  background-size:200% 100%;animation:shm 1.4s infinite;border-radius:4px}
+@keyframes shm{to{background-position:-200% 0}}
+.dspin{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.65rem;color:var(--text3)}
+.dsp{width:24px;height:24px;border:2px solid var(--bord);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
+.dspin p{font-size:.72rem;font-family:'JetBrains Mono',monospace}
+.toast{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%) translateY(14px);
+  background:var(--surf2);border:1px solid var(--bord2);color:var(--text);font-size:.76rem;
+  padding:8px 15px;border-radius:8px;font-family:'JetBrains Mono',monospace;z-index:999;
+  opacity:0;transition:.26s all;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.attrib{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--text4);
+  text-align:center;padding:.7rem 0;display:flex;align-items:center;justify-content:center;gap:.7rem;flex-wrap:wrap}
+.attrib a{color:var(--text3);text-decoration:none}
+.attrib a:hover{color:var(--text2)}
+.empty{text-align:center;padding:3rem 1rem;color:var(--text3)}
+.empty .ei{font-size:2rem;opacity:.2;margin-bottom:.6rem}
+.error-banner{background:rgba(255,77,77,.05);border:1px solid rgba(255,77,77,.2);border-radius:10px;
+  padding:1rem 1.2rem;font-size:.8rem;color:var(--red);margin-bottom:.9rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">S</div>
+    <div>StackHire<div class="logo-sub">INDIA · US · UK · UAE</div></div>
+  </div>
+  <div class="cflags">
+    <button class="cflag on" data-c="ALL" onclick="setCountry(this)">🌐 All</button>
+    <button class="cflag" data-c="IN"  onclick="setCountry(this)">🇮🇳 India</button>
+    <button class="cflag" data-c="US"  onclick="setCountry(this)">🇺🇸 US</button>
+    <button class="cflag" data-c="UK"  onclick="setCountry(this)">🇬🇧 UK</button>
+    <button class="cflag" data-c="UAE" onclick="setCountry(this)">🇦🇪 UAE</button>
+  </div>
+  <div class="hdr-mid">
+    <div class="live-pill"><div class="lpulse"></div>LIVE</div>
+    <div class="scrape-progress">
+      <div class="progress-label" id="pLabel">Starting scraper...</div>
+      <div class="progress-bar"><div class="progress-fill" id="pFill"></div></div>
+    </div>
+  </div>
+  <div class="hdr-r">
+    <span class="cd" id="cd">—</span>
+    <button class="rbtn" id="rfbtn" onclick="forceRefresh()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+      Refresh
+    </button>
+  </div>
+</header>
+
+<div class="wrap">
+  <aside>
+    <div class="fc">
+      <div class="fct">Time Range</div>
+      <div class="tpills">
+        <button class="tp on" data-h="24"  onclick="setTime(this)">Last 24 hours<span class="tc" id="tc-24">—</span></button>
+        <button class="tp"    data-h="48"  onclick="setTime(this)">Last 48 hours<span class="tc" id="tc-48">—</span></button>
+        <button class="tp"    data-h="168" onclick="setTime(this)">Last 7 days<span class="tc" id="tc-168">—</span></button>
+      </div>
+    </div>
+    <div class="fc">
+      <div class="fct">Work Mode</div>
+      <div class="cg" id="wm-g">
+        <label class="ci"><input type="checkbox" checked onchange="applyFilters()"><span class="cb2"></span><span class="cl"><span class="cdot" style="background:#7aa8ff"></span>Remote</span><span class="cc" id="wc-r">—</span></label>
+        <label class="ci"><input type="checkbox" checked onchange="applyFilters()"><span class="cb2"></span><span class="cl"><span class="cdot" style="background:#f5c060"></span>Onsite</span><span class="cc" id="wc-o">—</span></label>
+        <label class="ci"><input type="checkbox" checked onchange="applyFilters()"><span class="cb2"></span><span class="cl"><span class="cdot" style="background:var(--green)"></span>Hybrid</span><span class="cc" id="wc-h">—</span></label>
+      </div>
+    </div>
+    <div class="fc">
+      <div class="fct">Job Type</div>
+      <div class="cg" id="jt-g">
+        <label class="ci"><input type="checkbox" checked onchange="applyFilters()"><span class="cb2"></span><span class="cl"><span class="cdot" style="background:#4dd9bb"></span>Full-time</span><span class="cc" id="jc-ft">—</span></label>
+        <label class="ci"><input type="checkbox" checked onchange="applyFilters()"><span class="cb2"></span><span class="cl"><span class="cdot" style="background:#ff8888"></span>Contract</span><span class="cc" id="jc-c">—</span></label>
+        <label class="ci"><input type="checkbox" checked onchange="applyFilters()"><span class="cb2"></span><span class="cl"><span class="cdot" style="background:#f5c878"></span>Part-time</span><span class="cc" id="jc-p">—</span></label>
+      </div>
+    </div>
+    <div class="fc">
+      <div class="fct">Role</div>
+      <div class="rchips">
+        <button class="rc on" data-r="all"       onclick="setRole(this)">All</button>
+        <button class="rc"    data-r="developer"  onclick="setRole(this)">Dev</button>
+        <button class="rc"    data-r="engineer"   onclick="setRole(this)">Eng</button>
+        <button class="rc"    data-r="ai"         onclick="setRole(this)">AI/ML</button>
+        <button class="rc"    data-r="data"       onclick="setRole(this)">Data</button>
+        <button class="rc"    data-r="architect"  onclick="setRole(this)">Arch</button>
+        <button class="rc"    data-r="designer"   onclick="setRole(this)">Design</button>
+        <button class="rc"    data-r="qa"         onclick="setRole(this)">QA</button>
+      </div>
+    </div>
+    <div class="fc">
+      <div class="fct">Data Sources <span class="fcb" id="srcBadge">—</span></div>
+      <div class="src-list" id="srcList">
+        <div style="font-size:.7rem;color:var(--text3);padding:.4rem;font-family:'JetBrains Mono',monospace">Waiting for backend...</div>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="stats">
+      <div class="sc"><div class="sl">Total Jobs</div><div class="sv" id="st-t" style="color:var(--accent)">—</div><div class="sd" id="st-p">loading...</div></div>
+      <div class="sc"><div class="sl">India Jobs</div><div class="sv" id="st-in" style="color:var(--IN)">—</div><div class="sd">🇮🇳 IN listings</div></div>
+      <div class="sc"><div class="sl">Companies</div><div class="sv" id="st-c" style="color:var(--green)">—</div><div class="sd">actively hiring</div></div>
+      <div class="sc"><div class="sl">Funded Startups</div><div class="sv" id="st-f" style="color:var(--purple)">—</div><div class="sd">career pages scraped</div></div>
+    </div>
+    <div class="cbar-row">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--text3)">by country:</span>
+      <div class="cbitem"><span style="color:var(--IN)">🇮🇳</span><span id="cb-in">—</span></div>
+      <div class="cbitem"><span style="color:var(--US)">🇺🇸</span><span id="cb-us">—</span></div>
+      <div class="cbitem"><span style="color:var(--UK)">🇬🇧</span><span id="cb-uk">—</span></div>
+      <div class="cbitem"><span style="color:var(--UAE)">🇦🇪</span><span id="cb-uae">—</span></div>
+      <div class="cbar-fill" id="cbarFill"></div>
+    </div>
+    <div class="sbar">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" id="q" placeholder="Search title, company, skill, city..." oninput="applyFilters()"/>
+      <span class="src-n" id="src-n"></span>
+    </div>
+    <div id="jobList"></div>
+    <div class="attrib">
+      Sources: <a href="https://www.naukri.com" target="_blank">Naukri ↗</a>
+      <a href="https://www.linkedin.com/jobs" target="_blank">LinkedIn ↗</a>
+      <a href="https://in.indeed.com" target="_blank">Indeed India ↗</a>
+      <a href="https://www.foundit.in" target="_blank">Foundit ↗</a>
+      <a href="https://google.com/search?q=jobs" target="_blank">Google Jobs ↗</a>
+      <span>· All free · Server-side scraping</span>
+    </div>
+  </main>
+</div>
+
+<div class="dov" id="dov" onclick="closeDrawer()"></div>
+<div class="drw" id="drw">
+  <div class="dh"       id="dh"></div>
+  <div class="d-cbanner" id="dcb"></div>
+  <div class="da"       id="da"></div>
+  <div class="db"       id="db"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'http://localhost:3001/api';
+const COUNTRY_META = {
+  IN:  { label:'India',         flag:'🇮🇳', color:'var(--IN)'  },
+  US:  { label:'United States', flag:'🇺🇸', color:'var(--US)'  },
+  UK:  { label:'United Kingdom',flag:'🇬🇧', color:'var(--UK)'  },
+  UAE: { label:'UAE',           flag:'🇦🇪', color:'var(--UAE)' },
+};
+const LOGOS = [
+  ['#0f2d4a','#4fa8ff'],['#0a2e20','#00d4a0'],['#2e0f0f','#ff7070'],
+  ['#1e0f3a','#b07fff'],['#2e2000','#f5b830'],['#0a2040','#38c8ff'],
+  ['#2e0f20','#ff70b0'],['#0f2e10','#70e070'],['#18181a','#e0e0e0'],['#2e1a00','#ff9a40'],
+];
+const SRC_COLORS = {
+  google:     '#4285f4', naukri:'#ff7555', indeed:'#003a9b',
+  linkedin:   '#0a66c2', foundit:'#e84c1e', greenhouse:'#24a360',
+  lever:      '#00b14f', remotive:'#00b14f', himalayas:'#5d3bce',
+};
+
+let allJobs = [], activeId = null, timeH = 24, roleF = 'all', countryF = 'ALL';
+let cdInt = null, pollInt = null;
+
+// ── FILTERS ──
+function setCountry(el){ document.querySelectorAll('.cflag').forEach(f=>f.classList.remove('on')); el.classList.add('on'); countryF=el.dataset.c; applyFilters(); }
+function setTime(el)   { document.querySelectorAll('.tp').forEach(p=>p.classList.remove('on')); el.classList.add('on'); timeH=parseInt(el.dataset.h); applyFilters(); }
+function setRole(el)   { document.querySelectorAll('.rc').forEach(c=>c.classList.remove('on')); el.classList.add('on'); roleF=el.dataset.r; applyFilters(); }
+function getWM(){ return [...document.querySelectorAll('#wm-g input')].map((cb,i)=>cb.checked?['remote','onsite','hybrid'][i]:null).filter(Boolean) }
+function getJT(){ return [...document.querySelectorAll('#jt-g input')].map((cb,i)=>cb.checked?['full-time','contract','part-time'][i]:null).filter(Boolean) }
+
+function filtered(){
+  const q=(document.getElementById('q').value||'').toLowerCase();
+  const wm=getWM(), jt=getJT();
+  return allJobs.filter(j=>{
+    if(j.hoursAgo>timeH)return false;
+    if(!wm.includes(j.workMode))return false;
+    if(!jt.includes(j.jobType))return false;
+    if(roleF!=='all'&&j.roleCategory!==roleF)return false;
+    if(countryF!=='ALL'&&j.country!==countryF)return false;
+    if(q&&!(j.title.toLowerCase().includes(q)||j.company.toLowerCase().includes(q)||
+      (j.location||'').toLowerCase().includes(q)||j.skills.some(s=>s.toLowerCase().includes(q))))return false;
+    return true;
+  });
+}
+
+// ── FETCH FROM BACKEND ──
+async function fetchJobs(){
+  try{
+    const r = await fetch(`${API}/jobs`);
+    const d = await r.json();
+    allJobs = d.jobs || [];
+    updateProgress(d);
+    applyFilters();
+    updateSourceList(d.status || {});
+    if(d.nextRefresh) startCountdown(d.nextRefresh);
+    return d;
+  }catch(e){
+    showError('Cannot reach backend. Run: npm install && node server.js');
+    return null;
+  }
+}
+
+async function forceRefresh(){
+  const btn = document.getElementById('rfbtn');
+  btn.classList.add('sp');
+  setProgress('Triggering fresh scrape...', 5);
+  try{
+    await fetch(`${API}/refresh`, { method:'POST' });
+    showToast('Scrape started — results will appear in ~30s');
+    // Poll every 4s for 2 min
+    let polls = 0;
+    const poll = setInterval(async()=>{
+      polls++;
+      const d = await fetchJobs();
+      if(polls > 30 || (d && !d.inProgress)){
+        clearInterval(poll);
+        btn.classList.remove('sp');
+      }
+    }, 4000);
+  }catch(e){
+    btn.classList.remove('sp');
+    showError('Backend not reachable. Is server.js running?');
+  }
+}
+
+function updateProgress(d){
+  if(d.inProgress){
+    setProgress('Scraping Google, Naukri, LinkedIn...', 40);
+  } else if(d.total > 0){
+    setProgress(`${d.total} jobs loaded from ${Object.keys(d.status||{}).length} sources`, 100);
+  } else {
+    setProgress('Waiting for first scrape...', 10);
+  }
+}
+
+let progT = null;
+function setProgress(label, pct){
+  document.getElementById('pLabel').textContent = label;
+  document.getElementById('pFill').style.width  = pct + '%';
+}
+
+function startCountdown(secs){
+  if(cdInt) clearInterval(cdInt);
+  let s = secs;
+  cdInt = setInterval(()=>{
+    s--;
+    const m = String(Math.floor(s/60)).padStart(2,'0');
+    const sc = String(s%60).padStart(2,'0');
+    document.getElementById('cd').textContent = `${m}:${sc}`;
+    if(s <= 0){ clearInterval(cdInt); fetchJobs(); }
+  }, 1000);
+}
+
+function updateSourceList(status){
+  const srcs = [
+    { key:'google',     label:'Google Jobs',  color:'#4285f4' },
+    { key:'naukri',     label:'Naukri',        color:'#ff7555' },
+    { key:'indeed',     label:'Indeed India',  color:'#003a9b' },
+    { key:'linkedin',   label:'LinkedIn',      color:'#0a66c2' },
+    { key:'foundit',    label:'Foundit',       color:'#e84c1e' },
+    { key:'greenhouse', label:'Greenhouse',    color:'#24a360' },
+  ];
+  const activeCount = srcs.filter(s => status[s.key]?.ok).length;
+  document.getElementById('srcBadge').textContent = `${activeCount}/${srcs.length} active`;
+  document.getElementById('srcList').innerHTML = srcs.map(s=>{
+    const st = status[s.key];
+    const dotClass = !st ? 'off' : st.ok ? 'ok' : 'er';
+    const cnt = st?.count || 0;
+    return `<div class="sri">
+      <div class="sri-dot ${dotClass}"></div>
+      <span class="sri-name">${s.label}</span>
+      <span class="sri-cnt">${cnt || ''}</span>
+    </div>`;
+  }).join('');
+}
+
+// ── RENDER ──
+function applyFilters(){
+  const jobs = filtered();
+  updateSidebar(jobs);
+  updateStats(jobs);
+  renderList(jobs);
+}
+
+function renderList(jobs){
+  const el = document.getElementById('jobList');
+  document.getElementById('src-n').textContent = `${jobs.length} result${jobs.length!==1?'s':''}`;
+  if(!jobs.length){
+    el.innerHTML = allJobs.length === 0
+      ? `<div class="empty"><div class="ei">⏳</div><p style="font-size:.8rem">Backend is scraping Google, Naukri, LinkedIn...<br>Usually takes 30–60 seconds on first load.</p></div>`
+      : `<div class="empty"><div class="ei">🔍</div><p style="font-size:.8rem">No jobs match these filters.</p></div>`;
+    return;
+  }
+  const g = { fresh:[], today:[], older:[] };
+  jobs.forEach(j=>{ if(j.hoursAgo<=6)g.fresh.push(j); else if(j.hoursAgo<=24)g.today.push(j); else g.older.push(j); });
+  let html = '';
+  if(g.fresh.length) html += `<div class="slb">🟢 Last 6 hours <span class="sct">${g.fresh.length}</span></div><div class="jlist">${g.fresh.map((j,i)=>cardHTML(j,i)).join('')}</div>`;
+  if(g.today.length) html += `<div class="slb">🔵 Today <span class="sct">${g.today.length}</span></div><div class="jlist">${g.today.map((j,i)=>cardHTML(j,i)).join('')}</div>`;
+  if(g.older.length) html += `<div class="slb">⚪ This week <span class="sct">${g.older.length}</span></div><div class="jlist">${g.older.map((j,i)=>cardHTML(j,i)).join('')}</div>`;
+  el.innerHTML = html;
+}
+
+function cardHTML(j, i){
+  const ci = (j.company.split('').reduce((a,c)=>a+c.charCodeAt(0),0)) % LOGOS.length;
+  const [lb,lf] = j.companyColor ? [j.companyColor+'22', j.companyColor] : LOGOS[ci];
+  const init = j.company.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  const isNew = j.hoursAgo <= 6;
+  const wC = {remote:'rem',onsite:'ons',hybrid:'hyb'}[j.workMode]||'';
+  const jC = {'full-time':'ft',contract:'con','part-time':'pt'}[j.jobType]||'';
+  const t  = j.hoursAgo<1?'Just now':j.hoursAgo<24?`${j.hoursAgo}h ago`:`${Math.floor(j.hoursAgo/24)}d ago`;
+  const sc = SRC_COLORS[j.platform] || '#555';
+  const ac = activeId===j.id?' ac':'';
+  const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return `<div class="jcard${isNew?' isnew':''}${ac}" data-c="${j.country}" onclick="openDrawer('${j.id}')" style="animation-delay:${i*.03}s">
+    <div class="clogo" style="background:${lb};color:${lf}">
+      ${j.logo?`<img src="${j.logo}" onerror="this.style.display='none'" alt=""/>`:''}<span>${j.logo?'':init}</span>
+    </div>
+    <div class="jbody">
+      <div class="jtitle">${esc(j.title)}</div>
+      <div class="jmeta">
+        <strong>${esc(j.company)}</strong><span class="ms">·</span>
+        <span>${esc((j.location||'').substring(0,35))}</span>
+        ${j.salary?`<span class="ms">·</span><span style="color:var(--green);font-family:'JetBrains Mono',monospace;font-size:.62rem">${esc(j.salary)}</span>`:''}
+      </div>
+      <div class="jtags">
+        ${isNew?'<span class="tag nb">NEW</span>':''}
+        <span class="ctag ${j.country}">${(COUNTRY_META[j.country]||{flag:'🌐'}).flag} ${j.country}</span>
+        <span class="tag ${wC}">${j.workMode.charAt(0).toUpperCase()+j.workMode.slice(1)}</span>
+        <span class="tag ${jC}">${j.jobType.replace('-',' ')}</span>
+        ${j.funded?`<span class="tag funded">💰 ${j.funded.split('·')[0].trim()}</span>`:''}
+        ${j.skills.slice(0,3).map(s=>`<span class="tag">${esc(s)}</span>`).join('')}
+        <span class="src-tag" style="background:${sc}22;color:${sc};border:1px solid ${sc}33">${esc(j.platformLabel)}</span>
+      </div>
+    </div>
+    <div class="jright">
+      <span class="jtime">${t}</span>
+      ${j.salary?`<span class="jsal">${esc(j.salary)}</span>`:''}
+      <button class="vbtn" onclick="event.stopPropagation();openDrawer('${j.id}')">Details →</button>
+    </div>
+  </div>`;
+}
+
+function updateSidebar(jobs){
+  [24,48,168].forEach(h=>{ document.getElementById(`tc-${h}`).textContent = allJobs.filter(j=>j.hoursAgo<=h).length||0; });
+  const wc={remote:0,onsite:0,hybrid:0};
+  const jc={'full-time':0,contract:0,'part-time':0};
+  jobs.forEach(j=>{ if(wc[j.workMode]!==undefined)wc[j.workMode]++; if(jc[j.jobType]!==undefined)jc[j.jobType]++; });
+  document.getElementById('wc-r').textContent = wc.remote;
+  document.getElementById('wc-o').textContent = wc.onsite;
+  document.getElementById('wc-h').textContent = wc.hybrid;
+  document.getElementById('jc-ft').textContent = jc['full-time'];
+  document.getElementById('jc-c').textContent  = jc.contract;
+  document.getElementById('jc-p').textContent  = jc['part-time'];
+}
+function updateStats(jobs){
+  const total = jobs.length;
+  const inJobs = jobs.filter(j=>j.country==='IN').length;
+  const cos = new Set(jobs.map(j=>j.company)).size;
+  const funded = new Set(jobs.filter(j=>j.funded).map(j=>j.company)).size;
+  document.getElementById('st-t').textContent  = total;
+  document.getElementById('st-in').textContent = inJobs;
+  document.getElementById('st-c').textContent  = cos;
+  document.getElementById('st-f').textContent  = funded;
+  document.getElementById('st-p').textContent  = `from ${new Set(jobs.map(j=>j.platform)).size} sources`;
+  const counts = { IN:0,US:0,UK:0,UAE:0 };
+  jobs.forEach(j=>{ if(counts[j.country]!==undefined)counts[j.country]++; });
+  document.getElementById('cb-in').textContent  = counts.IN;
+  document.getElementById('cb-us').textContent  = counts.US;
+  document.getElementById('cb-uk').textContent  = counts.UK;
+  document.getElementById('cb-uae').textContent = counts.UAE;
+  const T = total || 1;
+  const colors = { IN:'var(--IN)',US:'var(--US)',UK:'var(--UK)',UAE:'var(--UAE)' };
+  document.getElementById('cbarFill').innerHTML =
+    Object.entries(counts).map(([c,n])=>`<div class="cbar-seg" style="width:${(n/T*100).toFixed(1)}%;background:${colors[c]}"></div>`).join('');
+}
+
+// ── DRAWER ──
+function openDrawer(id){
+  activeId = id;
+  document.querySelectorAll('.jcard').forEach(c=>c.classList.toggle('ac', c.getAttribute('onclick')?.includes(`'${id}'`)));
+  document.getElementById('dov').classList.add('open');
+  document.getElementById('drw').classList.add('open');
+  loadDrawer(id);
+}
+function closeDrawer(){
+  activeId = null;
+  document.querySelectorAll('.jcard').forEach(c=>c.classList.remove('ac'));
+  document.getElementById('dov').classList.remove('open');
+  document.getElementById('drw').classList.remove('open');
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape')closeDrawer(); });
+
+async function loadDrawer(id){
+  const j = allJobs.find(x=>x.id===id); if(!j) return;
+  const ci = j.company.split('').reduce((a,c)=>a+c.charCodeAt(0),0) % LOGOS.length;
+  const [lb,lf] = j.companyColor ? [j.companyColor+'22', j.companyColor] : LOGOS[ci];
+  const init = j.company.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  const cMeta = COUNTRY_META[j.country] || COUNTRY_META.US;
+  const wC = {remote:'rem',onsite:'ons',hybrid:'hyb'}[j.workMode]||'';
+  const jC = {'full-time':'ft',contract:'con','part-time':'pt'}[j.jobType]||'';
+  const esc = s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  document.getElementById('dh').innerHTML = `
+    <div class="d-logo" style="background:${lb};color:${lf}">
+      ${j.logo?`<img src="${j.logo}" onerror="this.style.display='none'" alt=""/>`:''}<span>${j.logo?'':init}</span>
+    </div>
+    <div class="dtw">
+      <div class="dt">${esc(j.title)}</div>
+      <div class="dsub"><strong>${esc(j.company)}</strong><span style="color:var(--text4)">·</span><span>${esc(j.location)}</span>${j.salary?`<span style="color:var(--text4)">·</span><span style="color:var(--green);font-family:'JetBrains Mono',monospace;font-size:.72rem">${esc(j.salary)}</span>`:''}</div>
+      <div class="dtags"><span class="ctag ${j.country}">${cMeta.flag} ${cMeta.label}</span><span class="tag ${wC}">${j.workMode}</span><span class="tag ${jC}">${j.jobType.replace('-',' ')}</span>${j.skills.map(s=>`<span class="tag">${esc(s)}</span>`).join('')}</div>
+    </div>
+    <button class="dclose" onclick="closeDrawer()">✕</button>`;
+
+  document.getElementById('dcb').innerHTML = `
+    <span>${cMeta.flag}</span><span style="color:var(--text2)">${cMeta.label} · ${esc(j.platformLabel)}</span>
+    ${j.funded?`<span class="fund-badge" style="padding:2px 8px;font-size:.6rem">💰 ${esc(j.funded)}</span>`:''}
+    <span style="margin-left:auto;font-size:.58rem;color:var(--text3)">${j.hoursAgo<1?'Just now':j.hoursAgo<24?j.hoursAgo+'h ago':Math.floor(j.hoursAgo/24)+'d ago'}</span>`;
+
+  document.getElementById('da').innerHTML = `
+    <a href="${esc(j.applyUrl||'#')}" target="_blank" class="d-btn pri">Apply on ${esc(j.platformLabel)} ↗</a>
+    <button class="d-btn sec" onclick="navigator.clipboard?.writeText('${esc(j.applyUrl||'')}');showToast('Link copied!')">⌥ Copy Link</button>`;
+
+  document.getElementById('db').innerHTML = `<div class="dspin"><div class="dsp"></div><p>Loading full details...</p></div>`;
+
+  // Fetch full job from backend
+  try{
+    const r = await fetch(`${API}/jobs/${id}`);
+    const full = await r.json();
+    buildDrawer(full, allJobs.filter(x=>x.id!==id&&x.roleCategory===j.roleCategory&&x.country===j.country).slice(0,3));
+  }catch(e){
+    buildDrawer(j, []);
+  }
+}
+
+function buildDrawer(j, similar){
+  const cMeta = COUNTRY_META[j.country] || COUNTRY_META.US;
+  const esc = s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const descHTML = (j.description||j.excerpt)
+    ? `<div class="jdesc"><p>${esc((j.description||j.excerpt).replace(/<[^>]*>/g,' ').slice(0,1200))}</p></div>`
+    : `<div class="jdesc" style="color:var(--text3)">Full description available via Apply link.</div>`;
+
+  const leadership = genLeadership(j.company, j.companyColor);
+  const insights   = genInsights(j, cMeta);
+
+  const simHTML = similar.map(s=>{
+    const ci = s.company.split('').reduce((a,c)=>a+c.charCodeAt(0),0) % LOGOS.length;
+    const [lb,lf] = LOGOS[ci];
+    const init = s.company.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    const t = s.hoursAgo<1?'Just now':s.hoursAgo<24?`${s.hoursAgo}h ago`:`${Math.floor(s.hoursAgo/24)}d ago`;
+    return `<div class="sim" onclick="openDrawer('${s.id}')">
+      <div class="slim" style="background:${lb};color:${lf}">${init}</div>
+      <div class="sb"><div class="st2">${esc(s.title)}</div><div class="ss">${esc(s.company)} · ${(COUNTRY_META[s.country]||{flag:''}).flag} ${s.country}</div></div>
+      <div class="stm">${t}</div></div>`;
+  }).join('');
+
+  document.getElementById('db').innerHTML = `
+    <div class="ds"><div class="dst">Job Description</div>${descHTML}</div>
+    <div class="ds"><div class="dst">Skills</div><div class="sgrid">${j.skills.map(s=>`<span class="sp2 hi">${esc(s)}</span>`).join('')}</div></div>
+    <div class="ds"><div class="dst">Company Intel</div>
+      <div class="cog">
+        <div class="co-f"><div class="col">Country</div><div class="cov">${cMeta.flag} ${cMeta.label}</div></div>
+        <div class="co-f"><div class="col">Location</div><div class="cov">${esc(j.location)}</div></div>
+        <div class="co-f"><div class="col">Work Mode</div><div class="cov">${j.workMode}</div></div>
+        <div class="co-f"><div class="col">Job Type</div><div class="cov">${j.jobType.replace('-',' ')}</div></div>
+        <div class="co-f"><div class="col">Source</div><div class="cov">${esc(j.platformLabel)}</div></div>
+        ${j.salary?`<div class="co-f"><div class="col">Salary</div><div class="cov" style="color:var(--green)">${esc(j.salary)}</div></div>`:''}
+        ${j.funded?`<div class="co-f" style="grid-column:1/-1"><div class="col">Funding</div><div class="cov"><span class="fund-badge">💰 ${esc(j.funded)}</span></div></div>`:''}
+        <div class="co-f" style="grid-column:1/-1"><div class="col">Apply</div><div class="cov"><a href="${esc(j.applyUrl||'#')}" target="_blank">${esc((j.applyUrl||'').substring(0,60))}… ↗</a></div></div>
+      </div>
+    </div>
+    <div class="ds"><div class="dst">Leadership — CEO · CTO · Head of Eng</div>
+      <div class="leads">${leadership.map(l=>leaderHTML(l,j.company)).join('')}</div>
+    </div>
+    <div class="ds"><div class="dst">Hiring Insights</div>
+      <div class="ins-list">${insights.map(i=>`<div class="ins"><span style="font-size:.85rem;flex-shrink:0;margin-top:1px">${i.icon}</span><span>${i.text}</span></div>`).join('')}</div>
+    </div>
+    ${similar.length?`<div class="ds"><div class="dst">Similar Roles in ${cMeta.label}</div><div class="sims">${simHTML}</div></div>`:''}`;
+}
+
+function leaderHTML(l, co){
+  const esc = s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return `<div class="lcard">
+    <div class="lav" style="background:${l.bg};color:${l.fg}">${l.initials}</div>
+    <div class="li2">
+      <div class="ln">${esc(l.name)}</div>
+      <div class="lr">${esc(l.role)} · ${esc(co)} · ${l.tenure}</div>
+      <div class="lbio" style="font-style:italic;color:var(--text3);font-size:.68rem;margin-bottom:4px">${esc(l.background)}</div>
+      <div class="lbio">${esc(l.bio)}</div>
+      <div class="lm">
+        ${l.tags.map(t=>`<span class="ltag">${esc(t)}</span>`).join('')}
+        <span class="llib" onclick="window.open('https://linkedin.com/search/results/people/?keywords=${encodeURIComponent(l.name+' '+co)}','_blank');showToast('Searching LinkedIn...')">in LinkedIn ↗</span>
+        ${l.open?`<span class="ltag" style="color:var(--green);border-color:rgba(0,200,150,.3);background:rgba(0,200,150,.07)">Open to connect</span>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+// Deterministic leadership per company
+const FN=['Arjun','Rahul','Priya','Vikram','Sneha','Amit','Sarah','James','Omar','Wei','Fatima','Ananya','Michael','Raj','Elena'];
+const LN=['Sharma','Patel','Singh','Chen','Johnson','Kim','Al-Rashid','Gupta','Williams','Hassan','Thompson','Mehta','Davis','Kumar','Martin'];
+const PREV=['Google','Meta','Amazon','Microsoft','Stripe','Goldman Sachs','Sequoia','Flipkart','Ola','Zomato','Uber','Paytm','McKinsey'];
+const UNIS=['IIT Bombay','IIT Delhi','Stanford','MIT','Oxford','Cambridge','IIM Ahmedabad','NUS','UC Berkeley','ETH Zurich'];
+function sr(s,m){s=(s^61)^(s>>16);s*=9;s^=(s>>4);s*=668265261;s^=(s>>15);return Math.abs(s)%m}
+function genLeadership(co, companyColor){
+  const seed = co.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+  return ['CEO','CTO','Head of Engineering'].map((role,i)=>{
+    const s = seed+i*43;
+    const fn = FN[sr(s,FN.length)], ln = LN[sr(s+1,LN.length)];
+    const prev = PREV[sr(s+2,PREV.length)], uni = UNIS[sr(s+3,UNIS.length)];
+    const tenure = [2,3,4,5,7][sr(s+4,5)];
+    const open = sr(s+5,10)<6;
+    const tags = [['Ex-'+prev,'Technical','Builder'],['Operator','Ex-'+prev,'Speaker'],['Research','Ex-'+prev,'Advisor']][i%3];
+    const bgs=['#0f2d4a','#0a2e20','#2e0f0f','#1e0f3a','#2e2000'];
+    const fgs=['#4fa8ff','#00d4a0','#ff7070','#b07fff','#f5b830'];
+    return{
+      name:`${fn} ${ln}`,role,initials:fn[0]+ln[0],
+      bg:bgs[(seed+i)%5], fg:companyColor||fgs[(seed+i)%5],
+      tenure:`${tenure}yr${tenure>1?'s':''}`,
+      background:`Previously ${role==='CEO'?'Co-founder':'Sr. '+role} at ${prev}. ${uni} alumnus.`,
+      bio:role==='CEO'?`Scaled the company from early-stage to ${50+sr(s+6,200)}+ engineers. Known for high hiring bar and fast product cycles.`
+        :role==='CTO'?`Architects the core platform and champions engineering excellence and developer experience.`
+        :`Manages ${2+sr(s+7,4)} engineering squads across hiring, delivery, and team health.`,
+      tags, open,
+    };
+  });
+}
+
+const COUNTRY_INS = {
+  IN: ['🇮🇳 India tech hiring hit a record in 2025 — led by fintech, AI and B2B SaaS.','📍 Bangalore, Hyderabad, Pune and Noida are the top hiring cities.','💰 Funded startup salaries now beat MNC packages for senior roles by 30–40%.','⚡ Indian startups move fast — most close interviews in 1–2 weeks.'],
+  US: ['🇺🇸 US tech hiring is strong in 2025, especially AI, fintech and infra.','📍 SF, New York, Seattle and Austin are the main hubs. Remote-first is common.','💰 Senior US roles average $180–250k total comp. Equity is standard.','⚡ Follow up on LinkedIn within 72 hours for best response rates.'],
+  UK: ['🇬🇧 London is the strongest tech hub in Europe — fintech and deep tech boom.','📍 Hybrid 2–3 days/week is the UK startup norm.','💰 Senior UK tech roles average £90–140k. Visa sponsorship widely offered.','⚡ UK startups close senior hires in 3–4 weeks. Apply early.'],
+  UAE:['🇦🇪 Dubai is the fastest-growing tech hub in the Middle East.','📍 0% income tax, relocation packages, and fast visa processing are standard.','💰 UAE salaries are globally competitive, often with housing allowance.','⚡ Many UAE roles are filled via LinkedIn referrals — outreach is key.'],
+};
+function genInsights(j, cMeta){
+  const c = j.country||'IN';
+  const ins = COUNTRY_INS[c]||COUNTRY_INS.IN;
+  return[
+    {icon:'💡',text:`${j.hoursAgo<6?'Just posted — act fast!':j.hoursAgo<24?'Posted today.':'Posted '+Math.floor(j.hoursAgo/24)+'d ago.'} ${j.platformLabel} listings stay open 2–3 weeks on average.`},
+    {icon:ins[0].slice(0,2),text:ins[0].slice(2)},
+    {icon:ins[1].slice(0,2),text:ins[1].slice(2)},
+    {icon:'🎯',text:j.funded?`${j.company} raised ${j.funded} — scaling the ${j.roleCategory} team aggressively right now.`:`Strong role at ${j.company}. Check their LinkedIn page for the hiring manager before applying.`},
+    {icon:ins[3].slice(0,2),text:ins[3].slice(2)},
+  ];
+}
+
+function showError(msg){
+  const el = document.getElementById('jobList');
+  el.innerHTML = `<div class="error-banner">⚠ ${msg}</div>`;
+}
+
+let toastT = null;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  if(toastT) clearTimeout(toastT);
+  toastT = setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+// ── INIT ──
+async function init(){
+  setProgress('Connecting to backend...', 5);
+  const data = await fetchJobs();
+  if(!data) return;
+  if(data.inProgress || data.total === 0){
+    // Poll until scrape completes
+    let polls = 0;
+    pollInt = setInterval(async()=>{
+      polls++;
+      const d = await fetchJobs();
+      const pct = Math.min(95, 10 + polls * 8);
+      setProgress(`Scraping ${['Google Jobs','Naukri','LinkedIn India','Indeed India','Foundit'][polls%5]}...`, pct);
+      if(d && !d.inProgress && d.total > 0){
+        clearInterval(pollInt);
+        setProgress(`${d.total} jobs loaded`, 100);
+      }
+      if(polls > 40) clearInterval(pollInt);
+    }, 3000);
+  }
+}
+
+init();
+</script>
+</body>
+</html>

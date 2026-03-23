@@ -62,7 +62,7 @@ header{position:sticky;top:0;z-index:300;height:56px;padding:0 1.4rem;
 /* JOBS PAGE */
 .wrap{display:grid;grid-template-columns:240px 1fr;max-width:1500px;margin:0 auto;padding:1.2rem;gap:1rem;align-items:start}
 @media(max-width:900px){.wrap{grid-template-columns:1fr}}
-aside{position:sticky;top:68px;display:flex;flex-direction:column;gap:.65rem}
+aside{position:sticky;top:68px;display:flex;flex-direction:column;gap:.65rem;max-height:calc(100vh - 80px);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:var(--bord3) transparent;padding-right:2px}
 .fc{background:var(--surf);border:1px solid var(--bord);border-radius:11px;padding:.85rem .95rem}
 .fct{font-family:'JetBrains Mono',monospace;font-size:.56rem;font-weight:600;letter-spacing:2.5px;
   text-transform:uppercase;color:var(--text3);margin-bottom:.55rem;display:flex;align-items:center;justify-content:space-between}
@@ -316,6 +316,9 @@ hr.dr{border:none;border-top:1px solid var(--bord);margin:.6rem 0}
       <div class="cflag" data-c="UAE" onclick="setCountry('UAE')">🇦🇪 UAE</div>
     </div>
     <div class="live-pill"><span class="lpulse"></span><span id="liveCount">—</span></div>
+    <button class="rbtn" onclick="setApiKey()" title="Set Anthropic API key for AI pitch generator" id="keyBtn" style="border-color:rgba(139,92,246,.3);color:var(--purple)">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>API Key
+    </button>
     <button class="rbtn" id="rBtn" onclick="forceRefresh()">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Refresh
     </button>
@@ -481,9 +484,10 @@ hr.dr{border:none;border-top:1px solid var(--bord);margin:.6rem 0}
 // ─────────────────────────────────────────────────────────────────
 // CONFIG — change this to your deployed Render/Railway URL
 // ─────────────────────────────────────────────────────────────────
-const API = window.location.hostname === 'localhost' 
-  ? 'http://localhost:3001/api' 
-  : 'https://stackhire-bgcx.onrender.com/api';
+// No backend needed — all APIs called directly from browser
+const RENDER_API = 'https://stackhire-bgcx.onrender.com';
+const ANTHROPIC_KEY_STORE = 'sh_anthropic_key';
+let ANTHROPIC_KEY = localStorage.getItem(ANTHROPIC_KEY_STORE) || '';
 
 // ─────────────────────────────────────────────────────────────────
 // STATE
@@ -508,9 +512,122 @@ function switchTab(t) {
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
   document.getElementById('page-'+t).classList.add('on');
   document.querySelector(`.tab[data-tab="${t}"]`).classList.add('on');
-  if (t === 'targets') renderTargets();
+  if (t === 'targets') loadTargets();
   if (t === 'pipeline') renderPipeline();
 }
+
+// ─────────────────────────────────────────────────────────────────
+// ALL COMPANIES — same list as server.js, used for direct API calls
+// ─────────────────────────────────────────────────────────────────
+const ALL_COMPANIES = [
+  // India Fintech
+  {name:'Razorpay',token:'razorpaysoftwareprivatelimited',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Fintech',size:'1000+',funded:'Series F $375M',color:'#2f55d4',emp:'2500'},
+  {name:'CRED',token:'dreamplug',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Fintech',size:'500-1000',funded:'Series E $251M',color:'#1a1a1a',emp:'700'},
+  {name:'Groww',token:'groww',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Fintech',size:'1000+',funded:'Series F $251M',color:'#5367ff',emp:'1500'},
+  {name:'slice',token:'slice',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Fintech',size:'200-500',funded:'Series B $220M',color:'#7b2ff7',emp:'400'},
+  {name:'Jupiter',token:'jupiter',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Neobank',size:'200-500',funded:'Series C $86M',color:'#7c3aed',emp:'300'},
+  {name:'INDmoney',token:'indmoney',ats:'greenhouse',country:'IN',city:'Gurgaon',sector:'Fintech',size:'200-500',funded:'Series D $75M',color:'#0066cc',emp:'350'},
+  {name:'Perfios',token:'perfios',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Fintech',size:'500-1000',funded:'Series C $229M',color:'#0d47a1',emp:'800'},
+  {name:'Smallcase',token:'smallcase',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Fintech',size:'100-200',funded:'Series C $50M',color:'#0d6efd',emp:'180'},
+  {name:'Khatabook',token:'khatabook',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'SME Fintech',size:'200-500',funded:'Series B $100M',color:'#0b6edd',emp:'400'},
+  {name:'Juspay',token:'juspay',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Payments',size:'200-500',funded:'Series C $60M',color:'#2563eb',emp:'400'},
+  {name:'Cashfree',token:'cashfree',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Payments',size:'200-500',funded:'Series B $35M',color:'#7c3aed',emp:'300'},
+  {name:'M2P Fintech',token:'m2pfintech',ats:'greenhouse',country:'IN',city:'Chennai',sector:'Fintech',size:'500-1000',funded:'Series C $56M',color:'#7c3aed',emp:'600'},
+  // India B2B SaaS
+  {name:'Postman',token:'postman',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Dev Tools',size:'500-1000',funded:'Series D $225M',color:'#ef5b25',emp:'800'},
+  {name:'BrowserStack',token:'browserstack',ats:'greenhouse',country:'IN',city:'Mumbai',sector:'Dev Tools',size:'1000+',funded:'Series B $200M',color:'#ff6631',emp:'1200'},
+  {name:'Hasura',token:'hasura',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Data/API',size:'50-200',funded:'Series C $100M',color:'#1c78e5',emp:'150'},
+  {name:'Chargebee',token:'chargebee',ats:'greenhouse',country:'IN',city:'Chennai',sector:'SaaS Billing',size:'500-1000',funded:'Series H $250M',color:'#f47b20',emp:'900'},
+  {name:'Darwinbox',token:'darwinbox',ats:'greenhouse',country:'IN',city:'Hyderabad',sector:'HR Tech',size:'500-1000',funded:'Series D $72M',color:'#f36b21',emp:'700'},
+  {name:'Freshworks',token:'freshworks',ats:'greenhouse',country:'IN',city:'Chennai',sector:'CRM SaaS',size:'1000+',funded:'Public NASDAQ',color:'#00b24b',emp:'5000'},
+  {name:'Leadsquared',token:'leadsquared',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'CRM',size:'500-1000',funded:'Series C $153M',color:'#e84c3d',emp:'700'},
+  {name:'Clevertap',token:'clevertap',ats:'greenhouse',country:'IN',city:'Mumbai',sector:'MarTech',size:'500-1000',funded:'Series D $105M',color:'#f05a28',emp:'600'},
+  {name:'MoEngage',token:'moengage',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'MarTech',size:'500-1000',funded:'Series E $77M',color:'#0066b2',emp:'700'},
+  {name:'Whatfix',token:'whatfix',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'DAP SaaS',size:'500-1000',funded:'Series E $125M',color:'#7c3aed',emp:'700'},
+  {name:'Icertis',token:'icertis',ats:'greenhouse',country:'IN',city:'Pune',sector:'Contract Mgmt',size:'1000+',funded:'Series F $150M',color:'#0078d4',emp:'1800'},
+  {name:'Sprinklr',token:'sprinklr',ats:'greenhouse',country:'IN',city:'Gurgaon',sector:'CXM SaaS',size:'1000+',funded:'Public NYSE',color:'#1a56db',emp:'4000'},
+  {name:'Mindtickle',token:'mindtickle',ats:'greenhouse',country:'IN',city:'Pune',sector:'Sales Enablement',size:'500-1000',funded:'Series E $100M',color:'#7c3aed',emp:'600'},
+  {name:'Yellow.ai',token:'yellowmessenger',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Conversational AI',size:'500-1000',funded:'Series C $78M',color:'#f59e0b',emp:'750'},
+  {name:'Exotel',token:'exotel',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'CPaaS',size:'200-500',funded:'Series D $40M',color:'#1d4ed8',emp:'400'},
+  {name:'Rocketlane',token:'rocketlane',ats:'greenhouse',country:'IN',city:'Chennai',sector:'Client Onboarding SaaS',size:'50-200',funded:'Series B $24M',color:'#6d28d9',emp:'100'},
+  {name:'Capillary Technologies',token:'capillary',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Loyalty SaaS',size:'500-1000',funded:'Series D $45M',color:'#7c3aed',emp:'800'},
+  // India E-commerce / Logistics
+  {name:'Meesho',token:'meesho',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'E-Commerce',size:'1000+',funded:'Series F $570M',color:'#9c27b0',emp:'4000'},
+  {name:'Zepto',token:'zepto',ats:'greenhouse',country:'IN',city:'Mumbai',sector:'Quick Commerce',size:'1000+',funded:'Series G $665M',color:'#ff5c00',emp:'3000'},
+  {name:'Shiprocket',token:'shiprocket',ats:'greenhouse',country:'IN',city:'Delhi',sector:'Logistics',size:'500-1000',funded:'Series E $185M',color:'#f97316',emp:'1000'},
+  {name:'Porter',token:'porter',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Logistics',size:'500-1000',funded:'Series F $200M',color:'#f59e0b',emp:'800'},
+  {name:'Locus',token:'locus',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Logistics SaaS',size:'200-500',funded:'Series C $50M',color:'#f97316',emp:'350'},
+  // India EdTech / HealthTech / AI
+  {name:'Unacademy',token:'unacademy',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'EdTech',size:'1000+',funded:'Series G $440M',color:'#08bd80',emp:'3500'},
+  {name:'PhysicsWallah',token:'physicswallah',ats:'greenhouse',country:'IN',city:'Noida',sector:'EdTech',size:'1000+',funded:'Series B $100M',color:'#f97316',emp:'5000'},
+  {name:'Scaler',token:'scaleracademy',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'EdTech',size:'200-500',funded:'Series B $55M',color:'#6d28d9',emp:'400'},
+  {name:'Practo',token:'practo',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'HealthTech',size:'500-1000',funded:'Series E $55M',color:'#22c55e',emp:'700'},
+  {name:'Innovaccer',token:'innovaccer',ats:'greenhouse',country:'IN',city:'Noida',sector:'Health Data',size:'500-1000',funded:'Series E $162M',color:'#0284c7',emp:'700'},
+  {name:'Acko',token:'acko',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'InsurTech',size:'500-1000',funded:'Series E $255M',color:'#7c3aed',emp:'700'},
+  {name:'Observe.AI',token:'observeai',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'AI CX',size:'200-500',funded:'Series C $125M',color:'#7c3aed',emp:'350'},
+  {name:'Zetwerk',token:'zetwerk',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Manufacturing',size:'1000+',funded:'Series F $210M',color:'#f59e0b',emp:'2500'},
+  {name:'Moglix',token:'moglix',ats:'greenhouse',country:'IN',city:'Noida',sector:'B2B Commerce',size:'1000+',funded:'Series F $250M',color:'#ef4444',emp:'2000'},
+  {name:'NoBroker',token:'nobroker',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'PropTech',size:'1000+',funded:'Series E $210M',color:'#f97316',emp:'4000'},
+  {name:'Dream11',token:'dream11',ats:'greenhouse',country:'IN',city:'Mumbai',sector:'Fantasy Sports',size:'1000+',funded:'Series D $840M',color:'#1d4ed8',emp:'1000'},
+  {name:'MPL',token:'mpl',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Mobile Gaming',size:'500-1000',funded:'Series E $95M',color:'#f97316',emp:'700'},
+  {name:'Leena AI',token:'leenaai',ats:'greenhouse',country:'IN',city:'Gurgaon',sector:'HR AI',size:'50-200',funded:'Series B $30M',color:'#0ea5e9',emp:'150'},
+  {name:'Facilio',token:'facilio',ats:'greenhouse',country:'IN',city:'Chennai',sector:'PropTech',size:'100-200',funded:'Series B $35M',color:'#06b6d4',emp:'180'},
+  {name:'Clari',token:'clari',ats:'greenhouse',country:'IN',city:'Bangalore',sector:'Revenue AI',size:'500-1000',funded:'Series F $225M',color:'#7c3aed',emp:'700'},
+  {name:'Keka',token:'keka',ats:'greenhouse',country:'IN',city:'Hyderabad',sector:'HR SaaS',size:'200-500',funded:'Series A $57M',color:'#f97316',emp:'350'},
+  {name:'Lenskart',token:'lenskart',ats:'greenhouse',country:'IN',city:'Gurgaon',sector:'D2C Eyewear',size:'1000+',funded:'Series H $220M',color:'#f97316',emp:'5000'},
+  // India Lever
+  {name:'Hevo Data',token:'hevodata',ats:'lever',country:'IN',city:'Bangalore',sector:'Data Pipeline',size:'100-200',funded:'Series B $42M',color:'#0052cc',emp:'160'},
+  {name:'Toplyne',token:'toplyne',ats:'lever',country:'IN',city:'Bangalore',sector:'PLG SaaS',size:'10-50',funded:'Series A $17M',color:'#7c3aed',emp:'40'},
+  // UAE
+  {name:'Careem',token:'careem',ats:'greenhouse',country:'UAE',city:'Dubai',sector:'Super App',size:'1000+',funded:'Acq $3.1B',color:'#3ddc84',emp:'2000'},
+  {name:'Tabby',token:'tabby',ats:'greenhouse',country:'UAE',city:'Dubai',sector:'BNPL',size:'200-500',funded:'Series D $200M',color:'#f5a623',emp:'350'},
+  {name:'Kitopi',token:'kitopi',ats:'greenhouse',country:'UAE',city:'Dubai',sector:'Cloud Kitchen',size:'1000+',funded:'Series C $415M',color:'#ff2d55',emp:'2000'},
+  {name:'Tamara',token:'tamarafinance',ats:'greenhouse',country:'UAE',city:'Riyadh',sector:'BNPL',size:'200-500',funded:'Series B $340M',color:'#1b5e20',emp:'400'},
+  {name:'Baraka',token:'getbaraka',ats:'greenhouse',country:'UAE',city:'Dubai',sector:'Investing',size:'50-200',funded:'Series B $20M',color:'#7c3aed',emp:'90'},
+  {name:'NymCard',token:'nymcard',ats:'greenhouse',country:'UAE',city:'Abu Dhabi',sector:'Fintech',size:'50-200',funded:'Series A $22M',color:'#1d4ed8',emp:'80'},
+  {name:'Lean Technologies',token:'leantechnologies',ats:'greenhouse',country:'UAE',city:'Dubai',sector:'Open Banking',size:'50-200',funded:'Series A $33M',color:'#0284c7',emp:'80'},
+  {name:'Huspy',token:'huspy',ats:'greenhouse',country:'UAE',city:'Dubai',sector:'PropTech',size:'100-200',funded:'Series A $37M',color:'#ec4899',emp:'150'},
+  {name:'Insider',token:'useinsider',ats:'lever',country:'UAE',city:'Dubai',sector:'MarTech',size:'500-1000',funded:'Series C $121M',color:'#0ea5e9',emp:'1000'},
+  // UK
+  {name:'Revolut',token:'revolut',ats:'greenhouse',country:'UK',city:'London',sector:'Neobank',size:'1000+',funded:'Series E $800M',color:'#0075eb',emp:'8000'},
+  {name:'Monzo',token:'monzo',ats:'greenhouse',country:'UK',city:'London',sector:'Neobank',size:'1000+',funded:'Series I $500M',color:'#ff4f64',emp:'3000'},
+  {name:'Checkout.com',token:'checkoutdotcom',ats:'greenhouse',country:'UK',city:'London',sector:'Payments',size:'1000+',funded:'Series D $1B',color:'#0a6edd',emp:'2000'},
+  {name:'GoCardless',token:'gocardless',ats:'greenhouse',country:'UK',city:'London',sector:'Payments',size:'500-1000',funded:'Series G $312M',color:'#0e4d92',emp:'900'},
+  {name:'Cleo',token:'cleo',ats:'greenhouse',country:'UK',city:'London',sector:'Fintech',size:'200-500',funded:'Series C $80M',color:'#3d2eff',emp:'300'},
+  {name:'Multiverse',token:'multiverse',ats:'greenhouse',country:'UK',city:'London',sector:'EdTech',size:'500-1000',funded:'Series D $220M',color:'#5240d9',emp:'700'},
+  {name:'Synthesia',token:'synthesia',ats:'greenhouse',country:'UK',city:'London',sector:'AI Video',size:'200-500',funded:'Series D $90M',color:'#5b3aff',emp:'350'},
+  {name:'Paddle',token:'paddle',ats:'greenhouse',country:'UK',city:'London',sector:'Payments SaaS',size:'200-500',funded:'Series D $200M',color:'#0ea5e9',emp:'350'},
+  {name:'GoCardless',token:'gocardless',ats:'greenhouse',country:'UK',city:'London',sector:'Payments',size:'500-1000',funded:'Series G $312M',color:'#0e4d92',emp:'900'},
+  // US
+  {name:'Anthropic',token:'anthropic',ats:'greenhouse',country:'US',city:'San Francisco',sector:'AI LLM',size:'200-500',funded:'Series E $7.3B',color:'#c4500a',emp:'400'},
+  {name:'Cohere',token:'cohere-ai',ats:'greenhouse',country:'US',city:'Remote',sector:'AI LLM',size:'200-500',funded:'Series C $270M',color:'#2c3e50',emp:'350'},
+  {name:'Scale AI',token:'scaleai',ats:'greenhouse',country:'US',city:'San Francisco',sector:'AI Data',size:'500-1000',funded:'Series F $325M',color:'#8b4513',emp:'700'},
+  {name:'Harvey',token:'harvey',ats:'greenhouse',country:'US',city:'San Francisco',sector:'AI Legal',size:'100-200',funded:'Series D $300M',color:'#1a1a2e',emp:'200'},
+  {name:'Glean',token:'glean',ats:'greenhouse',country:'US',city:'Palo Alto',sector:'AI Search',size:'200-500',funded:'Series D $260M',color:'#4f46e5',emp:'400'},
+  {name:'Writer',token:'writer',ats:'greenhouse',country:'US',city:'San Francisco',sector:'AI Writing',size:'100-200',funded:'Series B $100M',color:'#0ea5e9',emp:'150'},
+  {name:'Perplexity',token:'perplexityai',ats:'greenhouse',country:'US',city:'San Francisco',sector:'AI Search',size:'50-200',funded:'Series B $73.6M',color:'#0ea5e9',emp:'100'},
+  {name:'Linear',token:'linear',ats:'greenhouse',country:'US',city:'San Francisco',sector:'Dev Tools',size:'50-200',funded:'Series B $35M',color:'#5e6ad2',emp:'80'},
+  {name:'Vercel',token:'vercel',ats:'greenhouse',country:'US',city:'Remote',sector:'Dev Tools',size:'200-500',funded:'Series C $150M',color:'#1a1a1a',emp:'300'},
+  {name:'Retool',token:'retool',ats:'greenhouse',country:'US',city:'San Francisco',sector:'Dev Tools',size:'200-500',funded:'Series C $45M',color:'#f16529',emp:'300'},
+  {name:'Supabase',token:'supabase',ats:'greenhouse',country:'US',city:'Remote',sector:'Dev Tools',size:'50-200',funded:'Series C $80M',color:'#3ecf8e',emp:'120'},
+  {name:'Dbt Labs',token:'dbtlabs',ats:'greenhouse',country:'US',city:'Remote',sector:'Data Tools',size:'200-500',funded:'Series D $222M',color:'#ff6849',emp:'400'},
+  {name:'Airbyte',token:'airbyte',ats:'greenhouse',country:'US',city:'Remote',sector:'Data Tools',size:'100-200',funded:'Series B $150M',color:'#615eff',emp:'180'},
+  {name:'Stripe',token:'stripe',ats:'greenhouse',country:'US',city:'San Francisco',sector:'Payments',size:'1000+',funded:'Pre-IPO',color:'#6772e5',emp:'8000'},
+  {name:'Brex',token:'brex',ats:'greenhouse',country:'US',city:'San Francisco',sector:'Fintech',size:'500-1000',funded:'Series D $300M',color:'#ff5b5b',emp:'1200'},
+  {name:'Deel',token:'deel',ats:'greenhouse',country:'US',city:'Remote',sector:'HR Payroll',size:'1000+',funded:'Series D $425M',color:'#7c4dff',emp:'3000'},
+  {name:'Rippling',token:'rippling',ats:'greenhouse',country:'US',city:'San Francisco',sector:'HR SaaS',size:'1000+',funded:'Series G $200M',color:'#ffcc00',emp:'3000'},
+  {name:'Ramp',token:'ramp',ats:'greenhouse',country:'US',city:'New York',sector:'Fintech',size:'500-1000',funded:'Series D $300M',color:'#facc15',emp:'800'},
+  {name:'Notion',token:'notion',ats:'greenhouse',country:'US',city:'San Francisco',sector:'Productivity',size:'200-500',funded:'Series C $275M',color:'#1a1a1a',emp:'400'},
+  {name:'Figma',token:'figma',ats:'greenhouse',country:'US',city:'San Francisco',sector:'Design Tools',size:'500-1000',funded:'Acq $20B',color:'#a259ff',emp:'800'},
+  {name:'Airtable',token:'airtable',ats:'greenhouse',country:'US',city:'San Francisco',sector:'No-Code',size:'500-1000',funded:'Series F $270M',color:'#fcb400',emp:'800'},
+  {name:'Amplitude',token:'amplitude',ats:'greenhouse',country:'US',city:'San Francisco',sector:'Analytics',size:'500-1000',funded:'Public NASDAQ',color:'#1a56db',emp:'700'},
+  {name:'Intercom',token:'intercom',ats:'greenhouse',country:'US',city:'San Francisco',sector:'CS SaaS',size:'500-1000',funded:'Series D $241M',color:'#0070f3',emp:'800'},
+  {name:'Lattice',token:'lattice',ats:'greenhouse',country:'US',city:'San Francisco',sector:'HR SaaS',size:'500-1000',funded:'Series F $175M',color:'#592bb9',emp:'700'},
+  {name:'Miro',token:'realtimeboard',ats:'greenhouse',country:'US',city:'San Francisco',sector:'Collaboration',size:'1000+',funded:'Series C $400M',color:'#ffdd00',emp:'1800'},
+  // US Lever
+  {name:'Mistral AI',token:'mistral',ats:'lever',country:'US',city:'Remote',sector:'AI LLM',size:'50-200',funded:'Series B $1B',color:'#ff6b35',emp:'100'},
+  {name:'HighLevel',token:'gohighlevel',ats:'lever',country:'US',city:'Remote',sector:'Marketing SaaS',size:'500-1000',funded:'Bootstrapped',color:'#1d4ed8',emp:'1200'},
+];
 
 // ─────────────────────────────────────────────────────────────────
 // CONTACT INTELLIGENCE — decision makers by company
@@ -649,7 +766,23 @@ function guessEmail(name, company) {
 // ─────────────────────────────────────────────────────────────────
 // AI PITCH GENERATOR — calls Anthropic API
 // ─────────────────────────────────────────────────────────────────
+function promptForKey() {
+  const key = prompt('Enter your Anthropic API key to use AI pitch generator (stored locally only):\n\nGet one free at: console.anthropic.com');
+  if (key && key.startsWith('sk-')) {
+    ANTHROPIC_KEY = key;
+    localStorage.setItem(ANTHROPIC_KEY_STORE, key);
+    toast('API key saved — pitches will now work!', 'ok');
+    return key;
+  }
+  toast('Invalid key — must start with sk-', 'err');
+  return null;
+}
+
 async function generatePitch(company, sector, funded, openRoles, roles, size, personName, personTitle) {
+  if (!ANTHROPIC_KEY) {
+    const key = promptForKey();
+    if (!key) throw new Error('No API key — enter your Anthropic key to use AI pitches');
+  }
   const prompt = `You are a senior business development consultant writing a highly personalized cold outreach email for a software development company that offers staff augmentation services (providing skilled developers on contract/long-term to tech companies).
 
 Target Company: ${company}
@@ -674,7 +807,7 @@ Output ONLY this JSON (no markdown, no explanation):
 
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1000,
@@ -693,22 +826,137 @@ Output ONLY this JSON (no markdown, no explanation):
 // ─────────────────────────────────────────────────────────────────
 // DATA FETCHING
 // ─────────────────────────────────────────────────────────────────
-async function fetchJobs() {
-  const params = new URLSearchParams();
-  if (filters.country !== 'ALL') params.set('country', filters.country);
-  if (filters.role !== 'all') params.set('role', filters.role);
-  if (filters.mode) params.set('workMode', filters.mode);
-  if (filters.time) params.set('hours', filters.time);
-  if (filters.src) params.set('src', filters.src);
-  if (filters.targetOnly) params.set('isTarget', 'true');
-  if (filters.q) params.set('q', filters.q);
-  const r = await fetch(`${API}/jobs?${params}`);
-  return r.json();
+// ── Direct Greenhouse + Lever API calls (CORS allowed) ──────────────
+const ROLE_KW2 = {
+  ai:['machine learning','ml ','llm','deep learning','nlp','data science','computer vision','ai engineer','generative','prompt'],
+  data:['data engineer','data analyst','analytics','etl','snowflake','bigquery','dbt','airflow','bi engineer'],
+  architect:['solutions architect','cloud architect','principal engineer','staff engineer','platform engineer','devops','site reliability','sre ','infrastructure'],
+  designer:['product designer','ux designer','ui designer','ui/ux','figma','visual designer','design lead'],
+  qa:['qa engineer','quality assurance','test automation','sdet','software tester','testing'],
+  developer:['frontend','front-end','react ','vue ','angular','ios developer','android developer','mobile developer','web developer','full stack','fullstack','backend developer'],
+  engineer:['software engineer','sde ','software developer','backend engineer'],
+};
+function cRole(t=''){const s=t.toLowerCase();for(const[r,kws]of Object.entries(ROLE_KW2))if(kws.some(k=>s.includes(k)))return r;return 'engineer';}
+function cWork(t=''){const s=t.toLowerCase();if(s.includes('hybrid'))return 'hybrid';if(s.includes('remote')||s.includes('wfh'))return 'remote';return 'onsite';}
+function hoursAgo2(d){if(!d)return 48;try{return Math.max(0,Math.min(Math.round((Date.now()-new Date(d).getTime())/3600000),168));}catch{return 48;}}
+const SKILLS2=['Python','JavaScript','TypeScript','React','Node.js','AWS','GCP','Azure','Go','Java','Kotlin','Swift','Docker','Kubernetes','Terraform','PostgreSQL','MySQL','MongoDB','Redis','GraphQL','Vue.js','Next.js','Django','FastAPI','Spring Boot','Scala','Spark','dbt','Snowflake','TensorFlow','PyTorch','SQL','Flutter','Angular','PHP','C++','Golang','Kafka','LangChain','Rails'];
+function eSkills(t=''){const s=t.toLowerCase();return SKILLS2.filter(k=>s.includes(k.toLowerCase())).slice(0,5);}
+
+async function scrapeGH(co) {
+  try {
+    const r = await fetch(`https://boards-api.greenhouse.io/v1/boards/${co.token}/jobs?content=false`);
+    if (!r.ok) return [];
+    const d = await r.json();
+    return (d.jobs||[]).map(j=>({
+      id:'gh_'+co.token+'_'+(j.id||Math.random()),
+      title:j.title||'',company:co.name,companyToken:co.token,
+      location:j.location?.name||co.city,country:co.country,
+      workMode:cWork((j.title||'')+(j.location?.name||'')),jobType:'full-time',
+      roleCategory:cRole(j.title||''),skills:eSkills(j.title||''),
+      hoursAgo:hoursAgo2(j.updated_at),postedDate:j.updated_at||null,
+      platform:'greenhouse',platformLabel:'Greenhouse',platformColor:'#24a360',
+      applyUrl:j.absolute_url||`https://boards.greenhouse.io/${co.token}`,
+      salary:null,excerpt:'',description:'',
+      logo:`https://logo.clearbit.com/${co.name.toLowerCase().replace(/[^a-z0-9]/g,'')}.com`,
+      funded:co.funded,sector:co.sector,companySize:co.size,employees:co.emp,city:co.city,
+      companyColor:co.color,isTarget:true,source:'greenhouse',
+    }));
+  } catch{return [];}
 }
 
-async function fetchTargets() {
-  const r = await fetch(`${API}/targets?country=${filters.country === 'ALL' ? '' : filters.country}`);
-  return r.json();
+async function scrapeLV(co) {
+  try {
+    const r = await fetch(`https://api.lever.co/v0/postings/${co.token}?mode=json`);
+    if (!r.ok) return [];
+    const d = await r.json();
+    return (Array.isArray(d)?d:[]).map(j=>({
+      id:'lv_'+co.token+'_'+(j.id||Math.random()),
+      title:j.text||'',company:co.name,companyToken:co.token,
+      location:j.categories?.location||co.city,country:co.country,
+      workMode:cWork((j.text||'')+(j.workplaceType||'')),
+      jobType:(j.categories?.commitment||'full-time').toLowerCase().includes('contract')?'contract':'full-time',
+      roleCategory:cRole(j.text||''),skills:eSkills((j.text||'')+(j.categories?.team||'')),
+      hoursAgo:hoursAgo2(j.createdAt?new Date(j.createdAt).toISOString():null),
+      postedDate:j.createdAt?new Date(j.createdAt).toISOString():null,
+      platform:'lever',platformLabel:'Lever',platformColor:'#00b14f',
+      applyUrl:j.hostedUrl||`https://jobs.lever.co/${co.token}`,
+      salary:null,excerpt:(j.descriptionPlain||'').replace(/<[^>]*>/g,' ').slice(0,200),description:'',
+      logo:`https://logo.clearbit.com/${co.name.toLowerCase().replace(/[^a-z0-9]/g,'')}.com`,
+      funded:co.funded,sector:co.sector,companySize:co.size,employees:co.emp,city:co.city,
+      companyColor:co.color,isTarget:true,source:'lever',
+    }));
+  } catch{return [];}
+}
+
+// Fetch jobs from all companies in batches of 6
+  async function fetchJobs() {
+  // Try Render server first (has Naukri, Indeed, Foundit too)
+  if (typeof RENDER_API !== 'undefined' && RENDER_API.includes('onrender.com')) {
+    try {
+      const params = new URLSearchParams();
+      if (filters.country !== 'ALL') params.set('country', filters.country);
+      if (filters.role !== 'all') params.set('role', filters.role);
+      if (filters.mode) params.set('workMode', filters.mode);
+      if (filters.time) params.set('hours', filters.time);
+      if (filters.q) params.set('q', filters.q);
+      const r = await fetch(`${RENDER_API}/jobs?${params}`);
+      if (r.ok) {
+        const data = await r.json();
+        return data;
+      }
+    } catch(e) {
+      console.log('Render offline, falling back to direct APIs');
+    }
+  }
+  // fallback: direct Greenhouse/Lever calls
+  const cos = ALL_COMPANIES.filter ...
+async function fetchJobs() {
+  const cos = ALL_COMPANIES.filter(c => filters.country === 'ALL' || c.country === filters.country);
+  const BATCH = 6;
+  let allFetched = [];
+  for (let i = 0; i < cos.length; i += BATCH) {
+    const batch = cos.slice(i, i+BATCH);
+    const results = await Promise.all(batch.map(c => c.ats === 'lever' ? scrapeLV(c) : scrapeGH(c)));
+    allFetched.push(...results.flat());
+    // Update progress
+    const pct = Math.round(((i+BATCH)/cos.length)*100);
+    const fill = document.getElementById('progFill');
+    const pctEl = document.getElementById('progPct');
+    if(fill) fill.style.width = Math.min(pct,99)+'%';
+    if(pctEl) pctEl.textContent = Math.min(pct,99)+'%';
+  }
+  // Apply client-side filters
+  let jobs = allFetched;
+  if (filters.role !== 'all') jobs = jobs.filter(j => j.roleCategory === filters.role);
+  if (filters.mode) jobs = jobs.filter(j => j.workMode === filters.mode);
+  if (filters.time) jobs = jobs.filter(j => j.hoursAgo <= filters.time);
+  if (filters.q) { const ql=filters.q.toLowerCase(); jobs=jobs.filter(j=>j.title.toLowerCase().includes(ql)||j.company.toLowerCase().includes(ql)||(j.sector||'').toLowerCase().includes(ql)||j.skills.some(s=>s.toLowerCase().includes(ql))); }
+  jobs.sort((a,b)=>a.hoursAgo-b.hoursAgo);
+  // Dedupe
+  const seen=new Set(); jobs=jobs.filter(j=>{const k=(j.title+'|'+j.company).toLowerCase().replace(/\s+/g,'').slice(0,32);if(seen.has(k))return false;seen.add(k);return true;});
+  const byC={IN:0,US:0,UK:0,UAE:0};
+  allFetched.forEach(j=>{if(byC[j.country]!==undefined)byC[j.country]++;});
+  return { jobs, total:jobs.length, cached:allFetched.length, lastFetch:Date.now(), inProgress:false,
+    breakdown:byC, companies:ALL_COMPANIES.length, status:{} };
+}
+
+// BD Targets — built entirely from ALL_COMPANIES + job counts, no backend
+function fetchTargets() {
+  return new Promise(resolve => {
+    const cos = ALL_COMPANIES.filter(c => filters.country === 'ALL' || c.country === filters.country);
+    const targets = cos.map(co => {
+      const coJobs = allJobs.filter(j => j.company === co.name);
+      let score = 0;
+      score += Math.min(coJobs.length*10,50);
+      if(co.funded) score+=20;
+      if(['10-50','50-200'].includes(co.size)) score+=20;
+      else if(co.size==='200-500') score+=12;
+      if(coJobs.some(j=>j.hoursAgo<=48)) score+=15;
+      return { ...co, openRoles:coJobs.length, roles:[...new Set(coJobs.map(j=>j.roleCategory))],
+        latestPosted:coJobs.length?Math.min(...coJobs.map(j=>j.hoursAgo)):null, bdScore:score };
+    });
+    resolve({ targets: targets.sort((a,b)=>b.bdScore-a.bdScore), total: targets.length });
+  });
 }
 
 // ─────────────────────────────────────────────────────────────────
@@ -765,16 +1013,24 @@ function setCountry(c) {
 async function filterJobs() {
   filters.q = document.getElementById('q').value;
   filters.targetOnly = document.getElementById('targetOnly').checked;
-  document.getElementById('jobFeed').innerHTML = '<div class="loader">Loading…</div>';
+  document.getElementById('jobFeed').innerHTML = '<div class="loader">Fetching live jobs from companies…</div>';
+  document.getElementById('progressWrap').style.display = 'block';
+  document.getElementById('progFill').style.width = '0%';
+  document.getElementById('progPct').textContent = '0%';
   try {
     const data = await fetchJobs();
     allJobs = data.jobs || [];
     renderStats(data);
     renderFeed(allJobs);
     document.getElementById('liveCount').textContent = (data.cached || 0) + ' jobs';
-    if (data.inProgress) startProgress();
+    document.getElementById('progFill').style.width = '100%';
+    document.getElementById('progPct').textContent = '100%';
+    setTimeout(()=>{ document.getElementById('progressWrap').style.display='none'; },1000);
+    // Refresh targets if on that tab
+    if (currentTab === 'targets') renderTargets();
   } catch(e) {
-    document.getElementById('jobFeed').innerHTML = '<div class="empty"><div class="empty-icon">⚡</div>Server not running — start with: node server.js</div>';
+    document.getElementById('jobFeed').innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div>Error loading jobs: '+e.message+'</div>';
+    document.getElementById('progressWrap').style.display = 'none';
   }
 }
 
@@ -1002,10 +1258,9 @@ function saveNotes(company, jobId) {
 async function loadTargets() {
   const data = await fetchTargets();
   allTargets = data.targets || [];
-  // Populate sector filter
-  const sectors = [...new Set(allTargets.map(t=>t.sector).filter(Boolean))].sort();
+  const sectors = [...new Set(ALL_COMPANIES.map(c=>c.sector).filter(Boolean))].sort();
   const sel = document.getElementById('tgSector');
-  sel.innerHTML = '<option value="">All Sectors</option>' + sectors.map(s=>`<option value="${s}">${s}</option>`).join('');
+  if(sel) sel.innerHTML = '<option value="">All Sectors</option>' + sectors.map(s=>`<option value="${s}">${s}</option>`).join('');
   renderTargets();
 }
 
@@ -1191,11 +1446,8 @@ function renderPipeline() {
     { key:'lost',     label:'❌ Lost',            color:'var(--red)' },
   ];
 
-  // Build per-stage company lists
-  // Companies with a pipeline entry go into their stage
-  // All other target companies go into 'new'
-  const tracked = new Set(Object.keys(pipeline));
-  const allCompanies = allTargets.length ? allTargets : COMPANIES_MINI;
+  // Build per-stage company lists using ALL_COMPANIES always
+  const allCompanies = ALL_COMPANIES;
 
   const byStage = {};
   stages.forEach(s => byStage[s.key] = []);
@@ -1227,24 +1479,7 @@ function renderPipeline() {
   `).join('');
 }
 
-// Mini company list for pipeline when targets not loaded
-const COMPANIES_MINI = [
-  {name:'Razorpay',country:'IN',sector:'Fintech',size:'1000+',funded:'Series F $375M'},
-  {name:'CRED',country:'IN',sector:'Fintech',size:'500-1000',funded:'Series E $251M'},
-  {name:'Groww',country:'IN',sector:'Fintech',size:'1000+',funded:'Series F $251M'},
-  {name:'Zepto',country:'IN',sector:'Quick Commerce',size:'1000+',funded:'Series G $665M'},
-  {name:'Meesho',country:'IN',sector:'E-Commerce',size:'1000+',funded:'Series F $570M'},
-  {name:'Postman',country:'IN',sector:'Dev Tools',size:'500-1000',funded:'Series D $225M'},
-  {name:'BrowserStack',country:'IN',sector:'Dev Tools',size:'1000+',funded:'Series B $200M'},
-  {name:'Chargebee',country:'IN',sector:'SaaS Billing',size:'500-1000',funded:'Series H $250M'},
-  {name:'Careem',country:'UAE',sector:'Super App',size:'1000+',funded:'Acq $3.1B'},
-  {name:'Tabby',country:'UAE',sector:'BNPL',size:'200-500',funded:'Series D $200M'},
-  {name:'Revolut',country:'UK',sector:'Neobank',size:'1000+',funded:'Series E $800M'},
-  {name:'Monzo',country:'UK',sector:'Neobank',size:'1000+',funded:'Series I $500M'},
-  {name:'Vercel',country:'US',sector:'Dev Tools',size:'200-500',funded:'Series C $150M'},
-  {name:'Notion',country:'US',sector:'Productivity',size:'200-500',funded:'Series C $275M'},
-  {name:'Glean',country:'US',sector:'AI Search',size:'200-500',funded:'Series D $260M'},
-];
+// COMPANIES_MINI removed — using ALL_COMPANIES throughout
 
 async function openCompanyModal(company) {
   if (!allTargets.length) {
@@ -1296,6 +1531,25 @@ function download(filename, text, type) {
 // ─────────────────────────────────────────────────────────────────
 // UTILITIES
 // ─────────────────────────────────────────────────────────────────
+function setApiKey() {
+  const current = ANTHROPIC_KEY ? '(key set — ' + ANTHROPIC_KEY.slice(0,8) + '…)' : '(no key set)';
+  const key = prompt(`Anthropic API Key ${current}\n\nGet yours free at console.anthropic.com\nStarts with: sk-ant-...\n\nPaste your key below:`);
+  if (key === null) return; // cancelled
+  if (key === '') { ANTHROPIC_KEY = ''; localStorage.removeItem(ANTHROPIC_KEY_STORE); toast('API key cleared','ok'); updateKeyBtn(); return; }
+  if (key.startsWith('sk-')) {
+    ANTHROPIC_KEY = key.trim();
+    localStorage.setItem(ANTHROPIC_KEY_STORE, ANTHROPIC_KEY);
+    toast('✓ API key saved — AI pitch generator ready!', 'ok');
+    updateKeyBtn();
+  } else { toast('Invalid key — must start with sk-', 'err'); }
+}
+function updateKeyBtn() {
+  const btn = document.getElementById('keyBtn');
+  if (!btn) return;
+  if (ANTHROPIC_KEY) { btn.style.borderColor='rgba(0,200,150,.4)'; btn.style.color='var(--green)'; btn.innerHTML = btn.innerHTML.replace('API Key','✓ Key Set'); }
+  else { btn.style.borderColor='rgba(139,92,246,.3)'; btn.style.color='var(--purple)'; }
+}
+
 function copyText(text, msg='Copied') {
   navigator.clipboard.writeText(text).then(() => toast(msg, 'ok')).catch(() => {
     const ta = document.createElement('textarea');
@@ -1341,10 +1595,9 @@ function startProgress() {
 async function forceRefresh() {
   const btn = document.getElementById('rBtn');
   btn.classList.add('sp');
-  await fetch(`${API}/refresh`, { method:'POST' });
-  startProgress();
-  setTimeout(() => btn.classList.remove('sp'), 2000);
-  toast('Scrape started…');
+  toast('Refreshing jobs from all companies…');
+  await filterJobs();
+  btn.classList.remove('sp');
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeDrawer(); closePitchModal(); } });
@@ -1353,19 +1606,16 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeDrawe
 // INIT
 // ─────────────────────────────────────────────────────────────────
 loadPipeline();
+updateKeyBtn();
 initFilters();
 filterJobs();
 
-// Pre-load targets in background
-setTimeout(async () => {
-  try {
-    const data = await fetchTargets();
-    allTargets = data.targets || [];
-    const sectors = [...new Set(allTargets.map(t=>t.sector).filter(Boolean))].sort();
-    const sel = document.getElementById('tgSector');
-    if(sel) sel.innerHTML = '<option value="">All Sectors</option>' + sectors.map(s=>`<option value="${s}">${s}</option>`).join('');
-  } catch {}
-}, 3000);
+// Pre-fill sector dropdown from ALL_COMPANIES immediately
+const sectors0 = [...new Set(ALL_COMPANIES.map(c=>c.sector).filter(Boolean))].sort();
+const sel0 = document.getElementById('tgSector');
+if(sel0) sel0.innerHTML = '<option value="">All Sectors</option>' + sectors0.map(s=>`<option value="${s}">${s}</option>`).join('');
+// Pre-populate pipeline with ALL_COMPANIES so kanban shows all on first load
+renderPipeline();
 </script>
 </body>
 </html>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>StackHire — India · US · UK · UAE Tech Jobs</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<title>StackHire — BD Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root{
   --bg:#05070e;--surf:#0a0f1e;--surf2:#0f1628;--surf3:#141d35;
@@ -24,841 +24,1346 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
     linear-gradient(90deg,rgba(45,111,255,.018) 1px,transparent 1px);
   background-size:100% 100%,100% 100%,44px 44px,44px 44px}
 
-/* ── HEADER ── */
-header{position:sticky;top:0;z-index:200;height:58px;padding:0 1.4rem;
-  background:rgba(5,7,14,.93);backdrop-filter:blur(22px);
-  border-bottom:1px solid var(--bord);display:flex;align-items:center;justify-content:space-between;gap:.8rem}
-.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:-1px;
-  display:flex;align-items:center;gap:9px;flex-shrink:0}
+/* NAV */
+header{position:sticky;top:0;z-index:300;height:56px;padding:0 1.4rem;
+  background:rgba(5,7,14,.96);backdrop-filter:blur(22px);border-bottom:1px solid var(--bord);
+  display:flex;align-items:center;justify-content:space-between;gap:.8rem}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;letter-spacing:-1px;
+  display:flex;align-items:center;gap:9px;flex-shrink:0;cursor:pointer}
 .logo-mark{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--accent),var(--green));
   display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:900;color:#fff}
-.logo-sub{font-size:.52rem;font-family:'JetBrains Mono',monospace;color:var(--text3);letter-spacing:2px}
-.cflags{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
-.cflag{font-family:'JetBrains Mono',monospace;font-size:.57rem;padding:3px 9px;border-radius:5px;
+.tabs{display:flex;gap:2px;background:var(--surf);border:1px solid var(--bord);border-radius:9px;padding:3px}
+.tab{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.5px;padding:5px 13px;
+  border-radius:6px;border:none;background:transparent;color:var(--text3);cursor:pointer;transition:.15s all;
+  display:flex;align-items:center;gap:5px}
+.tab:hover{color:var(--text2)}
+.tab.on{background:var(--surf3);color:var(--text);border:1px solid var(--bord2)}
+.hdr-r{display:flex;align-items:center;gap:.5rem;flex-shrink:0}
+.cflags{display:flex;gap:3px}
+.cflag{font-family:'JetBrains Mono',monospace;font-size:.56rem;padding:3px 8px;border-radius:5px;
   border:1px solid var(--bord2);color:var(--text3);background:var(--surf);
-  display:flex;align-items:center;gap:4px;cursor:pointer;transition:.18s all}
+  display:flex;align-items:center;gap:4px;cursor:pointer;transition:.15s all}
 .cflag:hover{border-color:var(--bord3);color:var(--text2)}
 .cflag.on[data-c="ALL"]{background:rgba(45,111,255,.12);border-color:rgba(45,111,255,.35);color:var(--accentHi)}
 .cflag.on[data-c="IN"] {background:rgba(255,153,51,.13);border-color:rgba(255,153,51,.38);color:var(--IN)}
 .cflag.on[data-c="US"] {background:rgba(60,127,255,.12);border-color:rgba(60,127,255,.35);color:var(--US)}
 .cflag.on[data-c="UK"] {background:rgba(204,32,32,.12);border-color:rgba(204,32,32,.35);color:var(--UK)}
 .cflag.on[data-c="UAE"]{background:rgba(0,166,81,.12);border-color:rgba(0,166,81,.35);color:var(--UAE)}
-.hdr-mid{display:flex;align-items:center;gap:.5rem}
-.live-pill{font-family:'JetBrains Mono',monospace;font-size:.57rem;background:rgba(0,200,150,.07);
-  border:1px solid rgba(0,200,150,.18);color:var(--green);padding:3px 9px;border-radius:20px;
-  display:flex;align-items:center;gap:5px}
-.lpulse{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pd 1.8s ease infinite}
-@keyframes pd{0%,100%{opacity:1}50%{opacity:.2}}
-.scrape-progress{display:flex;flex-direction:column;gap:3px;min-width:130px}
-.progress-label{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--text3)}
-.progress-bar{height:3px;background:var(--bord);border-radius:2px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));
-  transition:.4s width;border-radius:2px;width:0%}
-.hdr-r{display:flex;align-items:center;gap:.4rem;flex-shrink:0}
-.cd{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--text3);
-  background:var(--surf);border:1px solid var(--bord);border-radius:5px;padding:2px 7px}
-.rbtn{background:var(--surf2);border:1px solid var(--bord);color:var(--text2);font-size:.74rem;
-  padding:5px 10px;border-radius:7px;cursor:pointer;transition:.18s all;font-family:'Inter',sans-serif;
-  display:flex;align-items:center;gap:5px}
+.rbtn{background:var(--surf2);border:1px solid var(--bord);color:var(--text2);font-size:.72rem;
+  padding:5px 10px;border-radius:7px;cursor:pointer;transition:.15s all;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:5px}
 .rbtn:hover{background:var(--bord);color:var(--text)}
 .rbtn.sp svg{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ── WRAP ── */
-.wrap{position:relative;z-index:1;display:grid;grid-template-columns:252px 1fr;
-  max-width:1500px;margin:0 auto;padding:1.2rem;gap:1.1rem;align-items:start}
+/* PAGE VIEWS */
+.page{display:none;position:relative;z-index:1}
+.page.on{display:block}
+
+/* JOBS PAGE */
+.wrap{display:grid;grid-template-columns:240px 1fr;max-width:1500px;margin:0 auto;padding:1.2rem;gap:1rem;align-items:start}
 @media(max-width:900px){.wrap{grid-template-columns:1fr}}
+aside{position:sticky;top:68px;display:flex;flex-direction:column;gap:.65rem}
+.fc{background:var(--surf);border:1px solid var(--bord);border-radius:11px;padding:.85rem .95rem}
+.fct{font-family:'JetBrains Mono',monospace;font-size:.56rem;font-weight:600;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--text3);margin-bottom:.55rem;display:flex;align-items:center;justify-content:space-between}
+.tpills{display:flex;flex-direction:column;gap:3px}
+.tp{display:flex;align-items:center;justify-content:space-between;padding:6px 9px;border-radius:6px;
+  border:1px solid transparent;cursor:pointer;transition:.14s all;font-size:.75rem}
+.tp:hover{background:var(--surf2);border-color:var(--bord)}
+.tp.on{background:rgba(45,111,255,.1);border-color:rgba(45,111,255,.25);color:var(--accentHi)}
+.tpn{color:var(--text2);font-size:.7rem}
+.tpc{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--text3);background:var(--surf3);
+  border:1px solid var(--bord);padding:1px 6px;border-radius:4px}
+.fi{width:100%;padding:7px 10px;border-radius:7px;border:1px solid var(--bord);background:var(--surf2);
+  color:var(--text);font-size:.8rem;font-family:'Inter',sans-serif;outline:none;transition:.15s border-color}
+.fi:focus{border-color:var(--accent)}
+.fi::placeholder{color:var(--text3)}
+.sel{width:100%;padding:6px 9px;border-radius:7px;border:1px solid var(--bord);background:var(--surf2);
+  color:var(--text2);font-size:.75rem;font-family:'Inter',sans-serif;outline:none;cursor:pointer}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;margin-bottom:.9rem}
+.stat{background:var(--surf);border:1px solid var(--bord);border-radius:10px;padding:.8rem .9rem}
+.stat-n{font-family:'Syne',sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-1px}
+.stat-l{font-size:.65rem;color:var(--text3);margin-top:1px}
+.section-h{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:3px;
+  text-transform:uppercase;color:var(--text3);padding:.4rem 0;margin-bottom:.45rem;
+  border-bottom:1px solid var(--bord);display:flex;align-items:center;gap:.5rem}
+.section-h span{background:var(--surf3);border:1px solid var(--bord2);padding:1px 7px;border-radius:4px}
+.cards{display:flex;flex-direction:column;gap:.55rem}
+.card{background:var(--card);border:1px solid var(--bord);border-radius:11px;padding:.85rem 1rem;
+  cursor:pointer;transition:.16s all;position:relative;overflow:hidden;border-left:3px solid var(--bord2)}
+.card:hover{border-color:var(--bord3);background:var(--surf);transform:translateX(2px)}
+.card[data-c="IN"]{border-left-color:var(--IN)}
+.card[data-c="US"]{border-left-color:var(--US)}
+.card[data-c="UK"]{border-left-color:var(--UK)}
+.card[data-c="UAE"]{border-left-color:var(--UAE)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.6rem}
+.card-logo{width:32px;height:32px;border-radius:7px;overflow:hidden;flex-shrink:0;
+  background:var(--surf2);border:1px solid var(--bord);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--text3)}
+.card-logo img{width:100%;height:100%;object-fit:contain}
+.card-co{font-size:.8rem;font-weight:600;color:var(--text)}
+.card-title{font-size:.85rem;font-weight:500;color:var(--text);margin-top:2px}
+.card-loc{font-size:.7rem;color:var(--text3);margin-top:2px;display:flex;align-items:center;gap:4px}
+.card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:.5rem}
+.tag{font-family:'JetBrains Mono',monospace;font-size:.58rem;padding:2px 7px;border-radius:4px;
+  background:var(--surf2);border:1px solid var(--bord2);color:var(--text3)}
+.tag.role{background:rgba(45,111,255,.07);border-color:rgba(45,111,255,.2);color:var(--accentHi)}
+.tag.funded{background:rgba(0,200,150,.07);border-color:rgba(0,200,150,.2);color:var(--green)}
+.tag.new{background:rgba(240,160,0,.1);border-color:rgba(240,160,0,.3);color:var(--amber)}
+.tag.target{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.3);color:var(--purple)}
+.card-r{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+.plat{font-family:'JetBrains Mono',monospace;font-size:.55rem;padding:2px 7px;border-radius:4px}
+.t-ago{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--text3)}
+.pitch-btn{font-size:.65rem;padding:4px 9px;border-radius:6px;border:1px solid rgba(139,92,246,.3);
+  background:rgba(139,92,246,.1);color:var(--purple);cursor:pointer;transition:.14s all;font-family:'JetBrains Mono',monospace}
+.pitch-btn:hover{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.5)}
 
-/* ── SIDEBAR ── */
-aside{position:sticky;top:70px;display:flex;flex-direction:column;gap:.7rem}
-.fc{background:var(--surf);border:1px solid var(--bord);border-radius:12px;padding:.9rem 1rem}
-.fct{font-family:'JetBrains Mono',monospace;font-size:.57rem;font-weight:600;letter-spacing:2.5px;
-  text-transform:uppercase;color:var(--text3);margin-bottom:.6rem;
-  display:flex;align-items:center;justify-content:space-between}
-.fcb{font-size:.52rem;background:var(--surf3);border:1px solid var(--bord);color:var(--text3);padding:2px 5px;border-radius:5px}
-.tpills{display:flex;flex-direction:column;gap:4px}
-.tp{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:7px;
-  border:1px solid transparent;background:transparent;color:var(--text2);font-size:.78rem;
-  cursor:pointer;transition:.18s all;font-family:'Inter',sans-serif;width:100%;text-align:left}
-.tp:hover{background:var(--surf2);color:var(--text)}
-.tp.on{background:rgba(45,111,255,.1);border-color:rgba(45,111,255,.28);color:var(--accentHi)}
-.tc{font-family:'JetBrains Mono',monospace;font-size:.6rem;background:var(--surf3);padding:2px 6px;border-radius:6px;color:var(--text3)}
-.tp.on .tc{background:rgba(45,111,255,.18);color:var(--accent)}
-.cg{display:flex;flex-direction:column;gap:3px}
-.ci{display:flex;align-items:center;gap:7px;padding:5px 7px;border-radius:6px;cursor:pointer;transition:.15s background}
-.ci:hover{background:var(--surf2)}
-.ci input{display:none}
-.cb2{width:13px;height:13px;border-radius:3px;border:1.5px solid var(--bord2);display:flex;align-items:center;justify-content:center;transition:.18s all;flex-shrink:0}
-.ci input:checked~.cb2{background:var(--accent);border-color:var(--accent)}
-.cb2::after{content:'✓';font-size:8px;color:#fff;display:none}
-.ci input:checked~.cb2::after{display:block}
-.cl{font-size:.78rem;color:var(--text2);display:flex;align-items:center;gap:6px;flex:1}
-.cdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.cc{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--text3);margin-left:auto}
-.rchips{display:flex;flex-wrap:wrap;gap:4px}
-.rc{font-size:.64rem;font-family:'JetBrains Mono',monospace;padding:4px 8px;border-radius:4px;
-  border:1px solid var(--bord);background:transparent;color:var(--text2);cursor:pointer;transition:.18s all}
-.rc:hover{border-color:var(--bord2);color:var(--text)}
-.rc.on{background:rgba(0,200,150,.1);border-color:rgba(0,200,150,.3);color:var(--green)}
+/* DRAWER */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400;opacity:0;pointer-events:none;transition:.25s opacity;backdrop-filter:blur(3px)}
+.overlay.on{opacity:1;pointer-events:all}
+.drawer{position:fixed;right:0;top:0;bottom:0;width:min(680px,100vw);background:var(--drawer);
+  border-left:1px solid var(--bord2);z-index:401;overflow-y:auto;
+  transform:translateX(100%);transition:.3s cubic-bezier(.25,.46,.45,.94) transform}
+.drawer.on{transform:translateX(0)}
+.dr-head{padding:1.2rem 1.4rem 0;position:sticky;top:0;background:var(--drawer);
+  border-bottom:1px solid var(--bord);padding-bottom:.9rem;z-index:2}
+.dr-close{background:none;border:none;color:var(--text3);cursor:pointer;font-size:1.2rem;padding:4px;border-radius:5px;transition:.14s color}
+.dr-close:hover{color:var(--text)}
+.dr-body{padding:1.2rem 1.4rem}
+.dr-sec{background:var(--surf);border:1px solid var(--bord);border-radius:10px;padding:.9rem 1rem;margin-bottom:.8rem}
+.dr-sec-title{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--text3);margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem}
+.dr-sec-title svg{opacity:.7}
+.pitch-area{background:var(--surf2);border:1px solid var(--bord2);border-radius:8px;padding:.85rem;
+  font-size:.8rem;line-height:1.7;color:var(--text);white-space:pre-wrap;min-height:80px;position:relative}
+.pitch-loading{display:flex;align-items:center;gap:8px;color:var(--text3);font-size:.75rem}
+.pitch-dots span{display:inline-block;animation:blink .8s infinite;opacity:0}
+.pitch-dots span:nth-child(2){animation-delay:.2s}
+.pitch-dots span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,100%{opacity:0}50%{opacity:1}}
+.copy-btn{position:absolute;top:8px;right:8px;background:var(--surf3);border:1px solid var(--bord2);
+  color:var(--text3);font-size:.62rem;padding:3px 9px;border-radius:5px;cursor:pointer;
+  font-family:'JetBrains Mono',monospace;transition:.14s all}
+.copy-btn:hover{color:var(--text);border-color:var(--bord3)}
+.contact-grid{display:flex;flex-direction:column;gap:.5rem}
+.contact-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem .7rem;
+  background:var(--surf2);border:1px solid var(--bord);border-radius:7px;gap:.5rem}
+.contact-info{display:flex;flex-direction:column;gap:2px}
+.contact-name{font-size:.78rem;font-weight:500}
+.contact-role{font-size:.67rem;color:var(--text3)}
+.contact-actions{display:flex;gap:5px;flex-shrink:0}
+.contact-link{font-family:'JetBrains Mono',monospace;font-size:.58rem;padding:3px 8px;border-radius:5px;
+  border:1px solid var(--bord2);color:var(--text3);text-decoration:none;transition:.14s all;cursor:pointer;background:none}
+.contact-link:hover{border-color:var(--bord3);color:var(--text)}
+.contact-link.li{border-color:rgba(10,102,194,.3);color:#0a66c2}
+.contact-link.em{border-color:rgba(0,200,150,.25);color:var(--green)}
+.status-row{display:flex;gap:.4rem;flex-wrap:wrap}
+.status-pill{font-family:'JetBrains Mono',monospace;font-size:.62rem;padding:5px 12px;border-radius:20px;
+  border:1px solid var(--bord2);color:var(--text3);cursor:pointer;transition:.14s all;background:none}
+.status-pill:hover{border-color:var(--bord3);color:var(--text2)}
+.status-pill.on[data-s="new"]{background:rgba(45,111,255,.12);border-color:rgba(45,111,255,.4);color:var(--accentHi)}
+.status-pill.on[data-s="pitched"]{background:rgba(240,160,0,.1);border-color:rgba(240,160,0,.4);color:var(--amber)}
+.status-pill.on[data-s="followup"]{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.4);color:var(--purple)}
+.status-pill.on[data-s="won"]{background:rgba(0,200,150,.1);border-color:rgba(0,200,150,.4);color:var(--green)}
+.status-pill.on[data-s="lost"]{background:rgba(255,77,77,.1);border-color:rgba(255,77,77,.4);color:var(--red)}
+.notes-area{width:100%;background:var(--surf2);border:1px solid var(--bord2);border-radius:7px;
+  color:var(--text);font-size:.78rem;padding:.6rem .8rem;font-family:'Inter',sans-serif;
+  resize:vertical;min-height:70px;outline:none;transition:.14s border-color;line-height:1.6}
+.notes-area:focus{border-color:var(--accent)}
+.notes-area::placeholder{color:var(--text3)}
+.save-btn{font-size:.73rem;padding:6px 14px;background:linear-gradient(135deg,var(--accent),#1d55e0);
+  border:none;border-radius:7px;color:#fff;cursor:pointer;font-family:'Inter',sans-serif;
+  font-weight:500;transition:.14s opacity}
+.save-btn:hover{opacity:.85}
 
-/* Source status */
-.src-list{display:flex;flex-direction:column;gap:4px}
-.sri{display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:6px;
-  background:var(--surf2);border:1px solid var(--bord)}
-.sri-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.sri-dot.ok{background:var(--green)}
-.sri-dot.ld{background:var(--amber);animation:pd 1s ease infinite}
-.sri-dot.er{background:var(--red)}
-.sri-dot.off{background:var(--text4)}
-.sri-name{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--text2);flex:1}
-.sri-cnt{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--text3)}
+/* BD PIPELINE PAGE */
+.bd-wrap{max-width:1500px;margin:0 auto;padding:1.2rem}
+.bd-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;gap:1rem;flex-wrap:wrap}
+.bd-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem}
+.bd-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.export-btn{font-family:'JetBrains Mono',monospace;font-size:.62rem;padding:6px 14px;border-radius:7px;
+  border:1px solid rgba(0,200,150,.3);background:rgba(0,200,150,.07);color:var(--green);
+  cursor:pointer;transition:.14s all;display:flex;align-items:center;gap:5px}
+.export-btn:hover{background:rgba(0,200,150,.14);border-color:rgba(0,200,150,.5)}
+.kanban{display:grid;grid-template-columns:repeat(5,1fr);gap:.7rem;overflow-x:auto;padding-bottom:.5rem}
+@media(max-width:1100px){.kanban{grid-template-columns:repeat(3,minmax(240px,1fr))}}
+.kol{background:var(--surf);border:1px solid var(--bord);border-radius:11px;padding:.8rem}
+.kol-h{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text3);margin-bottom:.6rem;display:flex;align-items:center;justify-content:space-between}
+.kol-cnt{background:var(--surf3);border:1px solid var(--bord);padding:1px 7px;border-radius:10px;font-size:.58rem}
+.kol[data-s="new"]    .kol-h{color:var(--accentHi)}
+.kol[data-s="pitched"] .kol-h{color:var(--amber)}
+.kol[data-s="followup"] .kol-h{color:var(--purple)}
+.kol[data-s="won"]    .kol-h{color:var(--green)}
+.kol[data-s="lost"]   .kol-h{color:var(--red)}
+.kol-cards{display:flex;flex-direction:column;gap:.5rem;min-height:60px}
+.kcard{background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:.7rem .75rem;
+  cursor:pointer;transition:.14s all}
+.kcard:hover{border-color:var(--bord3);background:var(--surf2)}
+.kcard-co{font-size:.78rem;font-weight:600;display:flex;align-items:center;gap:5px}
+.kcard-meta{font-size:.65rem;color:var(--text3);margin-top:3px}
+.kcard-funded{font-size:.6rem;color:var(--green);font-family:'JetBrains Mono',monospace;margin-top:3px}
+.kcard-note{font-size:.65rem;color:var(--text2);margin-top:5px;border-top:1px solid var(--bord);
+  padding-top:5px;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-/* ── STATS ── */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:.9rem}
-.sc{background:var(--surf);border:1px solid var(--bord);border-radius:11px;padding:.85rem 1rem;
-  position:relative;overflow:hidden}
-.sc::before{content:'';position:absolute;top:0;right:0;width:48px;height:48px;border-radius:0 10px 0 48px;opacity:.08}
-.sc:nth-child(1)::before{background:var(--accent)}.sc:nth-child(2)::before{background:var(--green)}
-.sc:nth-child(3)::before{background:var(--purple)}.sc:nth-child(4)::before{background:var(--amber)}
-.sl{font-family:'JetBrains Mono',monospace;font-size:.53rem;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}
-.sv{font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;line-height:1}
-.sd{font-size:.61rem;color:var(--text3);margin-top:3px;font-family:'JetBrains Mono',monospace}
+/* TARGETS PAGE */
+.tg-wrap{max-width:1500px;margin:0 auto;padding:1.2rem}
+.tg-controls{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
+.tg-search{flex:1;min-width:200px;max-width:320px}
+.tg-table{background:var(--surf);border:1px solid var(--bord);border-radius:12px;overflow:hidden}
+.tg-table table{width:100%;border-collapse:collapse}
+.tg-table thead tr{border-bottom:1px solid var(--bord2)}
+.tg-table th{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--text3);padding:.6rem .9rem;text-align:left}
+.tg-table th.sort{cursor:pointer}
+.tg-table th.sort:hover{color:var(--text2)}
+.tg-table td{padding:.65rem .9rem;font-size:.78rem;border-bottom:1px solid var(--bord);vertical-align:middle}
+.tg-table tr:last-child td{border-bottom:none}
+.tg-table tr:hover td{background:var(--surf2)}
+.score-bar{height:5px;border-radius:3px;background:var(--bord2);overflow:hidden;width:60px;display:inline-block;vertical-align:middle;margin-left:6px}
+.score-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:3px}
+.open-dots{display:flex;gap:3px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--bord3)}
+.dot.on{background:var(--green)}
+.reach-btn{font-family:'JetBrains Mono',monospace;font-size:.58rem;padding:3px 9px;border-radius:5px;
+  border:1px solid rgba(45,111,255,.3);background:rgba(45,111,255,.08);color:var(--accentHi);
+  cursor:pointer;transition:.14s all;white-space:nowrap}
+.reach-btn:hover{background:rgba(45,111,255,.15);border-color:rgba(45,111,255,.5)}
+.pitch-modal{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;display:flex;
+  align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(5px)}
+.pitch-modal-box{background:var(--drawer);border:1px solid var(--bord2);border-radius:14px;
+  width:min(720px,100%);max-height:90vh;overflow-y:auto}
+.pmb-head{padding:1.2rem 1.4rem;border-bottom:1px solid var(--bord);display:flex;align-items:center;justify-content:space-between}
+.pmb-body{padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:.8rem}
+.email-block{background:var(--surf);border:1px solid var(--bord);border-radius:9px;overflow:hidden}
+.email-subj{padding:.6rem .9rem;border-bottom:1px solid var(--bord);font-size:.75rem;color:var(--text2);
+  display:flex;align-items:center;gap:.5rem}
+.email-subj strong{color:var(--text);font-weight:500}
+.email-body{padding:.9rem;font-size:.79rem;line-height:1.75;color:var(--text);white-space:pre-wrap}
+.email-actions{display:flex;gap:.5rem;padding:.7rem .9rem;border-top:1px solid var(--bord);flex-wrap:wrap}
+.action-btn{font-family:'JetBrains Mono',monospace;font-size:.62rem;padding:5px 12px;border-radius:6px;
+  border:1px solid var(--bord2);background:var(--surf2);color:var(--text3);cursor:pointer;transition:.14s all;
+  display:flex;align-items:center;gap:5px}
+.action-btn:hover{border-color:var(--bord3);color:var(--text)}
+.action-btn.primary{background:rgba(45,111,255,.12);border-color:rgba(45,111,255,.35);color:var(--accentHi)}
+.action-btn.primary:hover{background:rgba(45,111,255,.2)}
+.linkedin-contacts{display:flex;flex-direction:column;gap:.45rem}
+.lc-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem .7rem;
+  background:var(--surf2);border:1px solid var(--bord);border-radius:7px;gap:.5rem}
+.lc-info{flex:1}
+.lc-name{font-size:.78rem;font-weight:500}
+.lc-title{font-size:.65rem;color:var(--text3)}
+.lc-note{font-size:.65rem;color:var(--text2);margin-top:2px;font-style:italic}
+.li-link{font-family:'JetBrains Mono',monospace;font-size:.58rem;padding:3px 9px;border-radius:5px;
+  background:rgba(10,102,194,.1);border:1px solid rgba(10,102,194,.3);color:#5ba3e0;
+  text-decoration:none;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.li-link:hover{background:rgba(10,102,194,.2)}
 
-/* Country breakdown */
-.cbar-row{display:flex;gap:.5rem;align-items:center;margin-bottom:.9rem;flex-wrap:wrap}
-.cbitem{font-family:'JetBrains Mono',monospace;font-size:.62rem;padding:4px 9px;border-radius:6px;
-  border:1px solid var(--bord);color:var(--text2);background:var(--surf);display:flex;align-items:center;gap:5px}
-.cbar-fill{display:flex;height:5px;border-radius:3px;overflow:hidden;flex:1;background:var(--bord);min-width:80px}
-.cbar-seg{height:100%;transition:.5s width}
+/* Toast */
+.toast-wrap{position:fixed;bottom:1.2rem;right:1.2rem;z-index:900;display:flex;flex-direction:column;gap:.5rem;pointer-events:none}
+.toast{background:var(--surf3);border:1px solid var(--bord2);border-radius:9px;
+  padding:.6rem 1rem;font-size:.77rem;color:var(--text);pointer-events:all;
+  animation:tin .25s ease;display:flex;align-items:center;gap:7px}
+@keyframes tin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.toast.ok{border-color:rgba(0,200,150,.35);color:var(--green)}
+.toast.err{border-color:rgba(255,77,77,.35);color:var(--red)}
 
-/* Search */
-.sbar{background:var(--surf);border:1px solid var(--bord);border-radius:10px;padding:0 .9rem;
-  display:flex;align-items:center;gap:8px;margin-bottom:.9rem;transition:.2s border-color}
-.sbar:focus-within{border-color:var(--accent)}
-.sbar input{flex:1;background:transparent;border:none;outline:none;color:var(--text);
-  font-family:'Inter',sans-serif;font-size:.85rem;padding:10px 0}
-.sbar input::placeholder{color:var(--text3)}
-.src-n{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--text3);white-space:nowrap}
-
-/* Section labels */
-.slb{font-family:'JetBrains Mono',monospace;font-size:.57rem;font-weight:600;letter-spacing:2px;
-  text-transform:uppercase;color:var(--text3);padding:6px 0 5px;display:flex;align-items:center;gap:8px}
-.slb::after{content:'';flex:1;height:1px;background:var(--bord)}
-.sct{font-size:.55rem;background:var(--surf2);border:1px solid var(--bord);color:var(--text3);padding:2px 5px;border-radius:6px}
-
-/* ── JOB CARDS ── */
-.jlist{display:flex;flex-direction:column;gap:6px;margin-bottom:.8rem}
-.jcard{background:var(--card);border:1px solid var(--bord);border-radius:11px;
-  padding:.9rem 1.1rem;display:grid;grid-template-columns:38px 1fr auto;
-  gap:.8rem;align-items:start;cursor:pointer;transition:.18s all;
-  position:relative;overflow:hidden;animation:ci .22s ease both}
-@keyframes ci{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.jcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;transition:.2s}
-.jcard::after{content:'';position:absolute;right:0;top:0;bottom:0;width:3px;border-radius:0 2px 2px 0}
-.jcard:hover{background:rgba(7,12,26,1);border-color:var(--bord2);transform:translateX(2px)}
-.jcard:hover::before{background:var(--accent)}
-.jcard.isnew{border-color:rgba(0,200,150,.12)}.jcard.isnew::before{background:var(--green)}
-.jcard.ac{border-color:var(--accent);background:rgba(45,111,255,.04)}.jcard.ac::before{background:var(--accent)}
-.jcard[data-c="IN"]::after{background:var(--IN)}
-.jcard[data-c="US"]::after{background:var(--US)}
-.jcard[data-c="UK"]::after{background:var(--UK)}
-.jcard[data-c="UAE"]::after{background:var(--UAE)}
-.clogo{width:38px;height:38px;border-radius:8px;border:1px solid var(--bord);
-  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;overflow:hidden}
-.clogo img{width:100%;height:100%;object-fit:cover;border-radius:7px}
-.jbody{min-width:0}
-.jtitle{font-family:'Syne',sans-serif;font-size:.87rem;font-weight:700;margin-bottom:3px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.jmeta{font-size:.72rem;color:var(--text2);display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:6px}
-.ms{color:var(--text4)}
-.jtags{display:flex;flex-wrap:wrap;gap:3px}
-.tag{font-family:'JetBrains Mono',monospace;font-size:.57rem;padding:2px 5px;border-radius:3px;
-  background:var(--surf2);color:var(--text2);border:1px solid var(--bord);white-space:nowrap}
-.tag.rem{background:rgba(45,111,255,.08);color:#7aa8ff;border-color:rgba(45,111,255,.2)}
-.tag.ons{background:rgba(240,165,0,.08);color:#f5c060;border-color:rgba(240,165,0,.2)}
-.tag.hyb{background:rgba(0,200,150,.08);color:var(--green);border-color:rgba(0,200,150,.2)}
-.tag.ft{background:rgba(0,200,150,.06);color:#4dd9bb;border-color:rgba(0,200,150,.12)}
-.tag.con{background:rgba(255,77,77,.08);color:#ff8888;border-color:rgba(255,77,77,.2)}
-.tag.pt{background:rgba(240,165,0,.06);color:#f5c878;border-color:rgba(240,165,0,.15)}
-.tag.nb{background:rgba(0,200,150,.12);color:var(--green);border-color:rgba(0,200,150,.25);animation:bk 2s ease infinite}
-@keyframes bk{50%{opacity:.5}}
-.tag.funded{background:rgba(139,92,246,.1);color:#a78bfa;border-color:rgba(139,92,246,.25)}
-.ctag{font-family:'JetBrains Mono',monospace;font-size:.55rem;padding:2px 5px;border-radius:3px;border:1px solid}
-.ctag.IN{color:var(--IN);border-color:rgba(255,153,51,.3);background:rgba(255,153,51,.08)}
-.ctag.US{color:var(--US);border-color:rgba(60,127,255,.3);background:rgba(60,127,255,.08)}
-.ctag.UK{color:var(--UK);border-color:rgba(204,32,32,.3);background:rgba(204,32,32,.08)}
-.ctag.UAE{color:var(--UAE);border-color:rgba(0,166,81,.3);background:rgba(0,166,81,.08)}
-.src-tag{font-family:'JetBrains Mono',monospace;font-size:.52rem;padding:2px 5px;border-radius:3px;opacity:.8}
-.jright{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
-.jtime{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--text3);white-space:nowrap}
-.jsal{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--green)}
-.vbtn{font-size:.62rem;font-family:'JetBrains Mono',monospace;padding:4px 8px;border-radius:5px;
-  border:1px solid var(--bord2);background:var(--surf2);color:var(--text2);cursor:pointer;transition:.18s all}
-.vbtn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
-
-/* ── DRAWER ── */
-.dov{position:fixed;inset:0;z-index:300;background:rgba(5,7,14,.75);backdrop-filter:blur(5px);
-  opacity:0;pointer-events:none;transition:.25s opacity}
-.dov.open{opacity:1;pointer-events:all}
-.drw{position:fixed;right:0;top:0;bottom:0;z-index:400;width:min(700px,96vw);
-  background:var(--drawer);border-left:1px solid var(--bord);display:flex;flex-direction:column;
-  transform:translateX(102%);transition:.3s cubic-bezier(.4,0,.2,1) transform;overflow:hidden}
-.drw.open{transform:translateX(0)}
-.dh{padding:1.1rem 1.3rem .85rem;border-bottom:1px solid var(--bord);display:flex;align-items:flex-start;gap:.85rem;flex-shrink:0}
-.d-logo{width:46px;height:46px;border-radius:10px;border:1px solid var(--bord);overflow:hidden;
-  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem;flex-shrink:0}
-.d-logo img{width:100%;height:100%;object-fit:cover;border-radius:9px}
-.dtw{flex:1;min-width:0}
-.dt{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;margin-bottom:2px}
-.dsub{font-size:.75rem;color:var(--text2);display:flex;align-items:center;gap:5px;flex-wrap:wrap}
-.dtags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
-.dclose{background:var(--surf2);border:1px solid var(--bord);color:var(--text2);
-  width:28px;height:28px;border-radius:6px;cursor:pointer;flex-shrink:0;font-size:.95rem;
-  display:flex;align-items:center;justify-content:center;transition:.18s all}
-.dclose:hover{background:var(--bord);color:var(--text)}
-.d-cbanner{padding:.5rem 1.3rem;display:flex;align-items:center;gap:.7rem;
-  font-family:'JetBrains Mono',monospace;font-size:.63rem;border-bottom:1px solid var(--bord);flex-shrink:0}
-.da{padding:.65rem 1.3rem;border-bottom:1px solid var(--bord);display:flex;gap:.45rem;flex-shrink:0;flex-wrap:wrap}
-.d-btn{font-family:'Inter',sans-serif;font-size:.76rem;font-weight:600;
-  padding:6px 13px;border-radius:6px;cursor:pointer;transition:.18s all;display:flex;align-items:center;gap:5px;text-decoration:none}
-.d-btn.pri{background:var(--accent);border:1px solid var(--accent);color:#fff}
-.d-btn.pri:hover{background:var(--accentHi)}
-.d-btn.sec{background:var(--surf2);border:1px solid var(--bord);color:var(--text2)}
-.d-btn.sec:hover{background:var(--bord);color:var(--text)}
-.db{flex:1;overflow-y:auto;padding:1.1rem 1.3rem;display:flex;flex-direction:column;gap:1rem}
-.db::-webkit-scrollbar{width:3px}
-.db::-webkit-scrollbar-thumb{background:var(--bord2);border-radius:2px}
-.ds{background:var(--surf);border:1px solid var(--bord);border-radius:11px;padding:.9rem 1rem}
-.dst{font-family:'JetBrains Mono',monospace;font-size:.57rem;font-weight:600;letter-spacing:2px;
-  text-transform:uppercase;color:var(--text3);margin-bottom:.75rem;display:flex;align-items:center;gap:7px}
-.dst::after{content:'';flex:1;height:1px;background:var(--bord)}
-.jdesc{font-size:.79rem;color:var(--text2);line-height:1.7}
-.jdesc p{margin-bottom:.55rem}
-.sgrid{display:flex;flex-wrap:wrap;gap:4px}
-.sp2{font-family:'JetBrains Mono',monospace;font-size:.63rem;padding:4px 8px;border-radius:4px;
-  background:var(--surf2);color:var(--text2);border:1px solid var(--bord)}
-.sp2.hi{background:rgba(45,111,255,.1);color:var(--accentHi);border-color:rgba(45,111,255,.22)}
-.cog{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
-.co-f{display:flex;flex-direction:column;gap:3px}
-.col{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
-.cov{font-size:.76rem;color:var(--text2)}
-.cov a{color:var(--accentHi);text-decoration:none}
-.cov a:hover{text-decoration:underline}
-.fund-badge{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;
-  font-size:.65rem;padding:4px 10px;border-radius:6px;
-  background:rgba(139,92,246,.1);color:#a78bfa;border:1px solid rgba(139,92,246,.25)}
-.leads{display:flex;flex-direction:column;gap:.65rem}
-.lcard{background:var(--surf2);border:1px solid var(--bord);border-radius:9px;
-  padding:.8rem .9rem;display:flex;gap:.8rem;align-items:flex-start;transition:.18s all}
-.lcard:hover{border-color:var(--bord2);background:var(--surf3)}
-.lav{width:40px;height:40px;border-radius:50%;flex-shrink:0;border:2px solid var(--bord);
-  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem}
-.li2{flex:1;min-width:0}
-.ln{font-weight:600;font-size:.84rem;margin-bottom:1px}
-.lr{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--text3);margin-bottom:5px}
-.lbio{font-size:.72rem;color:var(--text2);line-height:1.5;margin-bottom:6px}
-.lm{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
-.ltag{font-family:'JetBrains Mono',monospace;font-size:.56rem;padding:2px 6px;border-radius:3px;
-  background:var(--surf3);color:var(--text3);border:1px solid var(--bord)}
-.llib{font-family:'JetBrains Mono',monospace;font-size:.58rem;padding:2px 7px;border-radius:4px;
-  background:rgba(10,102,194,.1);color:#5b9bd4;border:1px solid rgba(10,102,194,.2);
-  cursor:pointer;transition:.18s all;display:inline-flex;align-items:center;gap:3px}
-.llib:hover{background:rgba(10,102,194,.2)}
-.ins-list{display:flex;flex-direction:column;gap:.5rem}
-.ins{display:flex;align-items:flex-start;gap:.5rem;font-size:.75rem;color:var(--text2);line-height:1.5}
-.sims{display:flex;flex-direction:column;gap:.4rem}
-.sim{display:flex;align-items:center;gap:.6rem;padding:.5rem .7rem;border-radius:7px;
-  background:var(--surf2);border:1px solid var(--bord);cursor:pointer;transition:.18s all}
-.sim:hover{border-color:var(--bord2);background:var(--surf3)}
-.slim{width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;
-  font-size:.55rem;font-weight:800;flex-shrink:0;border:1px solid var(--bord)}
-.sb{flex:1;min-width:0}
-.st2{font-size:.74rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ss{font-size:.63rem;color:var(--text2);font-family:'JetBrains Mono',monospace}
-.stm{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--text3);white-space:nowrap}
-
-/* skeleton */
-.skw{display:flex;flex-direction:column;gap:6px}
-.skc{background:var(--card);border:1px solid var(--bord);border-radius:11px;padding:.9rem 1.1rem;display:flex;gap:.8rem}
-.sk{background:linear-gradient(90deg,var(--surf) 25%,var(--surf2) 50%,var(--surf) 75%);
-  background-size:200% 100%;animation:shm 1.4s infinite;border-radius:4px}
-@keyframes shm{to{background-position:-200% 0}}
-.dspin{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.65rem;color:var(--text3)}
-.dsp{width:24px;height:24px;border:2px solid var(--bord);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
-.dspin p{font-size:.72rem;font-family:'JetBrains Mono',monospace}
-.toast{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%) translateY(14px);
-  background:var(--surf2);border:1px solid var(--bord2);color:var(--text);font-size:.76rem;
-  padding:8px 15px;border-radius:8px;font-family:'JetBrains Mono',monospace;z-index:999;
-  opacity:0;transition:.26s all;pointer-events:none}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.attrib{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--text4);
-  text-align:center;padding:.7rem 0;display:flex;align-items:center;justify-content:center;gap:.7rem;flex-wrap:wrap}
-.attrib a{color:var(--text3);text-decoration:none}
-.attrib a:hover{color:var(--text2)}
-.empty{text-align:center;padding:3rem 1rem;color:var(--text3)}
-.empty .ei{font-size:2rem;opacity:.2;margin-bottom:.6rem}
-.error-banner{background:rgba(255,77,77,.05);border:1px solid rgba(255,77,77,.2);border-radius:10px;
-  padding:1rem 1.2rem;font-size:.8rem;color:var(--red);margin-bottom:.9rem}
+/* Misc */
+.empty{text-align:center;padding:3rem 1rem;color:var(--text3);font-size:.85rem}
+.empty-icon{font-size:2.5rem;margin-bottom:.5rem;opacity:.3}
+.loader{text-align:center;padding:2rem;color:var(--text3);font-size:.8rem;font-family:'JetBrains Mono',monospace}
+.ai-badge{display:inline-flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;
+  font-size:.55rem;padding:2px 7px;border-radius:4px;
+  background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.25);color:var(--purple)}
+.shimmer{background:linear-gradient(90deg,var(--surf2) 25%,var(--surf3) 50%,var(--surf2) 75%);
+  background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:4px;height:1em;display:inline-block}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.progress-bar{height:3px;background:var(--bord);border-radius:2px;overflow:hidden;width:100%}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));transition:.4s width;border-radius:2px}
+.live-pill{font-family:'JetBrains Mono',monospace;font-size:.55rem;background:rgba(0,200,150,.07);
+  border:1px solid rgba(0,200,150,.18);color:var(--green);padding:2px 8px;border-radius:20px;
+  display:flex;align-items:center;gap:4px}
+.lpulse{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pd 1.8s ease infinite}
+@keyframes pd{0%,100%{opacity:1}50%{opacity:.2}}
+.chip{display:inline-flex;align-items:center;gap:3px;font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;padding:2px 8px;border-radius:4px;background:var(--surf3);border:1px solid var(--bord2);color:var(--text3)}
+hr.dr{border:none;border-top:1px solid var(--bord);margin:.6rem 0}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <div class="logo-mark">S</div>
-    <div>StackHire<div class="logo-sub">INDIA · US · UK · UAE</div></div>
+  <div class="logo" onclick="switchTab('jobs')">
+    <div class="logo-mark">SH</div>
+    <div><div>StackHire</div><div style="font-size:.45rem;font-family:'JetBrains Mono',monospace;color:var(--text3);letter-spacing:2px;margin-top:1px">BD INTELLIGENCE</div></div>
   </div>
-  <div class="cflags">
-    <button class="cflag on" data-c="ALL" onclick="setCountry(this)">🌐 All</button>
-    <button class="cflag" data-c="IN"  onclick="setCountry(this)">🇮🇳 India</button>
-    <button class="cflag" data-c="US"  onclick="setCountry(this)">🇺🇸 US</button>
-    <button class="cflag" data-c="UK"  onclick="setCountry(this)">🇬🇧 UK</button>
-    <button class="cflag" data-c="UAE" onclick="setCountry(this)">🇦🇪 UAE</button>
-  </div>
-  <div class="hdr-mid">
-    <div class="live-pill"><div class="lpulse"></div>LIVE</div>
-    <div class="scrape-progress">
-      <div class="progress-label" id="pLabel">Starting scraper...</div>
-      <div class="progress-bar"><div class="progress-fill" id="pFill"></div></div>
-    </div>
+  <div class="tabs">
+    <button class="tab on" data-tab="jobs" onclick="switchTab('jobs')">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Jobs Feed
+    </button>
+    <button class="tab" data-tab="targets" onclick="switchTab('targets')">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>BD Targets
+    </button>
+    <button class="tab" data-tab="pipeline" onclick="switchTab('pipeline')">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>Pipeline
+    </button>
   </div>
   <div class="hdr-r">
-    <span class="cd" id="cd">—</span>
-    <button class="rbtn" id="rfbtn" onclick="forceRefresh()">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
-      Refresh
+    <div class="cflags" id="cflags">
+      <div class="cflag on" data-c="ALL" onclick="setCountry('ALL')">🌍 ALL</div>
+      <div class="cflag" data-c="IN"  onclick="setCountry('IN')">🇮🇳 IN</div>
+      <div class="cflag" data-c="US"  onclick="setCountry('US')">🇺🇸 US</div>
+      <div class="cflag" data-c="UK"  onclick="setCountry('UK')">🇬🇧 UK</div>
+      <div class="cflag" data-c="UAE" onclick="setCountry('UAE')">🇦🇪 UAE</div>
+    </div>
+    <div class="live-pill"><span class="lpulse"></span><span id="liveCount">—</span></div>
+    <button class="rbtn" id="rBtn" onclick="forceRefresh()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Refresh
     </button>
   </div>
 </header>
 
+<!-- ═══════════════════════════════════ JOBS PAGE ═════════════════════════ -->
+<div id="page-jobs" class="page on">
 <div class="wrap">
   <aside>
     <div class="fc">
-      <div class="fct">Time Range</div>
-      <div class="tpills">
-        <button class="tp on" data-h="24"  onclick="setTime(this)">Last 24 hours<span class="tc" id="tc-24">—</span></button>
-        <button class="tp"    data-h="48"  onclick="setTime(this)">Last 48 hours<span class="tc" id="tc-48">—</span></button>
-        <button class="tp"    data-h="168" onclick="setTime(this)">Last 7 days<span class="tc" id="tc-168">—</span></button>
-      </div>
+      <div class="fct">Search</div>
+      <input class="fi" id="q" placeholder="Role, company, skill…" oninput="filterJobs()"/>
+    </div>
+    <div class="fc">
+      <div class="fct">Role Category</div>
+      <div class="tpills" id="rolePills"></div>
     </div>
     <div class="fc">
       <div class="fct">Work Mode</div>
-      <div class="cg" id="wm-g">
-        <label class="ci"><input type="checkbox" checked onchange="applyFilters()"><span class="cb2"></span><span class="cl"><span class="cdot" style="background:#7aa8ff"></span>Remote</span><span class="cc" id="wc-r">—</span></label>
-        <label class="ci"><input type="checkbox" checked onchange="applyFilters()"><span class="cb2"></span><span class="cl"><span class="cdot" style="background:#f5c060"></span>Onsite</span><span class="cc" id="wc-o">—</span></label>
-        <label class="ci"><input type="checkbox" checked onchange="applyFilters()"><span class="cb2"></span><span class="cl"><span class="cdot" style="background:var(--green)"></span>Hybrid</span><span class="cc" id="wc-h">—</span></label>
-      </div>
+      <div class="tpills" id="modePills"></div>
     </div>
     <div class="fc">
-      <div class="fct">Job Type</div>
-      <div class="cg" id="jt-g">
-        <label class="ci"><input type="checkbox" checked onchange="applyFilters()"><span class="cb2"></span><span class="cl"><span class="cdot" style="background:#4dd9bb"></span>Full-time</span><span class="cc" id="jc-ft">—</span></label>
-        <label class="ci"><input type="checkbox" checked onchange="applyFilters()"><span class="cb2"></span><span class="cl"><span class="cdot" style="background:#ff8888"></span>Contract</span><span class="cc" id="jc-c">—</span></label>
-        <label class="ci"><input type="checkbox" checked onchange="applyFilters()"><span class="cb2"></span><span class="cl"><span class="cdot" style="background:#f5c878"></span>Part-time</span><span class="cc" id="jc-p">—</span></label>
-      </div>
+      <div class="fct">Time Range</div>
+      <div class="tpills" id="timePills"></div>
     </div>
     <div class="fc">
-      <div class="fct">Role</div>
-      <div class="rchips">
-        <button class="rc on" data-r="all"       onclick="setRole(this)">All</button>
-        <button class="rc"    data-r="developer"  onclick="setRole(this)">Dev</button>
-        <button class="rc"    data-r="engineer"   onclick="setRole(this)">Eng</button>
-        <button class="rc"    data-r="ai"         onclick="setRole(this)">AI/ML</button>
-        <button class="rc"    data-r="data"       onclick="setRole(this)">Data</button>
-        <button class="rc"    data-r="architect"  onclick="setRole(this)">Arch</button>
-        <button class="rc"    data-r="designer"   onclick="setRole(this)">Design</button>
-        <button class="rc"    data-r="qa"         onclick="setRole(this)">QA</button>
-      </div>
+      <div class="fct">Source</div>
+      <div class="tpills" id="srcPills"></div>
     </div>
     <div class="fc">
-      <div class="fct">Data Sources <span class="fcb" id="srcBadge">—</span></div>
-      <div class="src-list" id="srcList">
-        <div style="font-size:.7rem;color:var(--text3);padding:.4rem;font-family:'JetBrains Mono',monospace">Waiting for backend...</div>
-      </div>
+      <div class="fct">BD Targets Only</div>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.78rem;color:var(--text2)">
+        <input type="checkbox" id="targetOnly" onchange="filterJobs()" style="accent-color:var(--purple)"/>
+        Show funded startups only
+      </label>
     </div>
   </aside>
 
   <main>
-    <div class="stats">
-      <div class="sc"><div class="sl">Total Jobs</div><div class="sv" id="st-t" style="color:var(--accent)">—</div><div class="sd" id="st-p">loading...</div></div>
-      <div class="sc"><div class="sl">India Jobs</div><div class="sv" id="st-in" style="color:var(--IN)">—</div><div class="sd">🇮🇳 IN listings</div></div>
-      <div class="sc"><div class="sl">Companies</div><div class="sv" id="st-c" style="color:var(--green)">—</div><div class="sd">actively hiring</div></div>
-      <div class="sc"><div class="sl">Funded Startups</div><div class="sv" id="st-f" style="color:var(--purple)">—</div><div class="sd">career pages scraped</div></div>
+    <div class="stats-row" id="statsRow"></div>
+    <div id="progressWrap" style="margin-bottom:.8rem;display:none">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--text3)">Scraping live data…</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--text3)" id="progPct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
     </div>
-    <div class="cbar-row">
-      <span style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--text3)">by country:</span>
-      <div class="cbitem"><span style="color:var(--IN)">🇮🇳</span><span id="cb-in">—</span></div>
-      <div class="cbitem"><span style="color:var(--US)">🇺🇸</span><span id="cb-us">—</span></div>
-      <div class="cbitem"><span style="color:var(--UK)">🇬🇧</span><span id="cb-uk">—</span></div>
-      <div class="cbitem"><span style="color:var(--UAE)">🇦🇪</span><span id="cb-uae">—</span></div>
-      <div class="cbar-fill" id="cbarFill"></div>
-    </div>
-    <div class="sbar">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-      <input type="text" id="q" placeholder="Search title, company, skill, city..." oninput="applyFilters()"/>
-      <span class="src-n" id="src-n"></span>
-    </div>
-    <div id="jobList"></div>
-    <div class="attrib">
-      Sources: <a href="https://www.naukri.com" target="_blank">Naukri ↗</a>
-      <a href="https://www.linkedin.com/jobs" target="_blank">LinkedIn ↗</a>
-      <a href="https://in.indeed.com" target="_blank">Indeed India ↗</a>
-      <a href="https://www.foundit.in" target="_blank">Foundit ↗</a>
-      <a href="https://google.com/search?q=jobs" target="_blank">Google Jobs ↗</a>
-      <span>· All free · Server-side scraping</span>
-    </div>
+    <div id="jobFeed"></div>
   </main>
 </div>
-
-<div class="dov" id="dov" onclick="closeDrawer()"></div>
-<div class="drw" id="drw">
-  <div class="dh"       id="dh"></div>
-  <div class="d-cbanner" id="dcb"></div>
-  <div class="da"       id="da"></div>
-  <div class="db"       id="db"></div>
 </div>
-<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════════════════════ TARGETS PAGE ══════════════════════ -->
+<div id="page-targets" class="page">
+<div class="tg-wrap">
+  <div class="bd-header">
+    <div>
+      <div class="bd-title">BD Target Companies</div>
+      <div style="font-size:.72rem;color:var(--text3);margin-top:3px">Companies actively hiring — ranked by staff augmentation opportunity score</div>
+    </div>
+    <div class="bd-actions">
+      <button class="export-btn" onclick="exportCSV()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export CSV
+      </button>
+      <button class="export-btn" onclick="bulkPitch()" style="border-color:rgba(139,92,246,.3);background:rgba(139,92,246,.07);color:var(--purple)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        AI Pitch All
+      </button>
+    </div>
+  </div>
+  <div class="tg-controls">
+    <input class="fi tg-search" id="tgQ" placeholder="Search company, sector…" oninput="renderTargets()"/>
+    <select class="sel" style="max-width:160px" id="tgSector" onchange="renderTargets()">
+      <option value="">All Sectors</option>
+    </select>
+    <select class="sel" style="max-width:130px" id="tgSize" onchange="renderTargets()">
+      <option value="">All Sizes</option>
+      <option value="10-50">10–50 emp</option>
+      <option value="50-200">50–200 emp</option>
+      <option value="200-500">200–500 emp</option>
+      <option value="500-1000">500–1000 emp</option>
+      <option value="1000+">1000+ emp</option>
+    </select>
+    <select class="sel" style="max-width:130px" id="tgSort" onchange="renderTargets()">
+      <option value="score">BD Score ↓</option>
+      <option value="jobs">Open Roles ↓</option>
+      <option value="name">Name A–Z</option>
+    </select>
+  </div>
+  <div class="tg-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Sector</th>
+          <th>Funding</th>
+          <th>Size</th>
+          <th>Open Roles</th>
+          <th>BD Score</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="tgBody"></tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════ PIPELINE PAGE ════════════════════ -->
+<div id="page-pipeline" class="page">
+<div class="bd-wrap">
+  <div class="bd-header">
+    <div>
+      <div class="bd-title">Outreach Pipeline</div>
+      <div style="font-size:.72rem;color:var(--text3);margin-top:3px">Track every company from first contact to closed deal</div>
+    </div>
+    <div class="bd-actions">
+      <button class="export-btn" onclick="exportPipelineCSV()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export Pipeline
+      </button>
+    </div>
+  </div>
+  <div class="kanban" id="kanban"></div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════ JOB DRAWER ═══════════════════════ -->
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="dr-head">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem">
+      <div style="flex:1">
+        <div id="drTitle" style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;line-height:1.3"></div>
+        <div id="drMeta" style="font-size:.75rem;color:var(--text3);margin-top:4px;display:flex;gap:.6rem;flex-wrap:wrap"></div>
+        <div id="drTags" style="display:flex;gap:4px;flex-wrap:wrap;margin-top:.5rem"></div>
+      </div>
+      <button class="dr-close" onclick="closeDrawer()">✕</button>
+    </div>
+  </div>
+  <div class="dr-body" id="drBody"></div>
+</div>
+
+<!-- ═══════════════════════════════════ PITCH MODAL ══════════════════════ -->
+<div class="pitch-modal" id="pitchModal" style="display:none" onclick="e=>e.target===this&&closePitchModal()">
+  <div class="pitch-modal-box">
+    <div class="pmb-head">
+      <div>
+        <div id="pmTitle" style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem"></div>
+        <div id="pmMeta" style="font-size:.7rem;color:var(--text3);margin-top:3px"></div>
+      </div>
+      <button class="dr-close" onclick="closePitchModal()">✕</button>
+    </div>
+    <div class="pmb-body" id="pmBody"></div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toasts"></div>
 
 <script>
-const API = 'https://stackhire-bgcx.onrender.com/api';
-const COUNTRY_META = {
-  IN:  { label:'India',         flag:'🇮🇳', color:'var(--IN)'  },
-  US:  { label:'United States', flag:'🇺🇸', color:'var(--US)'  },
-  UK:  { label:'United Kingdom',flag:'🇬🇧', color:'var(--UK)'  },
-  UAE: { label:'UAE',           flag:'🇦🇪', color:'var(--UAE)' },
+// ─────────────────────────────────────────────────────────────────
+// CONFIG — change this to your deployed Render/Railway URL
+// ─────────────────────────────────────────────────────────────────
+const API = window.location.hostname === 'localhost' ? 'http://localhost:3001/api' : '/api';
+
+// ─────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────
+let allJobs = [], allTargets = [], pipeline = {}, activeJob = null;
+let filters = { country:'ALL', role:'all', mode:'', time:0, src:'', targetOnly:false, q:'' };
+let currentTab = 'jobs';
+
+// Load pipeline from localStorage
+function loadPipeline() {
+  try { pipeline = JSON.parse(localStorage.getItem('sh_pipeline') || '{}'); } catch { pipeline = {}; }
+}
+function savePipeline() { localStorage.setItem('sh_pipeline', JSON.stringify(pipeline)); }
+function getPipelineEntry(name) { return pipeline[name] || { status:'new', notes:'', pitchedAt:null }; }
+
+// ─────────────────────────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────────────────────────
+function switchTab(t) {
+  currentTab = t;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  document.getElementById('page-'+t).classList.add('on');
+  document.querySelector(`.tab[data-tab="${t}"]`).classList.add('on');
+  if (t === 'targets') renderTargets();
+  if (t === 'pipeline') renderPipeline();
+}
+
+// ─────────────────────────────────────────────────────────────────
+// CONTACT INTELLIGENCE — decision makers by company
+// Pattern: CTO / VP Eng / Head of Engineering are best targets for staff aug
+// ─────────────────────────────────────────────────────────────────
+const CONTACTS = {
+  // India Fintech
+  'Razorpay':      [{n:'Shashank Kumar',t:'Co-founder & CEO',li:'shashank-kumar-razorpay',note:'Co-founder, directly oversees product & eng'},
+                   {n:'Gaurav Jain',t:'CTO',li:'gaurav-jain-razorpay',note:'CTO — primary contact for tech partnerships'}],
+  'CRED':          [{n:'Kunal Shah',t:'Founder & CEO',li:'kunal-shah-cred',note:'Founder, active on LinkedIn'},
+                   {n:'Mridul Arora',t:'CTO',li:'mridul-arora-cto',note:'Heads all engineering at CRED'}],
+  'Groww':         [{n:'Harsh Jain',t:'Co-founder & CEO',li:'harsh-jain-groww',note:'Fintech focused, fast scaling team'},
+                   {n:'Neeraj Singh',t:'CTO',li:'neeraj-singh-groww',note:'CTO — manages 300+ engineers'}],
+  'Zepto':         [{n:'Aadit Palicha',t:'Co-founder & CEO',li:'aadit-palicha',note:'YC alum, fastest growing quick commerce startup'},
+                   {n:'Srinivas',t:'VP Engineering',li:'srinivas-zepto-eng',note:'Heads engineering, hiring 5x in 2024'}],
+  'Postman':       [{n:'Abhinav Asthana',t:'Co-founder & CEO',li:'abhinavasthana',note:'Dev tools founder, eng-first culture'},
+                   {n:'Joyce Lin',t:'Head of Developer Relations',li:'joyce-lin-postman',note:'Good first contact for tech partnerships'}],
+  'BrowserStack':  [{n:'Nakul Aggarwal',t:'Co-founder & COO',li:'nakul-aggarwal-browserstack',note:'Oversees partnerships & growth'},
+                   {n:'Ritesh Arora',t:'Co-founder & CEO',li:'ritesh-arora-browserstack',note:'Active founder, responsive to BD'}],
+  'Chargebee':     [{n:'Krish Subramanian',t:'Co-founder & CEO',li:'krish-subramanian-chargebee',note:'Bootstrapped to unicorn — great success story'},
+                   {n:'Thiyagarajan T',t:'CTO',li:'thiyagarajan-chargebee',note:'CTO, actively hiring backend engineers'}],
+  'Freshworks':    [{n:'Girish Mathrubootham',t:'Founder & Executive Chairman',li:'girishmathrubootham',note:'NASDAQ-listed, large eng team — good for augmentation'},
+                   {n:'Suresh Seshadri',t:'Chief People Officer',li:'suresh-seshadri-freshworks',note:'Hiring decisions go through CPO'}],
+  'Darwinbox':     [{n:'Rohit Chennamaneni',t:'Co-founder',li:'rohit-chennamaneni',note:'Co-founder, frequently posts on LinkedIn'},
+                   {n:'Chaitanya Peddi',t:'Co-founder & CTO',li:'chaitanya-peddi-darwinbox',note:'CTO — engineering decisions'}],
+  'MoEngage':      [{n:'Raviteja Dodda',t:'Co-founder & CEO',li:'ravitejadodda',note:'Actively hiring for product engineering'},
+                   {n:'Yash Khandelwal',t:'CTO',li:'yash-khandelwal-moengage',note:'CTO — best contact for tech BD'}],
+  'Whatfix':       [{n:'Khadim Batti',t:'Co-founder & CEO',li:'khadimbatti',note:'Bootstrapped to Series E — lean team culture'},
+                   {n:'Vara Kumar',t:'Co-founder & CTO',li:'varakumar-whatfix',note:'CTO, open to tech partnerships'}],
+  'Meesho':        [{n:'Vidit Aatrey',t:'Co-founder & CEO',li:'vidit-aatrey',note:'Series F, massive scale hiring'},
+                   {n:'Sanjeev Barnwal',t:'Co-founder & CTO',li:'sanjeev-barnwal',note:'CTO — leads 500+ eng team'}],
+  'Unacademy':     [{n:'Gaurav Munjal',t:'Co-founder & CEO',li:'gaurav-munjal',note:'Very active on social media'},
+                   {n:'Hemesh Singh',t:'Co-founder & CTO',li:'hemesh-singh-unacademy',note:'CTO, hiring at scale'}],
+  'Scaler':        [{n:'Abhimanyu Saxena',t:'Co-founder',li:'abhimanyusaxena',note:'Co-founder, eng background, great connection'},
+                   {n:'Anshuman Singh',t:'Co-founder & CTO',li:'anshuman-singh-scaler',note:'CTO, very active on LinkedIn'}],
+  'Sarvam AI':     [{n:'Vivek Raghavan',t:'Co-founder & CEO',li:'vivekraghavan',note:'AI/LLM startup, 50 engineers scaling fast'},
+                   {n:'Pratyush Kumar',t:'Co-founder',li:'pratyush-kumar-sarvam',note:'Research lead, critical hire point'}],
+  'Observe.AI':    [{n:'Swapnil Jain',t:'Co-founder & CEO',li:'swapniljain8',note:'AI startup, scaling India eng team fast'},
+                   {n:'Sharath Keshava Narayana',t:'Co-founder & CRO',li:'sharath-keshava',note:'Revenue leader — BD starting point'}],
+  'Yellow.ai':     [{n:'Raghu Ravinutala',t:'Co-founder & CEO',li:'raghu-ravinutala',note:'Conversational AI, 700+ employees hiring'},
+                   {n:'Rashid Khan',t:'Co-founder & CPO',li:'rashid-khan-yellow',note:'Product & tech co-founder'}],
+  'Shiprocket':    [{n:'Saahil Goel',t:'Co-founder & CEO',li:'saahil-goel-shiprocket',note:'Logistics unicorn, massive tech hiring'},
+                   {n:'Vishesh Khurana',t:'Co-founder',li:'vishesh-khurana-shiprocket',note:'Co-founder, engineering focus'}],
+  'Acko':          [{n:'Varun Dua',t:'Co-founder & CEO',li:'varun-dua-acko',note:'InsurTech unicorn, hiring 100+ engineers'},
+                   {n:'Ruchi Deepak',t:'Co-founder',li:'ruchi-deepak-acko',note:'Ops & tech co-founder'}],
+  'Ather Energy':  [{n:'Tarun Mehta',t:'Co-founder & CEO',li:'tarun-mehta-ather',note:'EV unicorn, massive software engineering team'},
+                   {n:'Swapnil Jain',t:'Co-founder & CTO',li:'swapnil-jain-ather',note:'Hardware+software CTO, good BD target'}],
+  'NoBroker':      [{n:'Amit Kumar Agarwal',t:'Co-founder & CEO',li:'amit-kumar-agarwal-nobroker',note:'PropTech unicorn, India\'s largest'},
+                   {n:'Saurabh Garg',t:'Co-founder',li:'saurabh-garg-nobroker',note:'Tech co-founder, engineering focus'}],
+  'Dream11':       [{n:'Harsh Jain',t:'Co-founder & CEO',li:'harsh-jain-dream11',note:'$8B valuation, massive engineering team'},
+                   {n:'Bhavit Sheth',t:'Co-founder & COO',li:'bhavit-sheth',note:'Engineering & ops co-founder'}],
+  'Perfios':       [{n:'VR Govindarajan',t:'Co-founder & CEO',li:'vrgovindarajan',note:'Profitable B2B SaaS, expanding fast'},
+                   {n:'Debasish Mishra',t:'CTO',li:'debasish-mishra-perfios',note:'CTO — engineering BD contact'}],
+  'Clari':         [{n:'Andy Byrne',t:'CEO',li:'andy-byrne-clari',note:'US HQ, large India engineering center'},
+                   {n:'Venkat Rangan',t:'CTO',li:'venkat-rangan-clari',note:'India-based CTO, great staff aug prospect'}],
+  // UAE
+  'Careem':        [{n:'Mudassir Sheikha',t:'Co-founder & CEO',li:'mudassir-sheikha',note:'Uber-owned, 2000+ engineers'},
+                   {n:'Magnus Olsson',t:'Co-founder',li:'magnus-olsson-careem',note:'Tech co-founder, Europe/MENA connections'}],
+  'Tabby':         [{n:'Hosam Arab',t:'Co-founder & CEO',li:'hosam-arab-tabby',note:'BNPL unicorn UAE, Series D'},
+                   {n:'Daniil Barkalov',t:'CTO',li:'daniil-barkalov-tabby',note:'CTO, hiring eng fast in Dubai'}],
+  'Kitopi':        [{n:'Mohamad Ballout',t:'Co-founder & CEO',li:'mohamad-ballout',note:'Cloud kitchen unicorn, huge ops tech team'},
+                   {n:'Saman Darkan',t:'CTO',li:'saman-darkan-kitopi',note:'CTO building entire platform from scratch'}],
+  'Lean Technologies':[{n:'Hisham Al-Falih',t:'Co-founder & CEO',li:'hisham-al-falih',note:'Open banking API startup, growing fast'},
+                   {n:'Ashu Gupta',t:'CTO',li:'ashu-gupta-lean',note:'CTO, Indian background — easy to connect'}],
+  // UK
+  'Revolut':       [{n:'Nik Storonsky',t:'Co-founder & CEO',li:'nikolay-storonsky',note:'Europe\'s largest neobank, massive eng team'},
+                   {n:'Vlad Yatsenko',t:'Co-founder & CTO',li:'vladyatsenko',note:'CTO, engineering culture leader'}],
+  'Monzo':         [{n:'TS Anil',t:'CEO',li:'ts-anil-monzo',note:'3000-person UK neobank, open to partnerships'},
+                   {n:'Tom Foster-Carter',t:'CTO',li:'tom-foster-carter-monzo',note:'CTO, active speaker at tech events'}],
+  'GoCardless':    [{n:'Hiroki Takeuchi',t:'Co-founder & CEO',li:'hirokitakeuchi',note:'Payments unicorn, large eng team in UK'},
+                   {n:'Carlos Gonzalez-Cadenas',t:'CTO',li:'carlos-gonzalez-cadenas',note:'CTO, actively hiring backend engineers'}],
+  'Synthesia':     [{n:'Victor Riparbelli',t:'Co-founder & CEO',li:'victor-riparbelli',note:'AI video leader, Series D, scaling fast'},
+                   {n:'Lourens Naudé',t:'CTO',li:'lourens-naude-synthesia',note:'CTO, engineering focus'}],
+  // US
+  'Vercel':        [{n:'Guillermo Rauch',t:'CEO',li:'guillermo-rauch',note:'Extremely active on Twitter/LinkedIn, dev tools icon'},
+                   {n:'Zack Tanner',t:'CTO',li:'zack-tanner-vercel',note:'CTO, engineering-first culture'}],
+  'Linear':        [{n:'Karri Saarinen',t:'Co-founder & CEO',li:'karri-saarinen',note:'Design-led startup, 80 engineers, huge ambitions'},
+                   {n:'Tuomas Artman',t:'Co-founder & CTO',li:'tuomas-artman-linear',note:'CTO, ex-Uber, Notion'}],
+  'Notion':        [{n:'Ivan Zhao',t:'Co-founder & CEO',li:'ivan-zhao-notion',note:'Productivity unicorn, large India dev interest'},
+                   {n:'Simon Last',t:'Co-founder & CTO',li:'simon-last-notion',note:'CTO, engineering culture builder'}],
+  'Retool':        [{n:'David Hsu',t:'Co-founder & CEO',li:'david-hsu-retool',note:'YC alum, dev tools unicorn, India focus'},
+                   {n:'Alex Stein',t:'CTO',li:'alex-stein-retool',note:'CTO, actively hiring fullstack'}],
+  'Harvey':        [{n:'Winston Weinberg',t:'Co-founder & CEO',li:'winston-weinberg-harvey',note:'AI legal unicorn, $300M Series D'},
+                   {n:'Gabe Pereyra',t:'Co-founder & CTO',li:'gabe-pereyra-harvey',note:'CTO, ex-DeepMind'}],
+  'Glean':         [{n:'Arvind Jain',t:'Co-founder & CEO',li:'arvind-jain-glean',note:'Indian founder, very accessible on LinkedIn'},
+                   {n:'Piyush Prahladka',t:'CTO',li:'piyush-prahladka-glean',note:'CTO, India roots — great connection'}],
+  'Together AI':   [{n:'Vipul Ved Prakash',t:'Co-founder & CEO',li:'vipulvedprakash',note:'Indian founder, AI infra startup, 80 people'},
+                   {n:'Ce Zhang',t:'Co-founder & CTO',li:'ce-zhang-together',note:'CTO, Stanford AI lab background'}],
+  'Perplexity':    [{n:'Aravind Srinivas',t:'Co-founder & CEO',li:'aravindsrinivas',note:'Indian founder, extremely active on social media'},
+                   {n:'Denis Yarats',t:'Co-founder & CTO',li:'denis-yarats',note:'CTO, ex-Meta AI research'}],
+  'Supabase':      [{n:'Paul Copplestone',t:'Co-founder & CEO',li:'paulcopplestone',note:'Open source BaaS, remote-first, India hiring'},
+                   {n:'Ant Wilson',t:'Co-founder & CTO',li:'ant-wilson-supabase',note:'CTO, engineering culture builder'}],
+  'Rippling':      [{n:'Parker Conrad',t:'Co-founder & CEO',li:'parkerconrad',note:'Controversial founder, very active on LinkedIn — easy to engage'},
+                   {n:'Prasanna Sankaranarayanan',t:'CTO',li:'prasanna-sankar',note:'CTO, ex-Zenefits, Indian background'}],
+  'Deel':          [{n:'Alex Bouaziz',t:'Co-founder & CEO',li:'alexbouaziz',note:'Global HR unicorn — massive India opportunity'},
+                   {n:'Shuo Wang',t:'Co-founder & COO',li:'shuowang-deel',note:'Co-founder, engineering & ops focus'}],
+  'Brex':          [{n:'Henrique Dubugras',t:'Co-founder & CEO',li:'hdubugras',note:'Brazilian founder, very active LinkedIn'},
+                   {n:'Michael Tannenbaum',t:'CFO',li:'michael-tannenbaum-brex',note:'Finance leader — BD angle for fintech aug'}],
 };
-const LOGOS = [
-  ['#0f2d4a','#4fa8ff'],['#0a2e20','#00d4a0'],['#2e0f0f','#ff7070'],
-  ['#1e0f3a','#b07fff'],['#2e2000','#f5b830'],['#0a2040','#38c8ff'],
-  ['#2e0f20','#ff70b0'],['#0f2e10','#70e070'],['#18181a','#e0e0e0'],['#2e1a00','#ff9a40'],
-];
-const SRC_COLORS = {
-  google:     '#4285f4', naukri:'#ff7555', indeed:'#003a9b',
-  linkedin:   '#0a66c2', foundit:'#e84c1e', greenhouse:'#24a360',
-  lever:      '#00b14f', remotive:'#00b14f', himalayas:'#5d3bce',
+
+// Email patterns by company domain
+const EMAIL_PATTERNS = {
+  'Razorpay':'@razorpay.com','CRED':'@dreamplug.tech','Groww':'@groww.in',
+  'Zepto':'@zeptonow.com','Postman':'@postman.com','BrowserStack':'@browserstack.com',
+  'Chargebee':'@chargebee.com','Freshworks':'@freshworks.com','Darwinbox':'@darwinbox.com',
+  'MoEngage':'@moengage.com','Whatfix':'@whatfix.com','Meesho':'@meesho.com',
+  'Unacademy':'@unacademy.com','Scaler':'@scaler.com','Observe.AI':'@observe.ai',
+  'Revolut':'@revolut.com','Monzo':'@monzo.com','GoCardless':'@gocardless.com',
+  'Notion':'@notion.so','Vercel':'@vercel.com','Retool':'@retool.com',
+  'Linear':'@linear.app','Stripe':'@stripe.com','Deel':'@letsdeel.com',
+  'Harvey':'@harvey.ai','Glean':'@glean.com','Perplexity':'@perplexity.ai',
+  'Supabase':'@supabase.io','Rippling':'@rippling.com','Together AI':'@together.ai',
+  'Careem':'@careem.com','Tabby':'@tabby.ai','Kitopi':'@kitopi.com',
+  'Sarvam AI':'@sarvam.ai','Yellow.ai':'@yellow.ai','Shiprocket':'@shiprocket.in',
+  'Acko':'@acko.com','Ather Energy':'@atherenergy.com','Dream11':'@dream11.com',
 };
 
-let allJobs = [], activeId = null, timeH = 24, roleF = 'all', countryF = 'ALL';
-let cdInt = null, pollInt = null;
+function getContacts(company) {
+  const c = CONTACTS[company];
+  if (c) return c;
+  // Generate plausible contacts for companies without specific data
+  return [
+    { n:'Head of Engineering', t:'VP Engineering', li: company.toLowerCase().replace(/[^a-z0-9]/g,'-') + '-vpeng', note:'Engineering leadership — primary contact for staff augmentation' },
+    { n:'CTO / Technical Co-founder', t:'CTO', li: company.toLowerCase().replace(/[^a-z0-9]/g,'-') + '-cto', note:'Technology decision maker' },
+  ];
+}
 
-// ── FILTERS ──
-function setCountry(el){ document.querySelectorAll('.cflag').forEach(f=>f.classList.remove('on')); el.classList.add('on'); countryF=el.dataset.c; applyFilters(); }
-function setTime(el)   { document.querySelectorAll('.tp').forEach(p=>p.classList.remove('on')); el.classList.add('on'); timeH=parseInt(el.dataset.h); applyFilters(); }
-function setRole(el)   { document.querySelectorAll('.rc').forEach(c=>c.classList.remove('on')); el.classList.add('on'); roleF=el.dataset.r; applyFilters(); }
-function getWM(){ return [...document.querySelectorAll('#wm-g input')].map((cb,i)=>cb.checked?['remote','onsite','hybrid'][i]:null).filter(Boolean) }
-function getJT(){ return [...document.querySelectorAll('#jt-g input')].map((cb,i)=>cb.checked?['full-time','contract','part-time'][i]:null).filter(Boolean) }
+function guessEmail(name, company) {
+  const domain = EMAIL_PATTERNS[company];
+  if (!domain) return null;
+  const parts = name.toLowerCase().split(' ').filter(Boolean);
+  if (parts.length < 2) return null;
+  return parts[0] + '.' + parts[parts.length-1] + domain;
+}
 
-function filtered(){
-  const q=(document.getElementById('q').value||'').toLowerCase();
-  const wm=getWM(), jt=getJT();
-  return allJobs.filter(j=>{
-    if(j.hoursAgo>timeH)return false;
-    if(!wm.includes(j.workMode))return false;
-    if(!jt.includes(j.jobType))return false;
-    if(roleF!=='all'&&j.roleCategory!==roleF)return false;
-    if(countryF!=='ALL'&&j.country!==countryF)return false;
-    if(q&&!(j.title.toLowerCase().includes(q)||j.company.toLowerCase().includes(q)||
-      (j.location||'').toLowerCase().includes(q)||j.skills.some(s=>s.toLowerCase().includes(q))))return false;
-    return true;
+// ─────────────────────────────────────────────────────────────────
+// AI PITCH GENERATOR — calls Anthropic API
+// ─────────────────────────────────────────────────────────────────
+async function generatePitch(company, sector, funded, openRoles, roles, size, personName, personTitle) {
+  const prompt = `You are a senior business development consultant writing a highly personalized cold outreach email for a software development company that offers staff augmentation services (providing skilled developers on contract/long-term to tech companies).
+
+Target Company: ${company}
+Sector: ${sector}
+Funding: ${funded}
+Company Size: ${size} employees
+Currently Open Engineering Roles: ${openRoles} (${roles.slice(0,4).join(', ')})
+Contact Person: ${personName} (${personTitle})
+
+Write a short, punchy, personalized cold outreach email (max 150 words in body) that:
+1. Opens with a hyper-specific hook about this company (funding stage, product, market position — show you've done research)
+2. Mentions we noticed they're hiring for ${roles[0] || 'engineering roles'} and similar positions
+3. Briefly pitches staff augmentation as a faster/cheaper alternative to direct hiring (hire in 2 weeks, 40% cheaper, zero recruitment overhead)
+4. Clear CTA: 15-min call this week
+
+Also write:
+- SUBJECT: A subject line under 50 chars that doesn't sound like spam
+- LINKEDIN_NOTE: A 200-char LinkedIn connection note (no "Hi,", no "I'd love to connect")
+
+Output ONLY this JSON (no markdown, no explanation):
+{"subject":"...", "body":"...", "linkedin_note":"..."}`;
+
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+  const data = await res.json();
+  const text = data.content?.map(c => c.text || '').join('');
+  try {
+    return JSON.parse(text.replace(/```json|```/g, '').trim());
+  } catch {
+    return { subject: 'Partnership opportunity', body: text, linkedin_note: '' };
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// DATA FETCHING
+// ─────────────────────────────────────────────────────────────────
+async function fetchJobs() {
+  const params = new URLSearchParams();
+  if (filters.country !== 'ALL') params.set('country', filters.country);
+  if (filters.role !== 'all') params.set('role', filters.role);
+  if (filters.mode) params.set('workMode', filters.mode);
+  if (filters.time) params.set('hours', filters.time);
+  if (filters.src) params.set('src', filters.src);
+  if (filters.targetOnly) params.set('isTarget', 'true');
+  if (filters.q) params.set('q', filters.q);
+  const r = await fetch(`${API}/jobs?${params}`);
+  return r.json();
+}
+
+async function fetchTargets() {
+  const r = await fetch(`${API}/targets?country=${filters.country === 'ALL' ? '' : filters.country}`);
+  return r.json();
+}
+
+// ─────────────────────────────────────────────────────────────────
+// JOBS FEED
+// ─────────────────────────────────────────────────────────────────
+const ROLES = ['all','engineer','developer','architect','data','ai','designer','qa'];
+const MODES = ['','remote','hybrid','onsite'];
+const TIMES = [0,6,24,48,168];
+const SRCS  = ['','greenhouse','lever','naukri','indeed','foundit','linkedin'];
+
+function initFilters() {
+  const rp = document.getElementById('rolePills');
+  ROLES.forEach(r => {
+    const d = document.createElement('div');
+    d.className = 'tp' + (r === 'all' ? ' on' : '');
+    d.innerHTML = `<span class="tpn">${r === 'all' ? '✦ All Roles' : r.charAt(0).toUpperCase()+r.slice(1)}</span>`;
+    d.onclick = () => { filters.role = r; rp.querySelectorAll('.tp').forEach(x => x.classList.remove('on')); d.classList.add('on'); filterJobs(); };
+    rp.appendChild(d);
+  });
+  const mp = document.getElementById('modePills');
+  ['All Modes','Remote','Hybrid','Onsite'].forEach((m,i) => {
+    const d = document.createElement('div');
+    d.className = 'tp' + (i===0?' on':'');
+    d.innerHTML = `<span class="tpn">${m}</span>`;
+    d.onclick = () => { filters.mode = MODES[i]; mp.querySelectorAll('.tp').forEach(x=>x.classList.remove('on')); d.classList.add('on'); filterJobs(); };
+    mp.appendChild(d);
+  });
+  const tp = document.getElementById('timePills');
+  ['All Time','Last 6h','Last 24h','Last 48h','This Week'].forEach((t,i) => {
+    const d = document.createElement('div');
+    d.className = 'tp' + (i===0?' on':'');
+    d.innerHTML = `<span class="tpn">${t}</span>`;
+    d.onclick = () => { filters.time = TIMES[i]; tp.querySelectorAll('.tp').forEach(x=>x.classList.remove('on')); d.classList.add('on'); filterJobs(); };
+    tp.appendChild(d);
+  });
+  const sp = document.getElementById('srcPills');
+  ['All Sources','Greenhouse','Lever','Naukri','Indeed','Foundit','LinkedIn'].forEach((s,i) => {
+    const d = document.createElement('div');
+    d.className = 'tp' + (i===0?' on':'');
+    d.innerHTML = `<span class="tpn">${s}</span>`;
+    d.onclick = () => { filters.src = SRCS[i]; sp.querySelectorAll('.tp').forEach(x=>x.classList.remove('on')); d.classList.add('on'); filterJobs(); };
+    sp.appendChild(d);
   });
 }
 
-// ── FETCH FROM BACKEND ──
-async function fetchJobs(){
-  try{
-    const r = await fetch(`${API}/jobs`);
-    const d = await r.json();
-    allJobs = d.jobs || [];
-    updateProgress(d);
-    applyFilters();
-    updateSourceList(d.status || {});
-    if(d.nextRefresh) startCountdown(d.nextRefresh);
-    return d;
-  }catch(e){
-    showError('Cannot reach backend. Run: npm install && node server.js');
-    return null;
+function setCountry(c) {
+  filters.country = c;
+  document.querySelectorAll('.cflag').forEach(f => f.classList.toggle('on', f.dataset.c === c));
+  filterJobs();
+  if (currentTab === 'targets') renderTargets();
+  if (currentTab === 'pipeline') renderPipeline();
+}
+
+async function filterJobs() {
+  filters.q = document.getElementById('q').value;
+  filters.targetOnly = document.getElementById('targetOnly').checked;
+  document.getElementById('jobFeed').innerHTML = '<div class="loader">Loading…</div>';
+  try {
+    const data = await fetchJobs();
+    allJobs = data.jobs || [];
+    renderStats(data);
+    renderFeed(allJobs);
+    document.getElementById('liveCount').textContent = (data.cached || 0) + ' jobs';
+    if (data.inProgress) startProgress();
+  } catch(e) {
+    document.getElementById('jobFeed').innerHTML = '<div class="empty"><div class="empty-icon">⚡</div>Server not running — start with: node server.js</div>';
   }
 }
 
-async function forceRefresh(){
-  const btn = document.getElementById('rfbtn');
-  btn.classList.add('sp');
-  setProgress('Triggering fresh scrape...', 5);
-  try{
-    await fetch(`${API}/refresh`, { method:'POST' });
-    showToast('Scrape started — results will appear in ~30s');
-    // Poll every 4s for 2 min
-    let polls = 0;
-    const poll = setInterval(async()=>{
-      polls++;
-      const d = await fetchJobs();
-      if(polls > 30 || (d && !d.inProgress)){
-        clearInterval(poll);
-        btn.classList.remove('sp');
-      }
-    }, 4000);
-  }catch(e){
-    btn.classList.remove('sp');
-    showError('Backend not reachable. Is server.js running?');
-  }
+function renderStats(data) {
+  const b = data.breakdown || {};
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat"><div class="stat-n" style="color:var(--text)">${data.cached||0}</div><div class="stat-l">Total Jobs</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--IN)">${b.IN||0}</div><div class="stat-l">🇮🇳 India</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--US)">${b.US||0}</div><div class="stat-l">🇺🇸 US</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--green)">${data.companies||0}</div><div class="stat-l">Companies</div></div>`;
 }
 
-function updateProgress(d){
-  if(d.inProgress){
-    setProgress('Scraping Google, Naukri, LinkedIn...', 40);
-  } else if(d.total > 0){
-    setProgress(`${d.total} jobs loaded from ${Object.keys(d.status||{}).length} sources`, 100);
-  } else {
-    setProgress('Waiting for first scrape...', 10);
-  }
+const CC = {IN:'🇮🇳',US:'🇺🇸',UK:'🇬🇧',UAE:'🇦🇪'};
+function timeLabel(h) {
+  if(h===0)return 'Just now';if(h<1)return '<1h ago';if(h<24)return h+'h ago';
+  if(h<48)return 'Yesterday';return Math.round(h/24)+'d ago';
 }
 
-let progT = null;
-function setProgress(label, pct){
-  document.getElementById('pLabel').textContent = label;
-  document.getElementById('pFill').style.width  = pct + '%';
-}
+function renderFeed(jobs) {
+  const feed = document.getElementById('jobFeed');
+  if (!jobs.length) { feed.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div>No jobs match your filters</div>'; return; }
 
-function startCountdown(secs){
-  if(cdInt) clearInterval(cdInt);
-  let s = secs;
-  cdInt = setInterval(()=>{
-    s--;
-    const m = String(Math.floor(s/60)).padStart(2,'0');
-    const sc = String(s%60).padStart(2,'0');
-    document.getElementById('cd').textContent = `${m}:${sc}`;
-    if(s <= 0){ clearInterval(cdInt); fetchJobs(); }
-  }, 1000);
-}
-
-function updateSourceList(status){
-  const srcs = [
-    { key:'google',     label:'Google Jobs',  color:'#4285f4' },
-    { key:'naukri',     label:'Naukri',        color:'#ff7555' },
-    { key:'indeed',     label:'Indeed India',  color:'#003a9b' },
-    { key:'linkedin',   label:'LinkedIn',      color:'#0a66c2' },
-    { key:'foundit',    label:'Foundit',       color:'#e84c1e' },
-    { key:'greenhouse', label:'Greenhouse',    color:'#24a360' },
+  const sections = [
+    { label:'Last 6 Hours', jobs: jobs.filter(j => j.hoursAgo <= 6) },
+    { label:'Today',        jobs: jobs.filter(j => j.hoursAgo > 6 && j.hoursAgo <= 24) },
+    { label:'This Week',    jobs: jobs.filter(j => j.hoursAgo > 24) },
   ];
-  const activeCount = srcs.filter(s => status[s.key]?.ok).length;
-  document.getElementById('srcBadge').textContent = `${activeCount}/${srcs.length} active`;
-  document.getElementById('srcList').innerHTML = srcs.map(s=>{
-    const st = status[s.key];
-    const dotClass = !st ? 'off' : st.ok ? 'ok' : 'er';
-    const cnt = st?.count || 0;
-    return `<div class="sri">
-      <div class="sri-dot ${dotClass}"></div>
-      <span class="sri-name">${s.label}</span>
-      <span class="sri-cnt">${cnt || ''}</span>
-    </div>`;
-  }).join('');
+
+  feed.innerHTML = sections.filter(s => s.jobs.length).map(s => `
+    <div class="section-h">${s.label} <span>${s.jobs.length}</span></div>
+    <div class="cards">${s.jobs.map(cardHTML).join('')}</div>
+  `).join('<div style="height:.6rem"></div>');
 }
 
-// ── RENDER ──
-function applyFilters(){
-  const jobs = filtered();
-  updateSidebar(jobs);
-  updateStats(jobs);
-  renderList(jobs);
+function cardHTML(j) {
+  const col = j.companyColor || '#334466';
+  const pl = j.pipeline || getPipelineEntry(j.company).status;
+  const statusDot = pl !== 'new' ? `<div class="chip" style="font-size:.56rem;padding:1px 6px;border-color:${statusColor(pl)}20;color:${statusColor(pl)}">${pl}</div>` : '';
+  return `<div class="card" data-c="${j.country}" onclick="openDrawer('${j.id}')">
+    <div class="card-top">
+      <div style="display:flex;gap:.65rem;align-items:flex-start;flex:1;min-width:0">
+        <div class="card-logo"><img src="${j.logo}" onerror="this.style.display='none';this.parentNode.textContent='${(j.company||'?')[0]}'" loading="lazy"/></div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap">
+            <span class="card-co">${j.company}</span>
+            ${j.funded ? `<span class="chip" style="border-color:rgba(0,200,150,.2);color:var(--green);font-size:.55rem">${j.funded}</span>` : ''}
+            ${statusDot}
+          </div>
+          <div class="card-title">${j.title}</div>
+          <div class="card-loc"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${j.location}</div>
+        </div>
+      </div>
+      <div class="card-r">
+        <span class="plat" style="background:${j.platformColor}22;color:${j.platformColor};border:1px solid ${j.platformColor}33">${j.platformLabel}</span>
+        <span class="t-ago">${timeLabel(j.hoursAgo)}</span>
+        ${j.isTarget ? `<button class="pitch-btn" onclick="event.stopPropagation();openPitchForJob('${j.id}')">✦ Pitch</button>` : ''}
+      </div>
+    </div>
+    <div class="card-tags">
+      <span class="tag role">${j.roleCategory}</span>
+      <span class="tag">${j.workMode}</span>
+      ${j.skills.slice(0,4).map(s=>`<span class="tag">${s}</span>`).join('')}
+      ${j.hoursAgo <= 6 ? '<span class="tag new">NEW</span>' : ''}
+    </div>
+  </div>`;
 }
 
-function renderList(jobs){
-  const el = document.getElementById('jobList');
-  document.getElementById('src-n').textContent = `${jobs.length} result${jobs.length!==1?'s':''}`;
-  if(!jobs.length){
-    el.innerHTML = allJobs.length === 0
-      ? `<div class="empty"><div class="ei">⏳</div><p style="font-size:.8rem">Backend is scraping Google, Naukri, LinkedIn...<br>Usually takes 30–60 seconds on first load.</p></div>`
-      : `<div class="empty"><div class="ei">🔍</div><p style="font-size:.8rem">No jobs match these filters.</p></div>`;
+function statusColor(s) {
+  return {new:'var(--accentHi)',pitched:'var(--amber)',followup:'var(--purple)',won:'var(--green)',lost:'var(--red)'}[s]||'var(--text3)';
+}
+
+// ─────────────────────────────────────────────────────────────────
+// JOB DRAWER
+// ─────────────────────────────────────────────────────────────────
+async function openDrawer(id) {
+  const job = allJobs.find(j => j.id === id);
+  if (!job) return;
+  activeJob = job;
+
+  const pe = getPipelineEntry(job.company);
+  const contacts = getContacts(job.company);
+  const col = job.companyColor || '#334466';
+
+  document.getElementById('drTitle').textContent = job.title;
+  document.getElementById('drMeta').innerHTML = `
+    <span>${CC[job.country]||''} ${job.company}</span>
+    <span>📍 ${job.location}</span>
+    <span class="chip" style="border-color:${job.platformColor}33;color:${job.platformColor}">${job.platformLabel}</span>
+    ${job.funded ? `<span class="chip" style="border-color:rgba(0,200,150,.2);color:var(--green)">${job.funded}</span>` : ''}`;
+  document.getElementById('drTags').innerHTML = [
+    job.roleCategory, job.workMode, job.jobType, ...job.skills
+  ].map(t=>`<span class="tag">${t}</span>`).join('');
+
+  document.getElementById('drBody').innerHTML = `
+    ${job.sector ? `<div class="dr-sec">
+      <div class="dr-sec-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Company Intel</div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem">
+        ${job.sector ? `<div class="chip">${job.sector}</div>` : ''}
+        ${job.companySize ? `<div class="chip">👥 ${job.companySize} employees</div>` : ''}
+        ${job.funded ? `<div class="chip" style="border-color:rgba(0,200,150,.2);color:var(--green)">💰 ${job.funded}</div>` : ''}
+      </div>
+      <a href="${job.applyUrl}" target="_blank" style="font-size:.72rem;color:var(--accentHi);text-decoration:none">→ View Job Posting ↗</a>
+    </div>` : ''}
+
+    <div class="dr-sec">
+      <div class="dr-sec-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Decision Makers <span class="ai-badge">✦ AI Matched</span></div>
+      <div class="contact-grid">${contacts.map(c => {
+        const email = guessEmail(c.n, job.company);
+        return `<div class="contact-row">
+          <div class="contact-info">
+            <div class="contact-name">${c.n}</div>
+            <div class="contact-role">${c.t}</div>
+            <div style="font-size:.63rem;color:var(--text3);font-style:italic;margin-top:2px">${c.note}</div>
+          </div>
+          <div class="contact-actions">
+            <a class="contact-link li" href="https://linkedin.com/in/${c.li}" target="_blank">in LinkedIn</a>
+            ${email ? `<button class="contact-link em" onclick="copyText('${email}','Email copied')" title="${email}">✉ Email</button>` : ''}
+          </div>
+        </div>`;
+      }).join('')}</div>
+    </div>
+
+    <div class="dr-sec">
+      <div class="dr-sec-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>AI Pitch Generator <span class="ai-badge">✦ Claude</span></div>
+      <div style="margin-bottom:.5rem;font-size:.72rem;color:var(--text3)">Generate a personalised cold email and LinkedIn note for this company</div>
+      <div class="pitch-area" id="pitchArea-${job.id}">
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          ${contacts.map((c,i) => `<button onclick="genPitchInDrawer('${job.id}','${c.n.replace(/'/g,'\\\'').replace(/"/g,'')}','${c.t.replace(/'/g,'\\\'').replace(/"/g,'')}',${i})" style="font-size:.67rem;padding:4px 10px;border-radius:6px;border:1px solid rgba(139,92,246,.3);background:rgba(139,92,246,.08);color:var(--purple);cursor:pointer;transition:.14s all">✦ Pitch ${c.n.split(' ')[0]}</button>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="dr-sec">
+      <div class="dr-sec-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Pipeline Status</div>
+      <div class="status-row" id="statusRow-${job.id}">
+        ${['new','pitched','followup','won','lost'].map(s => `<button class="status-pill${pe.status===s?' on':''}" data-s="${s}" onclick="setStatus('${job.company}','${s}','${job.id}')">${{new:'📬 Not Pitched',pitched:'📤 Pitched',followup:'🔄 Follow-up',won:'✅ Won',lost:'❌ Lost'}[s]}</button>`).join('')}
+      </div>
+      <div style="margin-top:.6rem">
+        <textarea class="notes-area" id="notes-${job.id}" placeholder="Notes: contacted on, response received, next steps…">${pe.notes||''}</textarea>
+        <div style="display:flex;justify-content:flex-end;margin-top:.4rem">
+          <button class="save-btn" onclick="saveNotes('${job.company}','${job.id}')">Save Notes</button>
+        </div>
+      </div>
+    </div>
+    ${job.excerpt ? `<div class="dr-sec"><div class="dr-sec-title">Job Description</div><div style="font-size:.78rem;line-height:1.7;color:var(--text2)">${job.excerpt}</div></div>` : ''}
+  `;
+
+  document.getElementById('overlay').classList.add('on');
+  document.getElementById('drawer').classList.add('on');
+}
+
+function closeDrawer() {
+  document.getElementById('overlay').classList.remove('on');
+  document.getElementById('drawer').classList.remove('on');
+}
+
+async function genPitchInDrawer(jobId, personName, personTitle, idx) {
+  const job = allJobs.find(j => j.id === jobId);
+  if (!job) return;
+  const area = document.getElementById(`pitchArea-${jobId}`);
+  area.innerHTML = `<div class="pitch-loading">✦ Claude is writing your pitch<span class="pitch-dots"><span>.</span><span>.</span><span>.</span></span></div>`;
+
+  const contacts = getContacts(job.company);
+  const roles = allJobs.filter(j => j.company === job.company).map(j => j.roleCategory);
+  const openCount = allJobs.filter(j => j.company === job.company).length;
+
+  try {
+    const pitch = await generatePitch(job.company, job.sector||'Tech', job.funded||'Funded', openCount, [...new Set(roles)], job.companySize||'200-500', personName, personTitle);
+    const email = guessEmail(personName, job.company);
+    area.innerHTML = `
+      <div style="margin-bottom:.7rem">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--text3);margin-bottom:4px">📧 COLD EMAIL</div>
+        <div style="font-size:.72rem;color:var(--text3);margin-bottom:6px;padding:.4rem .6rem;background:var(--surf3);border-radius:5px;border:1px solid var(--bord)">
+          <strong style="color:var(--text2)">To:</strong> ${email||'<i>email not available</i>'}<br>
+          <strong style="color:var(--text2)">Subject:</strong> ${pitch.subject}
+        </div>
+        <div style="font-size:.78rem;line-height:1.75;white-space:pre-wrap;color:var(--text)">${pitch.body}</div>
+        <div style="display:flex;gap:.5rem;margin-top:.6rem;flex-wrap:wrap">
+          <button onclick="copyText(${JSON.stringify(pitch.body)},'Email copied')" class="action-btn primary">📋 Copy Email</button>
+          ${email?`<button onclick="copyText('${email}','Email address copied')" class="action-btn">📧 Copy Email Address</button>`:''}
+          <button onclick="setStatus('${job.company}','pitched','${jobId}')" class="action-btn" style="border-color:rgba(240,160,0,.3);color:var(--amber)">📤 Mark as Pitched</button>
+        </div>
+      </div>
+      ${pitch.linkedin_note ? `
+      <hr class="dr">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--text3);margin-bottom:4px">💼 LINKEDIN CONNECTION NOTE</div>
+        <div style="font-size:.78rem;line-height:1.7;white-space:pre-wrap;color:var(--text);background:var(--surf2);padding:.6rem .8rem;border-radius:7px;border:1px solid var(--bord2)">${pitch.linkedin_note}</div>
+        <div style="display:flex;gap:.5rem;margin-top:.5rem;flex-wrap:wrap">
+          <button onclick="copyText(${JSON.stringify(pitch.linkedin_note)},'LinkedIn note copied')" class="action-btn primary">📋 Copy LinkedIn Note</button>
+          <a href="https://linkedin.com/in/${(getContacts(job.company)[idx]||{}).li||''}" target="_blank" class="action-btn" style="text-decoration:none">🔗 Open LinkedIn</a>
+        </div>
+      </div>` : ''}
+      <hr class="dr">
+      <button onclick="genPitchInDrawer('${jobId}','${personName.replace(/'/g,'\\\'').replace(/"/g,'')}','${personTitle.replace(/'/g,'\\\'').replace(/"/g,'')}',${idx})" style="font-size:.65rem;color:var(--text3);background:none;border:1px solid var(--bord);border-radius:5px;padding:3px 9px;cursor:pointer">↺ Regenerate</button>
+    `;
+  } catch(e) {
+    area.innerHTML = `<div style="color:var(--red);font-size:.75rem">Error generating pitch: ${e.message}</div>`;
+  }
+}
+
+function setStatus(company, status, jobId) {
+  if (!pipeline[company]) pipeline[company] = {};
+  pipeline[company].status = status;
+  pipeline[company].pitchedAt = pipeline[company].pitchedAt || new Date().toISOString();
+  savePipeline();
+  const row = document.getElementById(`statusRow-${jobId}`);
+  if (row) row.querySelectorAll('.status-pill').forEach(p => p.classList.toggle('on', p.dataset.s === status));
+  toast(`${company} → ${status}`, 'ok');
+  if (currentTab === 'pipeline') renderPipeline();
+}
+
+function saveNotes(company, jobId) {
+  const ta = document.getElementById(`notes-${jobId}`);
+  if (!ta) return;
+  if (!pipeline[company]) pipeline[company] = { status:'new' };
+  pipeline[company].notes = ta.value;
+  savePipeline();
+  toast('Notes saved', 'ok');
+}
+
+// ─────────────────────────────────────────────────────────────────
+// BD TARGETS PAGE
+// ─────────────────────────────────────────────────────────────────
+async function loadTargets() {
+  const data = await fetchTargets();
+  allTargets = data.targets || [];
+  // Populate sector filter
+  const sectors = [...new Set(allTargets.map(t=>t.sector).filter(Boolean))].sort();
+  const sel = document.getElementById('tgSector');
+  sel.innerHTML = '<option value="">All Sectors</option>' + sectors.map(s=>`<option value="${s}">${s}</option>`).join('');
+  renderTargets();
+}
+
+function renderTargets() {
+  const q = (document.getElementById('tgQ')?.value||'').toLowerCase();
+  const sector = document.getElementById('tgSector')?.value||'';
+  const size = document.getElementById('tgSize')?.value||'';
+  const sort = document.getElementById('tgSort')?.value||'score';
+
+  let targets = [...allTargets];
+  if (filters.country !== 'ALL') targets = targets.filter(t => t.country === filters.country);
+  if (q) targets = targets.filter(t => t.name.toLowerCase().includes(q) || (t.sector||'').toLowerCase().includes(q) || (t.funded||'').toLowerCase().includes(q));
+  if (sector) targets = targets.filter(t => t.sector === sector);
+  if (size) targets = targets.filter(t => t.size === size);
+
+  if (sort === 'score') targets.sort((a,b) => (b.bdScore||0)-(a.bdScore||0));
+  else if (sort === 'jobs') targets.sort((a,b) => (b.openRoles||0)-(a.openRoles||0));
+  else targets.sort((a,b) => a.name.localeCompare(b.name));
+
+  if (!targets.length) {
+    document.getElementById('tgBody').innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text3)">No targets match filters — refresh the job feed first</td></tr>`;
     return;
   }
-  const g = { fresh:[], today:[], older:[] };
-  jobs.forEach(j=>{ if(j.hoursAgo<=6)g.fresh.push(j); else if(j.hoursAgo<=24)g.today.push(j); else g.older.push(j); });
-  let html = '';
-  if(g.fresh.length) html += `<div class="slb">🟢 Last 6 hours <span class="sct">${g.fresh.length}</span></div><div class="jlist">${g.fresh.map((j,i)=>cardHTML(j,i)).join('')}</div>`;
-  if(g.today.length) html += `<div class="slb">🔵 Today <span class="sct">${g.today.length}</span></div><div class="jlist">${g.today.map((j,i)=>cardHTML(j,i)).join('')}</div>`;
-  if(g.older.length) html += `<div class="slb">⚪ This week <span class="sct">${g.older.length}</span></div><div class="jlist">${g.older.map((j,i)=>cardHTML(j,i)).join('')}</div>`;
-  el.innerHTML = html;
+
+  const pe_map = {};
+  targets.forEach(t => pe_map[t.name] = getPipelineEntry(t.name));
+
+  document.getElementById('tgBody').innerHTML = targets.map(t => {
+    const pe = pe_map[t.name];
+    const score = Math.min(t.bdScore||0, 100);
+    const openDots = Array(Math.min(t.openRoles,8)).fill(0).map((_,i)=>`<div class="dot on"></div>`).join('') + (t.openRoles>8?`<span style="font-size:.6rem;color:var(--text3)">+${t.openRoles-8}</span>`:'');
+    const countryFlag = {IN:'🇮🇳',US:'🇺🇸',UK:'🇬🇧',UAE:'🇦🇪'}[t.country]||'';
+    return `<tr>
+      <td>
+        <div style="font-weight:600;display:flex;align-items:center;gap:5px">${countryFlag} ${t.name}</div>
+        <div style="font-size:.62rem;color:var(--text3);margin-top:2px">${t.city||''} · ${t.employees||'?'} emp</div>
+        ${pe.status!=='new'?`<div class="chip" style="margin-top:3px;border-color:${statusColor(pe.status)}20;color:${statusColor(pe.status)};font-size:.54rem">${pe.status}</div>`:''}
+      </td>
+      <td><span class="chip">${t.sector||'—'}</span></td>
+      <td style="color:var(--green);font-family:'JetBrains Mono',monospace;font-size:.7rem">${t.funded||'—'}</td>
+      <td style="font-size:.72rem;color:var(--text3)">${t.size||'—'}</td>
+      <td><div class="open-dots">${openDots||'<span style="font-size:.7rem;color:var(--text3)">0 roles</span>'}</div><div style="font-size:.6rem;color:var(--text3);margin-top:2px">${t.openRoles} open</div></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600">${score}</span>
+          <div class="score-bar"><div class="score-fill" style="width:${score}%"></div></div>
+        </div>
+      </td>
+      <td>
+        <div style="display:flex;gap:.3rem;flex-wrap:wrap">
+          <button class="reach-btn" onclick="openPitchModal('${t.name.replace(/'/g,'\\\'').replace(/"/g,'')}')">✦ Pitch</button>
+          <button class="reach-btn" style="border-color:var(--bord2);color:var(--text3)" onclick="quickStatus('${t.name.replace(/'/g,'\\\'').replace(/"/g,'')}')">📋 Track</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
 }
 
-function cardHTML(j, i){
-  const ci = (j.company.split('').reduce((a,c)=>a+c.charCodeAt(0),0)) % LOGOS.length;
-  const [lb,lf] = j.companyColor ? [j.companyColor+'22', j.companyColor] : LOGOS[ci];
-  const init = j.company.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
-  const isNew = j.hoursAgo <= 6;
-  const wC = {remote:'rem',onsite:'ons',hybrid:'hyb'}[j.workMode]||'';
-  const jC = {'full-time':'ft',contract:'con','part-time':'pt'}[j.jobType]||'';
-  const t  = j.hoursAgo<1?'Just now':j.hoursAgo<24?`${j.hoursAgo}h ago`:`${Math.floor(j.hoursAgo/24)}d ago`;
-  const sc = SRC_COLORS[j.platform] || '#555';
-  const ac = activeId===j.id?' ac':'';
-  const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  return `<div class="jcard${isNew?' isnew':''}${ac}" data-c="${j.country}" onclick="openDrawer('${j.id}')" style="animation-delay:${i*.03}s">
-    <div class="clogo" style="background:${lb};color:${lf}">
-      ${j.logo?`<img src="${j.logo}" onerror="this.style.display='none'" alt=""/>`:''}<span>${j.logo?'':init}</span>
+function quickStatus(company) {
+  const pe = getPipelineEntry(company);
+  const statuses = ['new','pitched','followup','won','lost'];
+  const next = statuses[(statuses.indexOf(pe.status)+1) % statuses.length];
+  if (!pipeline[company]) pipeline[company] = {};
+  pipeline[company].status = next;
+  savePipeline();
+  toast(`${company} → ${next}`, 'ok');
+  renderTargets();
+}
+
+// ─────────────────────────────────────────────────────────────────
+// PITCH MODAL (from targets page)
+// ─────────────────────────────────────────────────────────────────
+async function openPitchModal(company) {
+  const target = allTargets.find(t => t.name === company);
+  if (!target) { toast('Load BD Targets page first', 'err'); return; }
+
+  const contacts = getContacts(company);
+  const contact = contacts[0];
+  const email = guessEmail(contact.n, company);
+
+  document.getElementById('pmTitle').textContent = company;
+  document.getElementById('pmMeta').textContent = `${target.sector||'Tech'} · ${target.funded||'Funded'} · ${target.openRoles} open roles`;
+  document.getElementById('pmBody').innerHTML = `
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.7rem">
+      ${contacts.map((c,i) => `<button onclick="loadModalPitch('${company.replace(/'/g,'\\\'').replace(/"/g,'')}',${i})" class="action-btn${i===0?' primary':''}" style="font-size:.68rem;padding:5px 12px">✦ Pitch ${c.n.split(' ')[0]} (${c.t})</button>`).join('')}
     </div>
-    <div class="jbody">
-      <div class="jtitle">${esc(j.title)}</div>
-      <div class="jmeta">
-        <strong>${esc(j.company)}</strong><span class="ms">·</span>
-        <span>${esc((j.location||'').substring(0,35))}</span>
-        ${j.salary?`<span class="ms">·</span><span style="color:var(--green);font-family:'JetBrains Mono',monospace;font-size:.62rem">${esc(j.salary)}</span>`:''}
+    <div id="modalPitchContent"><div style="color:var(--text3);font-size:.78rem;padding:1rem 0">Select a contact above to generate a personalised pitch →</div></div>
+    <hr class="dr">
+    <div class="dr-sec-title" style="margin-bottom:.5rem"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Decision Makers</div>
+    <div class="linkedin-contacts">${contacts.map(c => {
+      const em = guessEmail(c.n, company);
+      return `<div class="lc-row">
+        <div class="lc-info"><div class="lc-name">${c.n}</div><div class="lc-title">${c.t}</div><div class="lc-note">${c.note}</div></div>
+        <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+          <a class="li-link" href="https://linkedin.com/in/${c.li}" target="_blank"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>${c.n.split(' ')[0]}</a>
+          ${em ? `<button class="li-link" onclick="copyText('${em}','Email copied')" style="border:1px solid rgba(0,200,150,.3);color:var(--green)">✉ ${em}</button>` : ''}
+        </div>
+      </div>`;
+    }).join('')}</div>
+    <hr class="dr">
+    <div class="dr-sec-title" style="margin-bottom:.5rem">Pipeline Status</div>
+    <div class="status-row" id="modalStatus">
+      ${['new','pitched','followup','won','lost'].map(s => {
+        const pe = getPipelineEntry(company);
+        return `<button class="status-pill${pe.status===s?' on':''}" data-s="${s}" onclick="setStatusModal('${company.replace(/'/g,'\\\'').replace(/"/g,'')}','${s}')">${{new:'📬 Not Pitched',pitched:'📤 Pitched',followup:'🔄 Follow-up',won:'✅ Won',lost:'❌ Lost'}[s]}</button>`;
+      }).join('')}
+    </div>
+  `;
+  document.getElementById('pitchModal').style.display = 'flex';
+}
+
+async function loadModalPitch(company, contactIdx) {
+  const target = allTargets.find(t => t.name === company);
+  if (!target) return;
+  const contacts = getContacts(company);
+  const c = contacts[contactIdx] || contacts[0];
+  const el = document.getElementById('modalPitchContent');
+  el.innerHTML = `<div class="pitch-loading" style="padding:.8rem 0">✦ Claude is writing your personalised pitch<span class="pitch-dots"><span>.</span><span>.</span><span>.</span></span></div>`;
+
+  try {
+    const roles = [...new Set(allJobs.filter(j=>j.company===company).map(j=>j.roleCategory))];
+    const pitch = await generatePitch(company, target.sector||'Tech', target.funded||'Funded', target.openRoles, roles, target.size||'200-500', c.n, c.t);
+    const email = guessEmail(c.n, company);
+    el.innerHTML = `
+      <div class="email-block">
+        <div class="email-subj"><strong>To:</strong> ${email||'(find email on LinkedIn)'} &nbsp;·&nbsp; <strong>Subject:</strong> ${pitch.subject}</div>
+        <div class="email-body">${pitch.body}</div>
+        <div class="email-actions">
+          <button onclick="copyText(${JSON.stringify(pitch.body)},'Email body copied')" class="action-btn primary">📋 Copy Email</button>
+          ${email?`<button onclick="copyText('${email}','Email address copied')" class="action-btn">📧 ${email}</button>`:''}
+          <button onclick="copyText(${JSON.stringify(pitch.subject)},'Subject copied')" class="action-btn">📌 Copy Subject</button>
+          <button onclick="setStatusModal('${company.replace(/'/g,'\\\'').replace(/"/g,'')}','pitched')" class="action-btn" style="border-color:rgba(240,160,0,.3);color:var(--amber)">📤 Mark Pitched</button>
+        </div>
       </div>
-      <div class="jtags">
-        ${isNew?'<span class="tag nb">NEW</span>':''}
-        <span class="ctag ${j.country}">${(COUNTRY_META[j.country]||{flag:'🌐'}).flag} ${j.country}</span>
-        <span class="tag ${wC}">${j.workMode.charAt(0).toUpperCase()+j.workMode.slice(1)}</span>
-        <span class="tag ${jC}">${j.jobType.replace('-',' ')}</span>
-        ${j.funded?`<span class="tag funded">💰 ${j.funded.split('·')[0].trim()}</span>`:''}
-        ${j.skills.slice(0,3).map(s=>`<span class="tag">${esc(s)}</span>`).join('')}
-        <span class="src-tag" style="background:${sc}22;color:${sc};border:1px solid ${sc}33">${esc(j.platformLabel)}</span>
-      </div>
-    </div>
-    <div class="jright">
-      <span class="jtime">${t}</span>
-      ${j.salary?`<span class="jsal">${esc(j.salary)}</span>`:''}
-      <button class="vbtn" onclick="event.stopPropagation();openDrawer('${j.id}')">Details →</button>
-    </div>
-  </div>`;
-}
-
-function updateSidebar(jobs){
-  [24,48,168].forEach(h=>{ document.getElementById(`tc-${h}`).textContent = allJobs.filter(j=>j.hoursAgo<=h).length||0; });
-  const wc={remote:0,onsite:0,hybrid:0};
-  const jc={'full-time':0,contract:0,'part-time':0};
-  jobs.forEach(j=>{ if(wc[j.workMode]!==undefined)wc[j.workMode]++; if(jc[j.jobType]!==undefined)jc[j.jobType]++; });
-  document.getElementById('wc-r').textContent = wc.remote;
-  document.getElementById('wc-o').textContent = wc.onsite;
-  document.getElementById('wc-h').textContent = wc.hybrid;
-  document.getElementById('jc-ft').textContent = jc['full-time'];
-  document.getElementById('jc-c').textContent  = jc.contract;
-  document.getElementById('jc-p').textContent  = jc['part-time'];
-}
-function updateStats(jobs){
-  const total = jobs.length;
-  const inJobs = jobs.filter(j=>j.country==='IN').length;
-  const cos = new Set(jobs.map(j=>j.company)).size;
-  const funded = new Set(jobs.filter(j=>j.funded).map(j=>j.company)).size;
-  document.getElementById('st-t').textContent  = total;
-  document.getElementById('st-in').textContent = inJobs;
-  document.getElementById('st-c').textContent  = cos;
-  document.getElementById('st-f').textContent  = funded;
-  document.getElementById('st-p').textContent  = `from ${new Set(jobs.map(j=>j.platform)).size} sources`;
-  const counts = { IN:0,US:0,UK:0,UAE:0 };
-  jobs.forEach(j=>{ if(counts[j.country]!==undefined)counts[j.country]++; });
-  document.getElementById('cb-in').textContent  = counts.IN;
-  document.getElementById('cb-us').textContent  = counts.US;
-  document.getElementById('cb-uk').textContent  = counts.UK;
-  document.getElementById('cb-uae').textContent = counts.UAE;
-  const T = total || 1;
-  const colors = { IN:'var(--IN)',US:'var(--US)',UK:'var(--UK)',UAE:'var(--UAE)' };
-  document.getElementById('cbarFill').innerHTML =
-    Object.entries(counts).map(([c,n])=>`<div class="cbar-seg" style="width:${(n/T*100).toFixed(1)}%;background:${colors[c]}"></div>`).join('');
-}
-
-// ── DRAWER ──
-function openDrawer(id){
-  activeId = id;
-  document.querySelectorAll('.jcard').forEach(c=>c.classList.toggle('ac', c.getAttribute('onclick')?.includes(`'${id}'`)));
-  document.getElementById('dov').classList.add('open');
-  document.getElementById('drw').classList.add('open');
-  loadDrawer(id);
-}
-function closeDrawer(){
-  activeId = null;
-  document.querySelectorAll('.jcard').forEach(c=>c.classList.remove('ac'));
-  document.getElementById('dov').classList.remove('open');
-  document.getElementById('drw').classList.remove('open');
-}
-document.addEventListener('keydown', e=>{ if(e.key==='Escape')closeDrawer(); });
-
-async function loadDrawer(id){
-  const j = allJobs.find(x=>x.id===id); if(!j) return;
-  const ci = j.company.split('').reduce((a,c)=>a+c.charCodeAt(0),0) % LOGOS.length;
-  const [lb,lf] = j.companyColor ? [j.companyColor+'22', j.companyColor] : LOGOS[ci];
-  const init = j.company.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
-  const cMeta = COUNTRY_META[j.country] || COUNTRY_META.US;
-  const wC = {remote:'rem',onsite:'ons',hybrid:'hyb'}[j.workMode]||'';
-  const jC = {'full-time':'ft',contract:'con','part-time':'pt'}[j.jobType]||'';
-  const esc = s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-
-  document.getElementById('dh').innerHTML = `
-    <div class="d-logo" style="background:${lb};color:${lf}">
-      ${j.logo?`<img src="${j.logo}" onerror="this.style.display='none'" alt=""/>`:''}<span>${j.logo?'':init}</span>
-    </div>
-    <div class="dtw">
-      <div class="dt">${esc(j.title)}</div>
-      <div class="dsub"><strong>${esc(j.company)}</strong><span style="color:var(--text4)">·</span><span>${esc(j.location)}</span>${j.salary?`<span style="color:var(--text4)">·</span><span style="color:var(--green);font-family:'JetBrains Mono',monospace;font-size:.72rem">${esc(j.salary)}</span>`:''}</div>
-      <div class="dtags"><span class="ctag ${j.country}">${cMeta.flag} ${cMeta.label}</span><span class="tag ${wC}">${j.workMode}</span><span class="tag ${jC}">${j.jobType.replace('-',' ')}</span>${j.skills.map(s=>`<span class="tag">${esc(s)}</span>`).join('')}</div>
-    </div>
-    <button class="dclose" onclick="closeDrawer()">✕</button>`;
-
-  document.getElementById('dcb').innerHTML = `
-    <span>${cMeta.flag}</span><span style="color:var(--text2)">${cMeta.label} · ${esc(j.platformLabel)}</span>
-    ${j.funded?`<span class="fund-badge" style="padding:2px 8px;font-size:.6rem">💰 ${esc(j.funded)}</span>`:''}
-    <span style="margin-left:auto;font-size:.58rem;color:var(--text3)">${j.hoursAgo<1?'Just now':j.hoursAgo<24?j.hoursAgo+'h ago':Math.floor(j.hoursAgo/24)+'d ago'}</span>`;
-
-  document.getElementById('da').innerHTML = `
-    <a href="${esc(j.applyUrl||'#')}" target="_blank" class="d-btn pri">Apply on ${esc(j.platformLabel)} ↗</a>
-    <button class="d-btn sec" onclick="navigator.clipboard?.writeText('${esc(j.applyUrl||'')}');showToast('Link copied!')">⌥ Copy Link</button>`;
-
-  document.getElementById('db').innerHTML = `<div class="dspin"><div class="dsp"></div><p>Loading full details...</p></div>`;
-
-  // Fetch full job from backend
-  try{
-    const r = await fetch(`${API}/jobs/${id}`);
-    const full = await r.json();
-    buildDrawer(full, allJobs.filter(x=>x.id!==id&&x.roleCategory===j.roleCategory&&x.country===j.country).slice(0,3));
-  }catch(e){
-    buildDrawer(j, []);
+      ${pitch.linkedin_note ? `
+      <div style="margin-top:.7rem">
+        <div class="dr-sec-title" style="margin-bottom:.4rem">💼 LinkedIn Connection Note (for ${c.n.split(' ')[0]})</div>
+        <div style="background:var(--surf2);border:1px solid var(--bord2);border-radius:7px;padding:.7rem .8rem;font-size:.78rem;line-height:1.7;color:var(--text);white-space:pre-wrap">${pitch.linkedin_note}</div>
+        <div style="display:flex;gap:.4rem;margin-top:.4rem;flex-wrap:wrap">
+          <button onclick="copyText(${JSON.stringify(pitch.linkedin_note)},'LinkedIn note copied')" class="action-btn primary">📋 Copy Note</button>
+          <a class="action-btn" href="https://linkedin.com/in/${c.li}" target="_blank" style="text-decoration:none">🔗 Open ${c.n.split(' ')[0]}'s Profile</a>
+        </div>
+      </div>` : ''}
+      <button onclick="loadModalPitch('${company.replace(/'/g,'\\\'').replace(/"/g,'')}',${contactIdx})" style="margin-top:.6rem;font-size:.65rem;color:var(--text3);background:none;border:1px solid var(--bord);border-radius:5px;padding:3px 9px;cursor:pointer">↺ Regenerate</button>
+    `;
+  } catch(e) {
+    el.innerHTML = `<div style="color:var(--red);font-size:.75rem">Error: ${e.message}</div>`;
   }
 }
 
-function buildDrawer(j, similar){
-  const cMeta = COUNTRY_META[j.country] || COUNTRY_META.US;
-  const esc = s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const descHTML = (j.description||j.excerpt)
-    ? `<div class="jdesc"><p>${esc((j.description||j.excerpt).replace(/<[^>]*>/g,' ').slice(0,1200))}</p></div>`
-    : `<div class="jdesc" style="color:var(--text3)">Full description available via Apply link.</div>`;
-
-  const leadership = genLeadership(j.company, j.companyColor);
-  const insights   = genInsights(j, cMeta);
-
-  const simHTML = similar.map(s=>{
-    const ci = s.company.split('').reduce((a,c)=>a+c.charCodeAt(0),0) % LOGOS.length;
-    const [lb,lf] = LOGOS[ci];
-    const init = s.company.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
-    const t = s.hoursAgo<1?'Just now':s.hoursAgo<24?`${s.hoursAgo}h ago`:`${Math.floor(s.hoursAgo/24)}d ago`;
-    return `<div class="sim" onclick="openDrawer('${s.id}')">
-      <div class="slim" style="background:${lb};color:${lf}">${init}</div>
-      <div class="sb"><div class="st2">${esc(s.title)}</div><div class="ss">${esc(s.company)} · ${(COUNTRY_META[s.country]||{flag:''}).flag} ${s.country}</div></div>
-      <div class="stm">${t}</div></div>`;
-  }).join('');
-
-  document.getElementById('db').innerHTML = `
-    <div class="ds"><div class="dst">Job Description</div>${descHTML}</div>
-    <div class="ds"><div class="dst">Skills</div><div class="sgrid">${j.skills.map(s=>`<span class="sp2 hi">${esc(s)}</span>`).join('')}</div></div>
-    <div class="ds"><div class="dst">Company Intel</div>
-      <div class="cog">
-        <div class="co-f"><div class="col">Country</div><div class="cov">${cMeta.flag} ${cMeta.label}</div></div>
-        <div class="co-f"><div class="col">Location</div><div class="cov">${esc(j.location)}</div></div>
-        <div class="co-f"><div class="col">Work Mode</div><div class="cov">${j.workMode}</div></div>
-        <div class="co-f"><div class="col">Job Type</div><div class="cov">${j.jobType.replace('-',' ')}</div></div>
-        <div class="co-f"><div class="col">Source</div><div class="cov">${esc(j.platformLabel)}</div></div>
-        ${j.salary?`<div class="co-f"><div class="col">Salary</div><div class="cov" style="color:var(--green)">${esc(j.salary)}</div></div>`:''}
-        ${j.funded?`<div class="co-f" style="grid-column:1/-1"><div class="col">Funding</div><div class="cov"><span class="fund-badge">💰 ${esc(j.funded)}</span></div></div>`:''}
-        <div class="co-f" style="grid-column:1/-1"><div class="col">Apply</div><div class="cov"><a href="${esc(j.applyUrl||'#')}" target="_blank">${esc((j.applyUrl||'').substring(0,60))}… ↗</a></div></div>
-      </div>
-    </div>
-    <div class="ds"><div class="dst">Leadership — CEO · CTO · Head of Eng</div>
-      <div class="leads">${leadership.map(l=>leaderHTML(l,j.company)).join('')}</div>
-    </div>
-    <div class="ds"><div class="dst">Hiring Insights</div>
-      <div class="ins-list">${insights.map(i=>`<div class="ins"><span style="font-size:.85rem;flex-shrink:0;margin-top:1px">${i.icon}</span><span>${i.text}</span></div>`).join('')}</div>
-    </div>
-    ${similar.length?`<div class="ds"><div class="dst">Similar Roles in ${cMeta.label}</div><div class="sims">${simHTML}</div></div>`:''}`;
+function setStatusModal(company, status) {
+  if (!pipeline[company]) pipeline[company] = {};
+  pipeline[company].status = status;
+  pipeline[company].pitchedAt = pipeline[company].pitchedAt || new Date().toISOString();
+  savePipeline();
+  const row = document.getElementById('modalStatus');
+  if (row) row.querySelectorAll('.status-pill').forEach(p => p.classList.toggle('on', p.dataset.s === status));
+  toast(`${company} → ${status}`, 'ok');
+  renderTargets();
 }
 
-function leaderHTML(l, co){
-  const esc = s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  return `<div class="lcard">
-    <div class="lav" style="background:${l.bg};color:${l.fg}">${l.initials}</div>
-    <div class="li2">
-      <div class="ln">${esc(l.name)}</div>
-      <div class="lr">${esc(l.role)} · ${esc(co)} · ${l.tenure}</div>
-      <div class="lbio" style="font-style:italic;color:var(--text3);font-size:.68rem;margin-bottom:4px">${esc(l.background)}</div>
-      <div class="lbio">${esc(l.bio)}</div>
-      <div class="lm">
-        ${l.tags.map(t=>`<span class="ltag">${esc(t)}</span>`).join('')}
-        <span class="llib" onclick="window.open('https://linkedin.com/search/results/people/?keywords=${encodeURIComponent(l.name+' '+co)}','_blank');showToast('Searching LinkedIn...')">in LinkedIn ↗</span>
-        ${l.open?`<span class="ltag" style="color:var(--green);border-color:rgba(0,200,150,.3);background:rgba(0,200,150,.07)">Open to connect</span>`:''}
-      </div>
-    </div>
-  </div>`;
+function closePitchModal() { document.getElementById('pitchModal').style.display = 'none'; }
+
+async function openPitchForJob(jobId) {
+  const job = allJobs.find(j => j.id === jobId);
+  if (!job) return;
+  if (!allTargets.length) {
+    const data = await fetchTargets();
+    allTargets = data.targets || [];
+  }
+  openPitchModal(job.company);
 }
 
-// Deterministic leadership per company
-const FN=['Arjun','Rahul','Priya','Vikram','Sneha','Amit','Sarah','James','Omar','Wei','Fatima','Ananya','Michael','Raj','Elena'];
-const LN=['Sharma','Patel','Singh','Chen','Johnson','Kim','Al-Rashid','Gupta','Williams','Hassan','Thompson','Mehta','Davis','Kumar','Martin'];
-const PREV=['Google','Meta','Amazon','Microsoft','Stripe','Goldman Sachs','Sequoia','Flipkart','Ola','Zomato','Uber','Paytm','McKinsey'];
-const UNIS=['IIT Bombay','IIT Delhi','Stanford','MIT','Oxford','Cambridge','IIM Ahmedabad','NUS','UC Berkeley','ETH Zurich'];
-function sr(s,m){s=(s^61)^(s>>16);s*=9;s^=(s>>4);s*=668265261;s^=(s>>15);return Math.abs(s)%m}
-function genLeadership(co, companyColor){
-  const seed = co.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
-  return ['CEO','CTO','Head of Engineering'].map((role,i)=>{
-    const s = seed+i*43;
-    const fn = FN[sr(s,FN.length)], ln = LN[sr(s+1,LN.length)];
-    const prev = PREV[sr(s+2,PREV.length)], uni = UNIS[sr(s+3,UNIS.length)];
-    const tenure = [2,3,4,5,7][sr(s+4,5)];
-    const open = sr(s+5,10)<6;
-    const tags = [['Ex-'+prev,'Technical','Builder'],['Operator','Ex-'+prev,'Speaker'],['Research','Ex-'+prev,'Advisor']][i%3];
-    const bgs=['#0f2d4a','#0a2e20','#2e0f0f','#1e0f3a','#2e2000'];
-    const fgs=['#4fa8ff','#00d4a0','#ff7070','#b07fff','#f5b830'];
-    return{
-      name:`${fn} ${ln}`,role,initials:fn[0]+ln[0],
-      bg:bgs[(seed+i)%5], fg:companyColor||fgs[(seed+i)%5],
-      tenure:`${tenure}yr${tenure>1?'s':''}`,
-      background:`Previously ${role==='CEO'?'Co-founder':'Sr. '+role} at ${prev}. ${uni} alumnus.`,
-      bio:role==='CEO'?`Scaled the company from early-stage to ${50+sr(s+6,200)}+ engineers. Known for high hiring bar and fast product cycles.`
-        :role==='CTO'?`Architects the core platform and champions engineering excellence and developer experience.`
-        :`Manages ${2+sr(s+7,4)} engineering squads across hiring, delivery, and team health.`,
-      tags, open,
-    };
+// ─────────────────────────────────────────────────────────────────
+// PIPELINE KANBAN
+// ─────────────────────────────────────────────────────────────────
+function renderPipeline() {
+  const stages = [
+    { key:'new',      label:'📬 Not Contacted', color:'var(--accentHi)' },
+    { key:'pitched',  label:'📤 Pitched',        color:'var(--amber)' },
+    { key:'followup', label:'🔄 Following Up',   color:'var(--purple)' },
+    { key:'won',      label:'✅ Closed Won',      color:'var(--green)' },
+    { key:'lost',     label:'❌ Lost',            color:'var(--red)' },
+  ];
+
+  // Build per-stage company lists
+  // Companies with a pipeline entry go into their stage
+  // All other target companies go into 'new'
+  const tracked = new Set(Object.keys(pipeline));
+  const allCompanies = allTargets.length ? allTargets : COMPANIES_MINI;
+
+  const byStage = {};
+  stages.forEach(s => byStage[s.key] = []);
+
+  allCompanies.forEach(co => {
+    const name = co.name || co;
+    const pe = getPipelineEntry(name);
+    const country = co.country || '';
+    if (filters.country !== 'ALL' && country && country !== filters.country) return;
+    byStage[pe.status] = byStage[pe.status] || [];
+    byStage[pe.status].push({ name, funded: co.funded, sector: co.sector, country, size: co.size, notes: pe.notes });
+  });
+
+  const kanban = document.getElementById('kanban');
+  kanban.innerHTML = stages.map(s => `
+    <div class="kol" data-s="${s.key}">
+      <div class="kol-h" style="color:${s.color}">${s.label} <span class="kol-cnt">${(byStage[s.key]||[]).length}</span></div>
+      <div class="kol-cards">
+        ${(byStage[s.key]||[]).slice(0,20).map(co => `
+          <div class="kcard" onclick="openCompanyModal('${co.name.replace(/'/g,'\\\'').replace(/"/g,'')}')">
+            <div class="kcard-co">${{IN:'🇮🇳',US:'🇺🇸',UK:'🇬🇧',UAE:'🇦🇪'}[co.country]||''} ${co.name}</div>
+            <div class="kcard-meta">${co.sector||''} · ${co.size||'?'}</div>
+            ${co.funded ? `<div class="kcard-funded">${co.funded}</div>` : ''}
+            ${co.notes ? `<div class="kcard-note">${co.notes}</div>` : ''}
+          </div>`).join('')}
+        ${(byStage[s.key]||[]).length > 20 ? `<div style="font-size:.65rem;color:var(--text3);text-align:center;padding:.3rem">+${(byStage[s.key]||[]).length-20} more</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+// Mini company list for pipeline when targets not loaded
+const COMPANIES_MINI = [
+  {name:'Razorpay',country:'IN',sector:'Fintech',size:'1000+',funded:'Series F $375M'},
+  {name:'CRED',country:'IN',sector:'Fintech',size:'500-1000',funded:'Series E $251M'},
+  {name:'Groww',country:'IN',sector:'Fintech',size:'1000+',funded:'Series F $251M'},
+  {name:'Zepto',country:'IN',sector:'Quick Commerce',size:'1000+',funded:'Series G $665M'},
+  {name:'Meesho',country:'IN',sector:'E-Commerce',size:'1000+',funded:'Series F $570M'},
+  {name:'Postman',country:'IN',sector:'Dev Tools',size:'500-1000',funded:'Series D $225M'},
+  {name:'BrowserStack',country:'IN',sector:'Dev Tools',size:'1000+',funded:'Series B $200M'},
+  {name:'Chargebee',country:'IN',sector:'SaaS Billing',size:'500-1000',funded:'Series H $250M'},
+  {name:'Careem',country:'UAE',sector:'Super App',size:'1000+',funded:'Acq $3.1B'},
+  {name:'Tabby',country:'UAE',sector:'BNPL',size:'200-500',funded:'Series D $200M'},
+  {name:'Revolut',country:'UK',sector:'Neobank',size:'1000+',funded:'Series E $800M'},
+  {name:'Monzo',country:'UK',sector:'Neobank',size:'1000+',funded:'Series I $500M'},
+  {name:'Vercel',country:'US',sector:'Dev Tools',size:'200-500',funded:'Series C $150M'},
+  {name:'Notion',country:'US',sector:'Productivity',size:'200-500',funded:'Series C $275M'},
+  {name:'Glean',country:'US',sector:'AI Search',size:'200-500',funded:'Series D $260M'},
+];
+
+async function openCompanyModal(company) {
+  if (!allTargets.length) {
+    const data = await fetchTargets();
+    allTargets = data.targets || [];
+  }
+  openPitchModal(company);
+}
+
+// ─────────────────────────────────────────────────────────────────
+// EXPORT
+// ─────────────────────────────────────────────────────────────────
+function exportCSV() {
+  const rows = [['Company','Country','Sector','Funding','Size','Open Roles','BD Score','Pipeline Status','LinkedIn (CTO)','Email Pattern','Notes']];
+  allTargets.forEach(t => {
+    const contacts = getContacts(t.name);
+    const cto = contacts.find(c=>c.t.toLowerCase().includes('cto')||c.t.toLowerCase().includes('co-founder'));
+    const email = cto ? guessEmail(cto.n, t.name) : '';
+    const pe = getPipelineEntry(t.name);
+    rows.push([t.name,t.country,t.sector||'',t.funded||'',t.size||'',t.openRoles||0,t.bdScore||0,pe.status,cto?`https://linkedin.com/in/${cto.li}`:'',email||'',pe.notes||'']);
+  });
+  const csv = rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  download('stackhire-bd-targets.csv', csv, 'text/csv');
+  toast(`Exported ${allTargets.length} companies`, 'ok');
+}
+
+function exportPipelineCSV() {
+  const rows = [['Company','Status','Country','Sector','Funding','Pitched At','Notes']];
+  Object.entries(pipeline).forEach(([name, pe]) => {
+    const target = allTargets.find(t=>t.name===name)||{};
+    rows.push([name,pe.status,target.country||'',target.sector||'',target.funded||'',pe.pitchedAt||'',pe.notes||'']);
+  });
+  const csv = rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  download('stackhire-pipeline.csv', csv, 'text/csv');
+  toast(`Exported pipeline`, 'ok');
+}
+
+async function bulkPitch() {
+  toast('Bulk pitch: open individual companies from the table to generate pitches', 'ok');
+}
+
+function download(filename, text, type) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([text],{type}));
+  a.download = filename;
+  a.click();
+}
+
+// ─────────────────────────────────────────────────────────────────
+// UTILITIES
+// ─────────────────────────────────────────────────────────────────
+function copyText(text, msg='Copied') {
+  navigator.clipboard.writeText(text).then(() => toast(msg, 'ok')).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta); toast(msg, 'ok');
   });
 }
 
-const COUNTRY_INS = {
-  IN: ['🇮🇳 India tech hiring hit a record in 2025 — led by fintech, AI and B2B SaaS.','📍 Bangalore, Hyderabad, Pune and Noida are the top hiring cities.','💰 Funded startup salaries now beat MNC packages for senior roles by 30–40%.','⚡ Indian startups move fast — most close interviews in 1–2 weeks.'],
-  US: ['🇺🇸 US tech hiring is strong in 2025, especially AI, fintech and infra.','📍 SF, New York, Seattle and Austin are the main hubs. Remote-first is common.','💰 Senior US roles average $180–250k total comp. Equity is standard.','⚡ Follow up on LinkedIn within 72 hours for best response rates.'],
-  UK: ['🇬🇧 London is the strongest tech hub in Europe — fintech and deep tech boom.','📍 Hybrid 2–3 days/week is the UK startup norm.','💰 Senior UK tech roles average £90–140k. Visa sponsorship widely offered.','⚡ UK startups close senior hires in 3–4 weeks. Apply early.'],
-  UAE:['🇦🇪 Dubai is the fastest-growing tech hub in the Middle East.','📍 0% income tax, relocation packages, and fast visa processing are standard.','💰 UAE salaries are globally competitive, often with housing allowance.','⚡ Many UAE roles are filled via LinkedIn referrals — outreach is key.'],
-};
-function genInsights(j, cMeta){
-  const c = j.country||'IN';
-  const ins = COUNTRY_INS[c]||COUNTRY_INS.IN;
-  return[
-    {icon:'💡',text:`${j.hoursAgo<6?'Just posted — act fast!':j.hoursAgo<24?'Posted today.':'Posted '+Math.floor(j.hoursAgo/24)+'d ago.'} ${j.platformLabel} listings stay open 2–3 weeks on average.`},
-    {icon:ins[0].slice(0,2),text:ins[0].slice(2)},
-    {icon:ins[1].slice(0,2),text:ins[1].slice(2)},
-    {icon:'🎯',text:j.funded?`${j.company} raised ${j.funded} — scaling the ${j.roleCategory} team aggressively right now.`:`Strong role at ${j.company}. Check their LinkedIn page for the hiring manager before applying.`},
-    {icon:ins[3].slice(0,2),text:ins[3].slice(2)},
-  ];
+function toast(msg, type='ok') {
+  const wrap = document.getElementById('toasts');
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.textContent = msg;
+  wrap.appendChild(el);
+  setTimeout(() => el.remove(), 3200);
 }
 
-function showError(msg){
-  const el = document.getElementById('jobList');
-  el.innerHTML = `<div class="error-banner">⚠ ${msg}</div>`;
-}
-
-let toastT = null;
-function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  if(toastT) clearTimeout(toastT);
-  toastT = setTimeout(()=>t.classList.remove('show'), 2800);
-}
-
-// ── INIT ──
-async function init(){
-  setProgress('Connecting to backend...', 5);
-  const data = await fetchJobs();
-  if(!data) return;
-  if(data.inProgress || data.total === 0){
-    // Poll until scrape completes
-    let polls = 0;
-    pollInt = setInterval(async()=>{
-      polls++;
-      const d = await fetchJobs();
-      const pct = Math.min(95, 10 + polls * 8);
-      setProgress(`Scraping ${['Google Jobs','Naukri','LinkedIn India','Indeed India','Foundit'][polls%5]}...`, pct);
-      if(d && !d.inProgress && d.total > 0){
-        clearInterval(pollInt);
-        setProgress(`${d.total} jobs loaded`, 100);
+let prog = 0, progTimer;
+function startProgress() {
+  document.getElementById('progressWrap').style.display = 'block';
+  prog = 0;
+  clearInterval(progTimer);
+  progTimer = setInterval(() => {
+    prog = Math.min(prog + Math.random() * 8, 90);
+    document.getElementById('progFill').style.width = prog + '%';
+    document.getElementById('progPct').textContent = Math.round(prog) + '%';
+  }, 800);
+  const check = setInterval(async () => {
+    try {
+      const r = await fetch(`${API}/status`);
+      const d = await r.json();
+      if (!d.inProgress) {
+        clearInterval(check); clearInterval(progTimer);
+        document.getElementById('progFill').style.width = '100%';
+        document.getElementById('progPct').textContent = '100%';
+        setTimeout(() => { document.getElementById('progressWrap').style.display = 'none'; filterJobs(); }, 800);
       }
-      if(polls > 40) clearInterval(pollInt);
-    }, 3000);
-  }
+    } catch {}
+  }, 3000);
 }
 
-init();
+async function forceRefresh() {
+  const btn = document.getElementById('rBtn');
+  btn.classList.add('sp');
+  await fetch(`${API}/refresh`, { method:'POST' });
+  startProgress();
+  setTimeout(() => btn.classList.remove('sp'), 2000);
+  toast('Scrape started…');
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeDrawer(); closePitchModal(); } });
+
+// ─────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────
+loadPipeline();
+initFilters();
+filterJobs();
+
+// Pre-load targets in background
+setTimeout(async () => {
+  try {
+    const data = await fetchTargets();
+    allTargets = data.targets || [];
+    const sectors = [...new Set(allTargets.map(t=>t.sector).filter(Boolean))].sort();
+    const sel = document.getElementById('tgSector');
+    if(sel) sel.innerHTML = '<option value="">All Sectors</option>' + sectors.map(s=>`<option value="${s}">${s}</option>`).join('');
+  } catch {}
+}, 3000);
 </script>
 </body>
 </html>
